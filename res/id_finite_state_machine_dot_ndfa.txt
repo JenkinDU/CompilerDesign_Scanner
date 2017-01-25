@@ -1,0 +1,20 @@
+digraph finite_state_machine_NDFA {
+    rankdir=LR;
+    size="20,20"
+    node [shape = doublecircle color = red]; 9;
+    node [shape = circle color = black];
+    init -> 0 [ label = "" ];
+    0 -> 1 [ label = "ɻ" ];
+    1 -> 2 [ label = "ɛ" ];
+    1 -> 4 [ label = "ɛ" ];
+    1 -> 6 [ label = "ɛ" ];
+    2 -> 3 [ label = "ɻ" ];
+    4 -> 5 [ label = "d" ];
+    6 -> 7 [ label = "_" ];
+    3 -> 8 [ label = "ɛ" ];
+    5 -> 8 [ label = "ɛ" ];
+    7 -> 8 [ label = "ɛ" ];
+    8 -> 9 [ label = "ɛ" ];
+    8 -> 1 [ label = "ɛ" ];
+    1 -> 9 [ label = "ɛ" ];
+}

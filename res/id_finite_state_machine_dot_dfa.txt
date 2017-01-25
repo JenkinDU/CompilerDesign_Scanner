@@ -1,0 +1,20 @@
+digraph finite_state_machine_DFA {
+    rankdir=LR;
+    size="20,20"
+    node [shape = doublecircle color = red]; C, D, E;
+    node [shape = circle color = black];
+    init -> A [ label = "" ];
+    A -> B [ label = "ɻ" ];
+    B -> C [ label = "ɻ" ];
+    C -> C [ label = "ɻ" ];
+    B -> D [ label = "d" ];
+    D -> D [ label = "d" ];
+    B -> E [ label = "_" ];
+    E -> E [ label = "_" ];
+    C -> E [ label = "_" ];
+    E -> C [ label = "ɻ" ];
+    C -> D [ label = "d" ];
+    D -> C [ label = "ɻ" ];
+    D -> E [ label = "_" ];
+    E -> D [ label = "d" ];
+}

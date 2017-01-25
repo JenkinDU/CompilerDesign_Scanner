@@ -1,0 +1,47 @@
+digraph finite_state_machine_NDFA {
+    rankdir=LR;
+    size="100,100"
+    node [shape = doublecircle color = red]; 36, 46;
+    node [shape = circle color = black];
+    1 -> 23 [ label = "{" ];
+    23 -> 24 [ label = "" ];
+    1 -> 25 [ label = "}" ];
+    25 -> 26 [ label = "" ];
+    1 -> 27 [ label = "(" ];
+    27 -> 28 [ label = "" ];
+    1 -> 29 [ label = ")" ];
+    29 -> 30 [ label = "" ];
+    1 -> 31 [ label = "[" ];
+    31 -> 32 [ label = "" ];
+    1 -> 33 [ label = "]" ];
+    33 -> 34 [ label = "" ];
+    1 -> 35 [ label = "/" ];
+    35 -> 36 [ label = "" ]; 
+    35 -> 37 [ label = "/" ];
+    37 -> 38 [ label = "" ];
+    35 -> 39 [ label = "*" ];
+    39 -> 40 [ label = "" ];
+    1 -> 45 [ label = "*" ];
+    45 -> 46 [ label = "" ];
+    45 -> 47 [ label = "/" ];
+    47 -> 48 [ label = "" ];
+    
+    node [shape = plaintext fontcolor = white];
+    24 -> OPENBRACE [ label = "OPENBRACE" color = white];
+    26 -> CLOSEBRACE [ label = "CLOSEBRACE" color = white];
+    28 -> OPENPAR [ label = "OPENPAR" color = white];
+    30 -> CLOSEPAR [ label = "CLOSEPAR" color = white];
+    32 -> OPENBRACKET [ label = "OPENBRACKET" color = white];
+    34 -> CLOSEBRACKET [ label = "INTEGER" color = white];
+    36 -> SLASH [ label = "SLASH" color = white];
+    38 -> SLASHSLASH [ label = "CMT" color = white];
+    
+    40 -> OPENCMT [ label = "OPENCMT" color = white];
+    46 -> STAR [ label = "STAR" color = white];
+    48 -> CLOSECMT [ label = "CLOSECMT" color = white];
+     
+    node [shape = doublecircle fontcolor = black fillcolor = red style=filled];
+    1 -> 22 [ label = "" ];
+    node [shape = plaintext fontcolor = white style=rounded];
+    22 -> ERR [ label = "ERR" color = white];
+}

@@ -1,0 +1,45 @@
+digraph finite_state_machine_NDFA {
+    rankdir=LR;
+    size="100,100"
+    node [shape = doublecircle color = red]; 50, 54, 60;
+    node [shape = circle color = black]; 
+    1 -> 49 [ label = "=" ];
+    49 -> 50 [ label = "" ];
+    49 -> 51 [ label = "=" ];
+    51 -> 52 [ label = "" ];
+    1 -> 53 [ label = "<" ];
+    53 -> 54 [ label = "" ];
+    53 -> 55 [ label = "=" ];
+    55 -> 56 [ label = "" ];
+    53 -> 57 [ label = ">" ];
+    57 -> 58 [ label = "" ];
+    1 -> 59 [ label = ">" ];
+    59 -> 60 [ label = "" ];
+    59 -> 61 [ label = "=" ];
+    61 -> 62 [ label = "" ];
+    1 -> 63 [ label = ";" ];
+    63 -> 64 [ label = "" ];
+    1 -> 65 [ label = "," fontsize=24];
+    65 -> 66 [ label = "" ];
+    1 -> 67 [ label = "." fontsize=24];
+    67 -> 68 [ label = "" ];
+    1 -> 69 [ label = "+" ];
+    69 -> 70 [ label = "" ];
+    1 -> 71 [ label = "-" ];
+    71 -> 72 [ label = "" ];
+    
+    node [shape = plaintext fontcolor = white];
+    70 -> PLUS [ label = "PLUS" color = white];
+    72 -> MINUS [ label = "MINUS" color = white];
+    50 -> EQUAL [ label = "EQUAL" color = white];
+    52 -> ASSGN [ label = "ASSGN" color = white];
+    54 -> LT [ label = "LT" color = white];
+    56 -> LESSEQ [ label = "LESSEQ" color = white];
+    58 -> NOTEQ [ label = "NOTEQ" color = white];
+    
+    60 -> GT [ label = "GT" color = white];
+    62 -> GREATEQ [ label = "GREATEQ" color = white];
+    64 -> SEMICOLON　 [ label = "SEMICOLON" color = white];
+    66 -> COMMA [ label = "COMMA" color = white];
+    68 -> FULLSTOP [ label = "FULLSTOP" color = white];
+}
