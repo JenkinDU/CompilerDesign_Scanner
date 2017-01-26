@@ -41,5 +41,5 @@ digraph finite_state_machine_NDFA {
     62 -> GREATEQ [ label = "GREATEQ" color = white];
     64 -> SEMICOLON　 [ label = "SEMICOLON" color = white];
     66 -> COMMA [ label = "COMMA" color = white];
-    68 -> FULLSTOP [ label = "FULLSTOP" color = white];
+    68 -> DOT [ label = "DOT" color = white];
 }
