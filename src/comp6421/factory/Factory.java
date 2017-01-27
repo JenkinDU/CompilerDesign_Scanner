@@ -9,9 +9,9 @@ public class Factory {
     public static Token createToken(EType type) {  
         switch (type) {  
         case ID:
-            return new Identify();  
+            return null;  
         case ALPHANUM:  
-            return new Alphanum();  
+            return null;  
         default:  
             break;  
         }  

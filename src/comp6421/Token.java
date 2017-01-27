@@ -1,8 +1,15 @@
 package comp6421;
 
-abstract public class Token {
+public class Token {
 	protected EType TYPE = null;
-	protected String value=null;
+	protected String value = null;
+	protected int position = 0;
+	
+	public Token(int p, EType type, String v) {
+		this.position = p;
+		this.TYPE = type;
+		this.value = v;
+	}
 	
 	public void printType() {
 		if(TYPE == null) {

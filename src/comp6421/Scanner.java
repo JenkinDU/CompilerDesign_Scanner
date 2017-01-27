@@ -28,12 +28,21 @@ public final class Scanner {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner();
 		scanner.readFile();
+		scanner.generateToken();
 	}
 	
 	private void readFile() {
 		lines = Utils.readFileLines(TEST_FILE_0);
+	}
+	
+	private void generateToken() {
+		int i = 0;
 		for(String s : lines) {
-			System.out.println(s);
+//			System.out.println(s);
+			Item l = new Item(++i, s);
+			TokenGenerate t = new TokenGenerate(l);
+			t.phraseSplit();
+			t.generate();
 		}
 	}
 }

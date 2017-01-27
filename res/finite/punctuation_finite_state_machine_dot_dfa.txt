@@ -44,4 +44,5 @@ digraph finite_state_machine_NDFA {
     1 -> 22 [ label = "" ];
     node [shape = plaintext fontcolor = white style=rounded];
     22 -> ERR [ label = "ERR" color = white];
+    #dot -Tpng operator_finite_state_machine_dot_dfa.txt -o operator_finite_state_machine_dfa.png
 }

@@ -31,8 +31,8 @@ digraph finite_state_machine_NDFA {
     node [shape = plaintext fontcolor = white];
     70 -> PLUS [ label = "PLUS" color = white];
     72 -> MINUS [ label = "MINUS" color = white];
-    50 -> EQUAL [ label = "EQUAL" color = white];
-    52 -> ASSGN [ label = "ASSGN" color = white];
+    50 -> ASSGN [ label = "ASSGN" color = white];
+    52 -> EQUAL [ label = "EQUAL" color = white];
     54 -> LT [ label = "LT" color = white];
     56 -> LESSEQ [ label = "LESSEQ" color = white];
     58 -> NOTEQ [ label = "NOTEQ" color = white];
