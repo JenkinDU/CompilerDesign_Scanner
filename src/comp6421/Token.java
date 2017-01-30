@@ -1,10 +1,10 @@
 package comp6421;
 
 public class Token {
-	protected EType TYPE = null;
-	protected String value = null;
-	protected int position = 0;
-	protected String error = "";
+	protected EType TYPE = null;//the type of the token
+	protected String value = null;//the value of the token
+	protected int position = 0;//line in the file
+	protected String error = "";//error message if have
 	
 	public Token(int p, EType type, String v) {
 		this.position = p;
