@@ -3,7 +3,9 @@
  */
 package comp6421;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,7 +18,9 @@ import org.junit.Test;
  *
  */
 public class ScannerTest {
-
+	
+	private ArrayList<String> files;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -36,6 +40,14 @@ public class ScannerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		files = new ArrayList<String>();
+		files.add("./res/test.cpp");
+		files.add("./res/test.go");
+		files.add("./res/test.oc");
+		files.add("./res/test.py");
+		files.add("./res/test.rb");
+		files.add("./res/test.scala");
+//		files.add("./src/comp6421/Scanner.java");
 	}
 
 	/**
@@ -47,7 +59,14 @@ public class ScannerTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		Scanner scanner = new Scanner();
+		for(String f : files) {
+			System.out.println("To test file "+f+"\n");
+			scanner.TEST_FILE = f;
+			scanner.TOKEN_FILE = f+"_token.txt";
+			scanner.ERROR_FILE = f+"_error.txt";
+			scanner.lexer();
+		}
+		
 	}
-
 }

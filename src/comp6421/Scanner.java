@@ -23,14 +23,20 @@ import java.util.HashMap;
  * @author du_zhen
  */
 public final class Scanner {
-	private static final String TEST_FILE_0 = "./res/test.txt";
-	private static final String OUTPUT_FILE = "./res/token.txt";
+	public static String TEST_FILE = "./res/test.txt";
+	public static String TOKEN_FILE = "./res/token.txt";
+	public static String ERROR_FILE = "./res/error.txt";
 	
+	private static final String NO_OPEN = "";
+	private static final String NO_CLOSE = "";
 	private InputStreamReader input;
 	private int t = 0;
 	private ArrayList<Token> tokens;
 	private int line = 1;
 	private boolean back = false;
+	private boolean backC = false;
+	private boolean newLine = false;
+	private int backChar = -1;
 	private HashMap<String, EType> map;
 	
 	public Scanner() {
@@ -66,28 +72,48 @@ public final class Scanner {
 		return type;
 	}
 	
+	/**
+	 * Setup a bachup
+	 */
 	private void backupChar() {
 		back = true;
 	}
 	
+	private void backupChar(char c, char t) {
+		backC = true;
+		backChar = c;
+		this.t = t;
+	}
+	/**
+	 * Move the position to next char
+	 */
 	private void next() {
 		if(back) {
 			back = false;
 			return;
 		}
+		if(backC) {
+			backC = false;
+			t = backChar;
+			return;
+		}
+		if(newLine) {
+			newLine = false;
+			t = backChar;
+			return;
+		}
 		try {
 			t = input.read();
-			while(t == '\r' || t == '\n') {
-				if(t == '\r') {
-					line++;
-					t = input.read();
-					if(t == '\n') {
-						t = input.read();
-					}
-				} else if(t == '\n') {
-					line++;
-					t = input.read();
+			if (t == '\r') {
+				line++;
+				t = input.read();
+				if (t != '\n') {
+					backChar = t;
+					newLine = true;
+					t = '\r';
 				}
+			} else if (t == '\n') {
+				line++;
 			}
 		} catch (IOException e) {
 			t = -1;
@@ -95,6 +121,9 @@ public final class Scanner {
 		}
 	}
 	
+	/**
+	 * Skip to next line
+	 */
 	private void nextLine() {
 		try {
 			t = input.read();
@@ -119,9 +148,19 @@ public final class Scanner {
 		}
 	}
 	
-	private void lexer() {
+	/**
+	 * Main logic to analyst the token
+	 */
+	public void lexer() {
+		line = 1;
+		backChar = -1;
+		back = false;
+		backC = false;
+		newLine = false;
+		tokens.clear();
+		ArrayList<Token> pair = new ArrayList<Token>();
 		try {
-			File file = new File(TEST_FILE_0);
+			File file = new File(TEST_FILE);
 			if (file.isFile() && file.exists()) {
 				input = new InputStreamReader(new FileInputStream(file));
 				next();
@@ -165,6 +204,7 @@ public final class Scanner {
 									int l = temp.length();
 									if (t == '.') {// 0.000100.
 										l -= 1;// 0.00010
+										backupChar('.', '0');
 									}
 									for (int j = 0; j < l; j++) {
 										tokens.add(new Token(li, EType.INTEGER, temp.charAt(j) + ""));// 0
@@ -201,19 +241,37 @@ public final class Scanner {
 							nextLine();
 						} else if (t == '*') {
 							value += (char) t;
-							tokens.add(new Token(li, EType.CMT, value));
-							// to do
+							Token token = new Token(li, EType.OPENCMT, value, NO_CLOSE);
+							tokens.add(token);
+							next();
+							while(true) {
+								if(t == '*') {
+									next();
+									if(t == '/') {
+										token.setError("");
+										tokens.add(new Token(line, EType.CLOSECMT, "*/"));
+										break;
+									}
+								} else {
+									next();
+								}
+							}
 						} else {
 							tokens.add(new Token(li, EType.SLASH, value));
 							backupChar();
 						}
 					} else if (t == '*') {
 						int li = line;
-						// to do
-						tokens.add(new Token(li, EType.STAR, (char) t + ""));
-					}
-
-					else if (t == '=') {
+						value += (char) t;
+						next();
+						if (t == '/') {
+							value += (char) t;
+							tokens.add(new Token(li, EType.CLOSECMT, value, NO_OPEN));
+						} else {
+							tokens.add(new Token(li, EType.STAR, value));
+							backupChar();
+						}
+					} else if (t == '=') {
 						int li = line;
 						value += (char) t;
 						next();
@@ -249,6 +307,93 @@ public final class Scanner {
 							tokens.add(new Token(li, EType.GT, value));
 							backupChar();
 						}
+					} else if (t == '(') {
+						Token token = new Token(line, EType.OPENPAR, (char) t + "", NO_CLOSE);
+						tokens.add(token);
+						pair.add(token);
+					} else if (t == ')') {
+						Token token = new Token(line, EType.CLOSEPAR, (char) t + "");
+						String error = NO_OPEN;
+						int size = pair.size();
+						if(size == 0) {
+							error = NO_OPEN;
+						} else {
+							int index = -1;
+							for(int i=size-1;i>=0;i--) {
+								Token t = pair.get(i);
+								if(t.TYPE == EType.OPENPAR) {
+									error = "";
+									t.setError(error);
+									index = i;
+									break;
+								}
+							}
+							if(index != -1) {
+								do {
+									pair.remove(pair.size()-1);
+								} while(pair.size() != index);
+							}
+						}
+						token.setError(error);
+						tokens.add(token);
+					} else if (t == '{') {
+						Token token = new Token(line, EType.OPENBRACE, (char) t + "", NO_CLOSE);
+						tokens.add(token);
+						pair.add(token);
+					} else if (t == '}') {
+						Token token = new Token(line, EType.CLOSEBRACE, (char) t + "");
+						String error = NO_OPEN;
+						int size = pair.size();
+						if(size == 0) {
+							error = NO_OPEN;
+						} else {
+							int index = -1;
+							for(int i=size-1;i>=0;i--) {
+								Token t = pair.get(i);
+								if(t.TYPE == EType.OPENBRACE) {
+									error = "";
+									t.setError(error);
+									index = i;
+									break;
+								}
+							}
+							if(index != -1) {
+								do {
+									pair.remove(pair.size()-1);
+								} while(pair.size() != index);
+							}
+						}
+						token.setError(error);
+						tokens.add(token);
+					} else if (t == '[') {
+						Token token = new Token(line, EType.OPENBRACKET, (char) t + "", NO_CLOSE);
+						tokens.add(token);
+						pair.add(token);
+					} else if (t == ']') {
+						Token token = new Token(line, EType.CLOSEBRACKET, (char) t + "");
+						String error = NO_OPEN;
+						int size = pair.size();
+						if(size == 0) {
+							error = NO_OPEN;
+						} else {
+							int index = -1;
+							for(int i=size-1;i>=0;i--) {
+								Token t = pair.get(i);
+								if(t.TYPE == EType.OPENBRACKET) {
+									error = "";
+									t.setError(error);
+									index = i;
+									break;
+								}
+							}
+							if(index != -1) {
+								do {
+									pair.remove(pair.size()-1);
+								} while(pair.size() != index);
+							}
+						}
+						token.setError(error);
+						tokens.add(token);
 					} else if (t == '.') {
 						tokens.add(new Token(line, EType.DOT, (char) t + ""));
 					} else if (t == '_') {
@@ -261,14 +406,13 @@ public final class Scanner {
 						tokens.add(new Token(line, EType.SEMICOLON, (char) t + ""));
 					} else if (t == ',') {
 						tokens.add(new Token(line, EType.COMMA, (char) t + ""));
-					} else if (t == ' ' || t == '\t') {
+					} else if (t == ' ' || t == '\t' || t == '\r' || t == '\n') {
 
 					} else {
 						tokens.add(new Token(line, EType.ERR, (char) t + ""));
 					}
 					next();
 				}
-
 				input.close();
 			} else {
 				System.out.println("can not find the file!");
@@ -277,11 +421,30 @@ public final class Scanner {
 			System.out.println("unknow error when open file!");
 			e.printStackTrace();
 		}
+		outPutToken();
+	}
+	
+	private void outPutToken() {
+		int line = 0;
+		int index = 0;
+		String error = "";
+		String token = "";
 		for (Token t : tokens) {
-			System.out.print(t.position + ":");
-			t.printType();
-			t.printValue();
+			if(t.position != line) {
+				line = t.position;
+				index = 0;
+			}
+			if(t.TYPE == EType.ERR) {
+				error += "Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError() + "\n";
+			} else {
+				token += "Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError() + "\n";
+			}
+//			System.out.println("Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError());
 		}
+		System.out.println("Token:\n"+token);
+		System.out.println("Error:\n"+error);
+		Utils.echo2File(TOKEN_FILE, token);
+		Utils.echo2File(ERROR_FILE, error);
 	}
 	
 	public static void main(String[] args) {
