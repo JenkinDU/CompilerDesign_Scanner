@@ -9,3 +9,5 @@ ScannerTest.java is a Junit test class
 All the info will display to console and written into *_token.txt and *_error.txt
 
 The first one is save the valid token, the second is save the error elements.
+
+Thank you!
