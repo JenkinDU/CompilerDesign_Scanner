@@ -27,8 +27,8 @@ public final class Scanner {
 	public static String TOKEN_FILE = "./res/token.txt";
 	public static String ERROR_FILE = "./res/error.txt";
 	
-	private static final String NO_OPEN = "";
-	private static final String NO_CLOSE = "";
+	private static final String NO_OPEN = "No Open Pair";
+	private static final String NO_CLOSE = "No Close Pair";
 	private InputStreamReader input;
 	private int t = 0;
 	private ArrayList<Token> tokens;
@@ -37,10 +37,12 @@ public final class Scanner {
 	private boolean backC = false;
 	private boolean newLine = false;
 	private int backChar = -1;
+	private ArrayList<Token> pair;
 	private HashMap<String, EType> map;
 	
 	public Scanner() {
 		tokens = new ArrayList<Token>();
+		pair = new ArrayList<Token>();
 		initTypeList();
 	}
 	
@@ -158,260 +160,14 @@ public final class Scanner {
 		backC = false;
 		newLine = false;
 		tokens.clear();
-		ArrayList<Token> pair = new ArrayList<Token>();
+		pair.clear();
 		try {
 			File file = new File(TEST_FILE);
 			if (file.isFile() && file.exists()) {
 				input = new InputStreamReader(new FileInputStream(file));
 				next();
 				while (t > 0) {
-					String value = "";
-					String temp = "";
-					if (t <= '9' && t >= '0') {
-						int li = line;
-						value += (char) t;// [0-9]
-						if (t <= '9' && t >= '1') {// [1-9]
-							while (t <= '9' && t >= '0') {
-								next();
-								if (t <= '9' && t >= '0') {
-									value += (char) t;// [0-9]
-								}
-							}
-						} else {
-							next();
-						}
-						if (t == '.') {
-							temp += (char) t;// .
-							next();
-							if (t <= '9' && t >= '0') {
-								temp += (char) t;// .[0-9]
-								value += temp;// [0|[1-9][0-9]*]+.[0-9]
-								temp = "";
-								while (t <= '9' && t >= '0') {
-									next();
-									if (t <= '9' && t >= '0') {
-										temp += (char) t;// [0-9]
-									}
-									if (t <= '9' && t >= '1') {
-										value += temp;// [0|[1-9][0-9]*]+.[0-9]
-										temp = "";
-									}
-								}
-								tokens.add(new Token(li, EType.FLOAT, value));// [0|[1-9][0-9]*]+(.0
-																				// |
-																				// .001)
-								if (temp.length() != 0) {
-									int l = temp.length();
-									if (t == '.') {// 0.000100.
-										l -= 1;// 0.00010
-										backupChar('.', '0');
-									}
-									for (int j = 0; j < l; j++) {
-										tokens.add(new Token(li, EType.INTEGER, temp.charAt(j) + ""));// 0
-									}
-								}
-								backupChar();
-							} else {
-								tokens.add(new Token(line, EType.INTEGER, value));
-								tokens.add(new Token(line, EType.DOT, temp));
-								backupChar();
-							}
-						} else {
-							tokens.add(new Token(li, EType.INTEGER, value));
-							backupChar();
-						}
-					} else if (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A') {
-						int li = line;
-						value += (char) t;
-						while (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A' || t <= '9' && t >= '0' || t == '_') {
-							next();
-							if (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A' || t <= '9' && t >= '0' || t == '_') {
-								value += (char) t;// [0-9]
-							}
-						}
-						tokens.add(new Token(li, getTypeofWord(value), value));
-						backupChar();
-					} else if (t == '/') {
-						int li = line;
-						value += (char) t;
-						next();
-						if (t == '/') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.CMT, value));
-							nextLine();
-						} else if (t == '*') {
-							value += (char) t;
-							Token token = new Token(li, EType.OPENCMT, value, NO_CLOSE);
-							tokens.add(token);
-							next();
-							while(true) {
-								if(t == '*') {
-									next();
-									if(t == '/') {
-										token.setError("");
-										tokens.add(new Token(line, EType.CLOSECMT, "*/"));
-										break;
-									}
-								} else {
-									next();
-								}
-							}
-						} else {
-							tokens.add(new Token(li, EType.SLASH, value));
-							backupChar();
-						}
-					} else if (t == '*') {
-						int li = line;
-						value += (char) t;
-						next();
-						if (t == '/') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.CLOSECMT, value, NO_OPEN));
-						} else {
-							tokens.add(new Token(li, EType.STAR, value));
-							backupChar();
-						}
-					} else if (t == '=') {
-						int li = line;
-						value += (char) t;
-						next();
-						if (t == '=') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.EQUAL, value));
-						} else {
-							tokens.add(new Token(li, EType.ASSGN, value));
-							backupChar();
-						}
-					} else if (t == '<') {
-						int li = line;
-						value += (char) t;
-						next();
-						if (t == '=') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.LESSEQ, value));
-						} else if (t == '>') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.NOTEQ, value));
-						} else {
-							tokens.add(new Token(li, EType.LT, value));
-							backupChar();
-						}
-					} else if (t == '>') {
-						int li = line;
-						value += (char) t;
-						next();
-						if (t == '=') {
-							value += (char) t;
-							tokens.add(new Token(li, EType.GREATEQ, value));
-						} else {
-							tokens.add(new Token(li, EType.GT, value));
-							backupChar();
-						}
-					} else if (t == '(') {
-						Token token = new Token(line, EType.OPENPAR, (char) t + "", NO_CLOSE);
-						tokens.add(token);
-						pair.add(token);
-					} else if (t == ')') {
-						Token token = new Token(line, EType.CLOSEPAR, (char) t + "");
-						String error = NO_OPEN;
-						int size = pair.size();
-						if(size == 0) {
-							error = NO_OPEN;
-						} else {
-							int index = -1;
-							for(int i=size-1;i>=0;i--) {
-								Token t = pair.get(i);
-								if(t.TYPE == EType.OPENPAR) {
-									error = "";
-									t.setError(error);
-									index = i;
-									break;
-								}
-							}
-							if(index != -1) {
-								do {
-									pair.remove(pair.size()-1);
-								} while(pair.size() != index);
-							}
-						}
-						token.setError(error);
-						tokens.add(token);
-					} else if (t == '{') {
-						Token token = new Token(line, EType.OPENBRACE, (char) t + "", NO_CLOSE);
-						tokens.add(token);
-						pair.add(token);
-					} else if (t == '}') {
-						Token token = new Token(line, EType.CLOSEBRACE, (char) t + "");
-						String error = NO_OPEN;
-						int size = pair.size();
-						if(size == 0) {
-							error = NO_OPEN;
-						} else {
-							int index = -1;
-							for(int i=size-1;i>=0;i--) {
-								Token t = pair.get(i);
-								if(t.TYPE == EType.OPENBRACE) {
-									error = "";
-									t.setError(error);
-									index = i;
-									break;
-								}
-							}
-							if(index != -1) {
-								do {
-									pair.remove(pair.size()-1);
-								} while(pair.size() != index);
-							}
-						}
-						token.setError(error);
-						tokens.add(token);
-					} else if (t == '[') {
-						Token token = new Token(line, EType.OPENBRACKET, (char) t + "", NO_CLOSE);
-						tokens.add(token);
-						pair.add(token);
-					} else if (t == ']') {
-						Token token = new Token(line, EType.CLOSEBRACKET, (char) t + "");
-						String error = NO_OPEN;
-						int size = pair.size();
-						if(size == 0) {
-							error = NO_OPEN;
-						} else {
-							int index = -1;
-							for(int i=size-1;i>=0;i--) {
-								Token t = pair.get(i);
-								if(t.TYPE == EType.OPENBRACKET) {
-									error = "";
-									t.setError(error);
-									index = i;
-									break;
-								}
-							}
-							if(index != -1) {
-								do {
-									pair.remove(pair.size()-1);
-								} while(pair.size() != index);
-							}
-						}
-						token.setError(error);
-						tokens.add(token);
-					} else if (t == '.') {
-						tokens.add(new Token(line, EType.DOT, (char) t + ""));
-					} else if (t == '_') {
-						tokens.add(new Token(line, EType.ALPHANUM, (char) t + ""));
-					} else if (t == '+') {
-						tokens.add(new Token(line, EType.PLUS, (char) t + ""));
-					} else if (t == '-') {
-						tokens.add(new Token(line, EType.MINUS, (char) t + ""));
-					} else if (t == ';') {
-						tokens.add(new Token(line, EType.SEMICOLON, (char) t + ""));
-					} else if (t == ',') {
-						tokens.add(new Token(line, EType.COMMA, (char) t + ""));
-					} else if (t == ' ' || t == '\t' || t == '\r' || t == '\n') {
-
-					} else {
-						tokens.add(new Token(line, EType.ERR, (char) t + ""));
-					}
-					next();
+					nextToken();
 				}
 				input.close();
 			} else {
@@ -422,6 +178,256 @@ public final class Scanner {
 			e.printStackTrace();
 		}
 		outPutToken();
+	}
+
+	private void nextToken() {
+		String value = "";
+		String temp = "";
+		if (t <= '9' && t >= '0') {
+			int li = line;
+			value += (char) t;// [0-9]
+			if (t <= '9' && t >= '1') {// [1-9]
+				while (t <= '9' && t >= '0') {
+					next();
+					if (t <= '9' && t >= '0') {
+						value += (char) t;// [0-9]
+					}
+				}
+			} else {
+				next();
+			}
+			if (t == '.') {
+				temp += (char) t;// .
+				next();
+				if (t <= '9' && t >= '0') {
+					temp += (char) t;// .[0-9]
+					value += temp;// [0|[1-9][0-9]*]+.[0-9]
+					temp = "";
+					while (t <= '9' && t >= '0') {
+						next();
+						if (t <= '9' && t >= '0') {
+							temp += (char) t;// [0-9]
+						}
+						if (t <= '9' && t >= '1') {
+							value += temp;// [0|[1-9][0-9]*]+.[0-9]
+							temp = "";
+						}
+					}
+					tokens.add(new Token(li, EType.FLOAT, value));// [0|[1-9][0-9]*]+(.0
+																	// |
+																	// .001)
+					if (temp.length() != 0) {
+						int l = temp.length();
+						if (t == '.') {// 0.000100.
+							l -= 1;// 0.00010
+							backupChar('.', '0');
+						}
+						for (int j = 0; j < l; j++) {
+							tokens.add(new Token(li, EType.INTEGER, temp.charAt(j) + ""));// 0
+						}
+					}
+					backupChar();
+				} else {
+					tokens.add(new Token(line, EType.INTEGER, value));
+					tokens.add(new Token(line, EType.DOT, temp));
+					backupChar();
+				}
+			} else {
+				tokens.add(new Token(li, EType.INTEGER, value));
+				backupChar();
+			}
+		} else if (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A') {
+			int li = line;
+			value += (char) t;
+			while (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A' || t <= '9' && t >= '0' || t == '_') {
+				next();
+				if (t <= 'z' && t >= 'a' || t <= 'Z' && t >= 'A' || t <= '9' && t >= '0' || t == '_') {
+					value += (char) t;// [0-9]
+				}
+			}
+			tokens.add(new Token(li, getTypeofWord(value), value));
+			backupChar();
+		} else if (t == '/') {
+			int li = line;
+			value += (char) t;
+			next();
+			if (t == '/') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.CMT, value));
+				nextLine();
+			} else if (t == '*') {
+				value += (char) t;
+				Token token = new Token(li, EType.OPENCMT, value, NO_CLOSE);
+				tokens.add(token);
+				next();
+				while(true) {
+					if(t == '*') {
+						next();
+						if(t == '/') {
+							token.setError("");
+							tokens.add(new Token(line, EType.CLOSECMT, "*/"));
+							break;
+						}
+					} else {
+						next();
+					}
+				}
+			} else {
+				tokens.add(new Token(li, EType.SLASH, value));
+				backupChar();
+			}
+		} else if (t == '*') {
+			int li = line;
+			value += (char) t;
+			next();
+			if (t == '/') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.CLOSECMT, value, NO_OPEN));
+			} else {
+				tokens.add(new Token(li, EType.STAR, value));
+				backupChar();
+			}
+		} else if (t == '=') {
+			int li = line;
+			value += (char) t;
+			next();
+			if (t == '=') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.EQUAL, value));
+			} else {
+				tokens.add(new Token(li, EType.ASSGN, value));
+				backupChar();
+			}
+		} else if (t == '<') {
+			int li = line;
+			value += (char) t;
+			next();
+			if (t == '=') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.LESSEQ, value));
+			} else if (t == '>') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.NOTEQ, value));
+			} else {
+				tokens.add(new Token(li, EType.LT, value));
+				backupChar();
+			}
+		} else if (t == '>') {
+			int li = line;
+			value += (char) t;
+			next();
+			if (t == '=') {
+				value += (char) t;
+				tokens.add(new Token(li, EType.GREATEQ, value));
+			} else {
+				tokens.add(new Token(li, EType.GT, value));
+				backupChar();
+			}
+		} else if (t == '(') {
+			Token token = new Token(line, EType.OPENPAR, (char) t + "", NO_CLOSE);
+			tokens.add(token);
+			pair.add(token);
+		} else if (t == ')') {
+			Token token = new Token(line, EType.CLOSEPAR, (char) t + "");
+			String error = NO_OPEN;
+			int size = pair.size();
+			if(size == 0) {
+				error = NO_OPEN;
+			} else {
+				int index = -1;
+				for(int i=size-1;i>=0;i--) {
+					Token t = pair.get(i);
+					if(t.TYPE == EType.OPENPAR) {
+						error = "";
+						t.setError(error);
+						index = i;
+						break;
+					}
+				}
+				if(index != -1) {
+					do {
+						pair.remove(pair.size()-1);
+					} while(pair.size() != index);
+				}
+			}
+			token.setError(error);
+			tokens.add(token);
+		} else if (t == '{') {
+			Token token = new Token(line, EType.OPENBRACE, (char) t + "", NO_CLOSE);
+			tokens.add(token);
+			pair.add(token);
+		} else if (t == '}') {
+			Token token = new Token(line, EType.CLOSEBRACE, (char) t + "");
+			String error = NO_OPEN;
+			int size = pair.size();
+			if(size == 0) {
+				error = NO_OPEN;
+			} else {
+				int index = -1;
+				for(int i=size-1;i>=0;i--) {
+					Token t = pair.get(i);
+					if(t.TYPE == EType.OPENBRACE) {
+						error = "";
+						t.setError(error);
+						index = i;
+						break;
+					}
+				}
+				if(index != -1) {
+					do {
+						pair.remove(pair.size()-1);
+					} while(pair.size() != index);
+				}
+			}
+			token.setError(error);
+			tokens.add(token);
+		} else if (t == '[') {
+			Token token = new Token(line, EType.OPENBRACKET, (char) t + "", NO_CLOSE);
+			tokens.add(token);
+			pair.add(token);
+		} else if (t == ']') {
+			Token token = new Token(line, EType.CLOSEBRACKET, (char) t + "");
+			String error = NO_OPEN;
+			int size = pair.size();
+			if(size == 0) {
+				error = NO_OPEN;
+			} else {
+				int index = -1;
+				for(int i=size-1;i>=0;i--) {
+					Token t = pair.get(i);
+					if(t.TYPE == EType.OPENBRACKET) {
+						error = "";
+						t.setError(error);
+						index = i;
+						break;
+					}
+				}
+				if(index != -1) {
+					do {
+						pair.remove(pair.size()-1);
+					} while(pair.size() != index);
+				}
+			}
+			token.setError(error);
+			tokens.add(token);
+		} else if (t == '.') {
+			tokens.add(new Token(line, EType.DOT, (char) t + ""));
+		} else if (t == '_') {
+			tokens.add(new Token(line, EType.ALPHANUM, (char) t + ""));
+		} else if (t == '+') {
+			tokens.add(new Token(line, EType.PLUS, (char) t + ""));
+		} else if (t == '-') {
+			tokens.add(new Token(line, EType.MINUS, (char) t + ""));
+		} else if (t == ';') {
+			tokens.add(new Token(line, EType.SEMICOLON, (char) t + ""));
+		} else if (t == ',') {
+			tokens.add(new Token(line, EType.COMMA, (char) t + ""));
+		} else if (t == ' ' || t == '\t' || t == '\r' || t == '\n') {
+
+		} else {
+			tokens.add(new Token(line, EType.ERR, (char) t + ""));
+		}
+		next();
 	}
 	
 	private void outPutToken() {
