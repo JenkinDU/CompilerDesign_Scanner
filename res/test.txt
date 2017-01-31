@@ -24,7 +24,7 @@ public void main(int xyz_)	{
 1234 0xff
 //
 136
-int var1[4][5][7][8][9][1][0];
+		int var1[4][5][7][8][9][1][0];
 		float var2;
 		int findMax(int array[100])
 		{
@@ -52,15 +52,20 @@ int var1[4][5][7][8][9][1][0];
 			};
 			return (minValue);
 		}
-	id <> alpha$##$%num >= num,;.
-	/**I cannot show**/
-	//Yon cannot see me
-	[][{][}]	({)())()(})
-	====<>===>>>><<>>>   + ====abc-=(int + float);
-	.00000.1111
-	Hello World
-	你好 世界
-	\a\b\f\n\r\t\v\\\
-	0.dfsd
+		program {
+			id <> alpha$##$%num >= num,;.
+			/**I cannot show**/
+			//Yon cannot see me
+			int a = [][{][}]	({)())()(});
+			function(====<>===>>>><<>>>) {
+			   key class + ====abc-=(int + float);
+			}
+			int abc = .00000.1111
+			Hello World
+			你好 世界
+			\a\b\f\n\r\t\v\\\
+			0.dfsd
+		}
+	
 	return returnprogram;
 }

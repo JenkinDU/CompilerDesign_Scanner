@@ -260,7 +260,7 @@ public final class Scanner {
 				Token token = new Token(li, EType.OPENCMT, value, NO_CLOSE);
 				tokens.add(token);
 				next();
-				while(true) {
+				while(t > 0) {
 					if(t == '*') {
 						next();
 						if(t == '/') {
