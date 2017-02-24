@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import comp6421.scanner.Scanner;
+
 /**
  * @author Jenkin
  *

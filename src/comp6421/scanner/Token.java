@@ -1,4 +1,4 @@
-package comp6421;
+package comp6421.scanner;
 
 public class Token {
 	protected EType TYPE = null;//the type of the token

@@ -1,4 +1,4 @@
-package comp6421;
+package comp6421.scanner;
 
 public enum EType {
 	ID, ALPHANUM, INTEGER, FLOAT,
