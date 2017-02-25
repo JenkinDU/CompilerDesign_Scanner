@@ -24,16 +24,16 @@ import comp6421.Utils;
  *
  * @author du_zhen
  */
-public final class Scanner {
-	public static String TEST_FILE = "./res/test.txt";
+public class Scanner {
+	public static String TEST_FILE = "./res/program.txt";
 	public static String TOKEN_FILE = "./res/token.txt";
 	public static String ERROR_FILE = "./res/error.txt";
 	
 	private static final String NO_OPEN = "No Open Pair";
 	private static final String NO_CLOSE = "No Close Pair";
-	private InputStreamReader input;
-	private int t = 0;
-	private ArrayList<Token> tokens;
+	protected InputStreamReader input;
+	protected int t = 0;
+	protected ArrayList<Token> tokens;
 	private int line = 1;
 	private boolean back = false;
 	private boolean backC = false;
@@ -91,7 +91,7 @@ public final class Scanner {
 	/**
 	 * Move the position to next char
 	 */
-	private void next() {
+	protected void next() {
 		if(back) {
 			back = false;
 			return;
@@ -156,13 +156,7 @@ public final class Scanner {
 	 * Main logic to analyst the token
 	 */
 	public void lexer() {
-		line = 1;
-		backChar = -1;
-		back = false;
-		backC = false;
-		newLine = false;
-		tokens.clear();
-		pair.clear();
+		initLexer();
 		try {
 			File file = new File(TEST_FILE);
 			if (file.isFile() && file.exists()) {
@@ -170,6 +164,7 @@ public final class Scanner {
 				next();
 				while (t > 0) {
 					nextToken();
+					next();
 				}
 				input.close();
 			} else {
@@ -182,7 +177,17 @@ public final class Scanner {
 		outPutToken();
 	}
 
-	private void nextToken() {
+	protected void initLexer() {
+		line = 1;
+		backChar = -1;
+		back = false;
+		backC = false;
+		newLine = false;
+		tokens.clear();
+		pair.clear();
+	}
+
+	protected void nextToken() {
 		String value = "";
 		String temp = "";
 		if (t <= '9' && t >= '0') {
@@ -429,10 +434,14 @@ public final class Scanner {
 		} else {
 			tokens.add(new Token(line, EType.ERR, (char) t + ""));
 		}
-		next();
+//		next();
 	}
 	
-	private void outPutToken() {
+	protected void outPutToken() {
+		outPutToken(true);
+	}
+	
+	protected void outPutToken(boolean print) {
 		int line = 0;
 		int index = 0;
 		String error = "";
@@ -449,8 +458,10 @@ public final class Scanner {
 			}
 //			System.out.println("Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError());
 		}
-		System.out.println("Token:\n"+token);
-		System.out.println("Error:\n"+error);
+		if(print) {
+			System.out.println("Token:\n"+token);
+			System.out.println("Error:\n"+error);
+		}
 		Utils.echo2File(TOKEN_FILE, token);
 		Utils.echo2File(ERROR_FILE, error);
 	}

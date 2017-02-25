@@ -1,0 +1,88 @@
+ε	ε
+class	class
+id	id
+{	{
+}	}
+;	;
+program	program
+(	(
+)	)
+float	float
+int	int
+if	if
+then	then
+else	else
+for	for
+get	get
+put	put
+return	return
++	+
+-	-
+num	num
+integer	integer
+not	not
+.	.
+[	[
+]	]
+,	,
+=	=
+==	==
+<>	<>
+<	<
+>	>
+<=	<=
+>=	>=
+or	or
+*	*
+/	/
+and	and
+A	ε, class
+classDecl	class
+V	ε, int, float, id
+progBody	program
+C	ε, int, float, id
+M	(
+funcBody	{
+R	ε, id, if, for, get, put, return, float, int
+L	id, if, for, get, put, return, float, int
+Q	float, int
+P	id, ε, [, =, .
+E	ε, if, for, get, put, return, id
+S	;, ε, [
+F	ε, [
+statement	if, for, get, put, return
+statBlock	{, ε, if, for, get, put, return, id
+X	ε, ==, <>, <, >, <=, >=
+Y	ε, +, -, or
+sign	+, -
+Z	ε, *, /, and
+factor	id, num, integer, (, not, +, -
+O	(, ε
+variable	id
+G	ε, .
+H	ε, [
+idnest	.
+indice	[
+arraySize	[
+type	int, float, id
+fParams	ε, int, float, id
+I	ε, ,
+aParams	ε, id, num, integer, (, not, +, -
+J	ε, ,
+fParamsTail	,
+aParamsTail	,
+assignOp	=
+relOp	==, <>, <, >, <=, >=
+addOp	+, -, or
+multOp	*, /, and
+T	int, float, id
+funcHead	int, float, id
+varDecl	int, float, id
+assignStat	id
+prog	ε, class, program
+funcDef	int, float, id
+term	id, num, integer, (, not, +, -
+K	;, ε, [, (
+arithExpr	id, num, integer, (, not, +, -
+expr	id, num, integer, (, not, +, -
+relExpr	id, num, integer, (, not, +, -

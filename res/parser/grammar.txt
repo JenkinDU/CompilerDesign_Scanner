@@ -1,0 +1,102 @@
+prog -> A progBody
+A -> classDecl A
+A -> EPSILON
+
+classDecl -> class id { V } ;
+V -> T V
+V -> EPSILON
+T -> type id K
+K -> S
+K -> M
+
+progBody -> program funcBody ; C
+C -> funcDef C
+C -> EPSILON
+
+funcHead -> type id ( fParams )
+funcDef -> funcHead funcBody ;
+M -> ( fParams ) funcBody ;
+
+funcBody -> { R }
+R -> L R
+R -> EPSILON
+L -> id P | statement | Q id S
+Q -> float | int
+P -> id S
+P -> H G assignOp expr ;
+
+E -> statement E
+E -> EPSILON
+
+varDecl -> type id S
+S -> F ;
+F -> arraySize F
+F -> EPSILON
+
+statement -> if ( expr ) then statBlock else statBlock ; | for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ; | get ( variable ) ; | put ( expr ) ; | return ( expr ) ;
+
+assignStat -> variable assignOp expr
+
+statBlock -> { E } | statement | EPSILON
+E -> statement E
+E -> EPSILON
+
+expr -> arithExpr X
+X -> relOp arithExpr
+X -> EPSILON
+
+relExpr -> arithExpr relOp arithExpr
+
+arithExpr -> term Y
+Y -> EPSILON | addOp term Y
+
+sign -> + | -
+
+term -> factor Z
+Z -> EPSILON | multOp factor Z
+
+factor -> G id W | num | integer | ( arithExpr ) | not factor | sign factor
+G -> idnest G
+G -> EPSILON
+W -> ( aParams )
+W -> H
+
+variable -> id H G
+G -> idnest G
+G -> EPSILON
+H -> indice H
+H -> EPSILON
+
+idnest -> . id H
+H -> indice H
+H -> EPSILON
+
+indice -> [ arithExpr ]
+
+arraySize -> [ integer ]
+
+type -> int | float | id
+
+fParams -> type id F I | EPSILON
+F -> arraySize F
+F -> EPSILON
+I -> fParamsTail I
+I -> EPSILON
+
+aParams -> expr J | EPSILON
+J -> aParamsTail J
+J -> EPSILON
+
+fParamsTail -> , type id F
+F -> arraySize F
+F -> EPSILON
+
+aParamsTail -> , expr
+
+assignOp -> =
+
+relOp -> == | <> | < | > | <= | >=
+
+addOp -> + | - | or
+
+multOp -> * | / | and

@@ -1,0 +1,50 @@
+FIRST(A) = ε, class
+FIRST(classDecl) = class
+FIRST(V) = ε, int, float, id
+FIRST(progBody) = program
+FIRST(C) = ε, int, float, id
+FIRST(M) = (
+FIRST(funcBody) = {
+FIRST(R) = ε, id, if, for, get, put, return, float, int
+FIRST(L) = id, if, for, get, put, return, float, int
+FIRST(Q) = float, int
+FIRST(P) = id, ε, [, =, .
+FIRST(E) = ε, if, for, get, put, return, id
+FIRST(S) = ;, ε, [
+FIRST(F) = ε, [
+FIRST(statement) = if, for, get, put, return
+FIRST(statBlock) = {, ε, if, for, get, put, return, id
+FIRST(X) = ε, ==, <>, <, >, <=, >=
+FIRST(Y) = ε, +, -, or
+FIRST(sign) = +, -
+FIRST(Z) = ε, *, /, and
+FIRST(factor) = id, num, integer, (, not, +, -
+FIRST(O) = (, ε
+FIRST(variable) = id
+FIRST(G) = ε, .
+FIRST(H) = ε, [
+FIRST(idnest) = .
+FIRST(indice) = [
+FIRST(arraySize) = [
+FIRST(type) = int, float, id
+FIRST(fParams) = ε, int, float, id
+FIRST(I) = ε, ,
+FIRST(aParams) = ε, id, num, integer, (, not, +, -
+FIRST(J) = ε, ,
+FIRST(fParamsTail) = ,
+FIRST(aParamsTail) = ,
+FIRST(assignOp) = =
+FIRST(relOp) = ==, <>, <, >, <=, >=
+FIRST(addOp) = +, -, or
+FIRST(multOp) = *, /, and
+FIRST(T) = int, float, id
+FIRST(funcHead) = int, float, id
+FIRST(varDecl) = int, float, id
+FIRST(assignStat) = id
+FIRST(prog) = ε, class, program
+FIRST(funcDef) = int, float, id
+FIRST(term) = id, num, integer, (, not, +, -
+FIRST(K) = ;, ε, [, (
+FIRST(arithExpr) = id, num, integer, (, not, +, -
+FIRST(expr) = id, num, integer, (, not, +, -
+FIRST(relExpr) = id, num, integer, (, not, +, -

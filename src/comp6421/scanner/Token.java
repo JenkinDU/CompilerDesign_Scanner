@@ -50,4 +50,9 @@ public class Token {
 	public void setError(String error) {
 		this.error = error;
 	}
+
+	@Override
+	public String toString() {
+		return "Token [TYPE=" + TYPE + ", value=" + value + ", position=" + position + ", error=" + error + "]";
+	}
 }

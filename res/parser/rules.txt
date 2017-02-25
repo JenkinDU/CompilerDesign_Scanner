@@ -1,0 +1,96 @@
+1:prog → A progBody
+2:A → classDecl A
+3:A → ε
+4:classDecl → class id { V } ;
+5:V → T V
+6:V → ε
+7:T → type id K
+8:K → S
+9:K → M
+10:progBody → program funcBody ; C
+11:C → funcDef C
+12:C → ε
+13:funcHead → type id ( fParams )
+14:funcDef → funcHead funcBody ;
+15:M → ( fParams ) funcBody ;
+16:funcBody → { R }
+17:R → L R
+18:R → ε
+19:L → id P
+20:L → statement
+21:L → Q id S
+22:Q → float
+23:Q → int
+24:P → id S
+25:P → H G assignOp expr ;
+26:E → statement E
+27:E → ε
+28:E → assignStat ; E
+29:varDecl → type id S
+30:S → F ;
+31:F → arraySize F
+32:F → ε
+33:statement → if ( expr ) then statBlock else statBlock ;
+34:statement → for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ;
+35:statement → get ( variable ) ;
+36:statement → put ( expr ) ;
+37:statement → return ( expr ) ;
+38:assignStat → variable assignOp expr
+39:statBlock → { E }
+40:statBlock → statement
+41:statBlock → assignStat ;
+42:statBlock → ε
+43:expr → arithExpr X
+44:X → relOp arithExpr
+45:X → ε
+46:relExpr → arithExpr relOp arithExpr
+47:arithExpr → term Y
+48:Y → ε
+49:Y → addOp term Y
+50:sign → +
+51:sign → -
+52:term → factor Z
+53:Z → ε
+54:Z → multOp factor Z
+55:factor → id H G O
+56:factor → num
+57:factor → integer
+58:factor → ( arithExpr )
+59:factor → not factor
+60:factor → sign factor
+61:O → ( aParams )
+62:O → ε
+63:variable → id H G
+64:G → idnest G
+65:G → ε
+66:H → indice H
+67:H → ε
+68:idnest → . id H
+69:indice → [ arithExpr ]
+70:arraySize → [ integer ]
+71:type → int
+72:type → float
+73:type → id
+74:fParams → type id F I
+75:fParams → ε
+76:I → fParamsTail I
+77:I → ε
+78:aParams → expr J
+79:aParams → ε
+80:J → aParamsTail J
+81:J → ε
+82:fParamsTail → , type id F
+83:aParamsTail → , expr
+84:assignOp → =
+85:relOp → ==
+86:relOp → <>
+87:relOp → <
+88:relOp → >
+89:relOp → <=
+90:relOp → >=
+91:addOp → +
+92:addOp → -
+93:addOp → or
+94:multOp → *
+95:multOp → /
+96:multOp → and

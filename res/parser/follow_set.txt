@@ -1,0 +1,50 @@
+prog	$
+A	program
+classDecl	class, program
+V	}
+T	int, float, id, }
+K	int, float, id, }
+progBody	$
+C	$
+funcHead	{
+funcDef	int, float, id, $
+M	int, float, id, }
+funcBody	;
+R	}
+L	id, if, for, get, put, return, float, int, }
+Q	id
+P	id, if, for, get, put, return, float, int, }
+E	}
+varDecl	
+S	id, if, for, get, put, return, float, int, }
+F	,, ;, )
+statement	if, for, get, put, return, id, else, ;, }, float, int
+assignStat	;, )
+statBlock	else, ;
+expr	,, ), ;
+X	,, ), ;
+relExpr	;
+arithExpr	], ), ==, <>, <, >, <=, >=, ;, ,
+Y	], ), ==, <>, <, >, <=, >=, ;, ,
+sign	id, num, integer, (, not, +, -
+term	+, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
+Z	+, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
+factor	*, /, and, +, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
+O	*, /, and, +, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
+variable	=, )
+G	(, =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,
+H	., =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,, (
+idnest	., (, =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,
+indice	[, ., =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,, (
+arraySize	[, ,, ;, )
+type	id
+fParams	)
+I	)
+aParams	)
+J	)
+fParamsTail	,, )
+aParamsTail	,, )
+assignOp	id, num, integer, (, not, +, -
+relOp	id, num, integer, (, not, +, -
+addOp	id, num, integer, (, not, +, -
+multOp	id, num, integer, (, not, +, -
