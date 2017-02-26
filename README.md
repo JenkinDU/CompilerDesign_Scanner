@@ -1,4 +1,4 @@
-# Assignment2 - Parser (refactor from the Assignment 1)
+# Assignment 2 - Parser (refactor from the Assignment 1)
 
 ## code structure
 
