@@ -43,12 +43,12 @@ public class ScannerTest {
 	@Before
 	public void setUp() throws Exception {
 		files = new ArrayList<String>();
-		files.add("./res/test.cpp");
-		files.add("./res/test.go");
-		files.add("./res/test.oc");
-		files.add("./res/test.py");
-		files.add("./res/test.rb");
-		files.add("./res/test.scala");
+		files.add("./res/scanner/test.cpp");
+		files.add("./res/scanner/test.go");
+		files.add("./res/scanner/test.oc");
+		files.add("./res/scanner/test.py");
+		files.add("./res/scanner/test.rb");
+		files.add("./res/scanner/test.scala");
 //		files.add("./src/comp6421/Scanner.java");
 	}
 
@@ -65,8 +65,8 @@ public class ScannerTest {
 		for(String f : files) {
 			System.out.println("To test file "+f+"\n");
 			scanner.TEST_FILE = f;
-			scanner.TOKEN_FILE = f+"_token.txt";
-			scanner.ERROR_FILE = f+"_error.txt";
+			scanner.TOKEN_FILE = f.replace("scanner", "scanner/out")+"_token.txt";
+			scanner.ERROR_FILE = f.replace("scanner", "scanner/out")+"_error.txt";
 			scanner.lexer();
 		}
 		

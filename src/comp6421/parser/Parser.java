@@ -22,8 +22,8 @@ public class Parser {
 	private static final String PREDICT = "./res/parser/predict_set.txt";
 	private static final String TABLE = "./res/parser/parsing_table.txt";
 	
-	private static final String DERIVATION = "./res/parser/out/derivation.txt";
-	private static final String ERROR = "./res/parser/out/error.txt";
+	public static String DERIVATION = "./res/parser/out/derivation.txt";
+	public static String ERROR = "./res/parser/out/error.txt";
 	
 	private ExtendScanner scanner;
 	private Table table;
@@ -125,7 +125,8 @@ public class Parser {
 	}
 	
 	private void skipError(String action) {
-		String e = action+" Error on line " + token.getPosition() +" "+ token.toString();
+		String e = "line "+token.getPosition()+" parser error " + token.getPosition() +" "+ token.toString();
+		e = String.format("%-80s", e)+"\tRECOVERY: " + action;
 		System.out.println(e);
 		if("POP".equals(action)) {
 			stack.pop();
@@ -135,8 +136,9 @@ public class Parser {
 		error+=e+"\n";
 	}
 	
-	private void doParser() {
-		scanner = new ExtendScanner();
+	public void doParser(String f) {
+		scanner = new ExtendScanner(f);
+		stack.clear();
 		stack.push(Table.getDollar());
 		stack.push(Table.getStart());
 		token = scanner.getNextToken();
@@ -145,7 +147,7 @@ public class Parser {
 		System.out.println("\n\nDERIVATION:");
 		String file = "";
 		
-		while(stack.peek().getType() != Symbol.ESymbol.DOLLAR) {
+		while(stack.size()==2&&token.getTYPE()==EType.DOLLAR || stack.peek().getType() != Symbol.ESymbol.DOLLAR && token.getTYPE() != EType.DOLLAR) {
 			Symbol top = stack.peek();
 			if(top.getType() == Symbol.ESymbol.TERMINAL || top.getType() == Symbol.ESymbol.EPSILON) {
 				String t = getGeneralValue();
@@ -166,34 +168,39 @@ public class Parser {
 					success = false;
 				}
 			} else if(top.getType() == Symbol.ESymbol.NON_TERMINAL) {
-				int row = this.table.getPredict(top.getValue())-1;
-				String t = getGeneralValue();
-				int column = this.table.getToken(t);
-				int rule = this.table.getRule(row, column);
-				String ex = this.table.getExpression(rule);
-				if("POP".equals(ex) || "SCAN".equals(ex)) {
-					skipError(ex);
+				if(token.getError().length()>0) {
+					skipError("SCAN");
 					success = false;
 				} else {
-					String log="";
-					Object[] list = stack.toArray();
-					for(int i=list.length-1;i>=0;i--) {
-						log+=" "+((Symbol)list[i]).getValue();
-					}
-					log+=("\t\tr"+row+":"+ex);
-					
-					String[] exValue = this.table.getExpressionValue(rule);
-					System.out.println(log);
-					derivation = derivation.replaceFirst(exValue[0], "ε".equals(exValue[1])?"":exValue[1]);
-					log+=("\t\t\t\t"+derivation.replaceAll("[ ]+", " "));	
-					file+=log+"\n";
-					
-					stack.pop();
-					ArrayList<Symbol> rules = this.table.getInverseRHSExpression(rule);
-					if(rules!=null) {
-						for(Symbol s : rules) {
-							if(s.getType() != Symbol.ESymbol.EPSILON) {
-								stack.push(s);
+					int row = this.table.getPredict(top.getValue())-1;
+					String t = getGeneralValue();
+					int column = this.table.getToken(t);
+					int rule = this.table.getRule(row, column);
+					String ex = this.table.getExpression(rule);
+					if("POP".equals(ex) || "SCAN".equals(ex)) {
+						skipError(ex);
+						success = false;
+					} else {
+						String log="";
+						Object[] list = stack.toArray();
+						for(int i=list.length-1;i>=0;i--) {
+							log+=" "+((Symbol)list[i]).getValue();
+						}
+						log+=("\t\tr"+row+":"+ex);
+						
+						String[] exValue = this.table.getExpressionValue(rule);
+						System.out.println(log);
+						derivation = derivation.replaceFirst(exValue[0], "ε".equals(exValue[1])?"":exValue[1]);
+						log+=("\t\t\t\t"+derivation.replaceAll("[ ]+", " "));	
+						file+=log+"\n";
+						
+						stack.pop();
+						ArrayList<Symbol> rules = this.table.getInverseRHSExpression(rule);
+						if(rules!=null) {
+							for(Symbol s : rules) {
+								if(s.getType() != Symbol.ESymbol.EPSILON) {
+									stack.push(s);
+								}
 							}
 						}
 					}
@@ -201,10 +208,11 @@ public class Parser {
 			}
 		}
 		if(Table.getDollar().getValue().equals(token) || !success) {
-			file += "\nParser Failed";
+			file += "\n\nParser Failed";
 			System.out.println("\nParser Failed");
 		} else {
-			file += "\nParser Success";
+			file += " $\n\nParser Success";
+			System.out.println(" $");
 			System.out.println("\nParser Success");
 		}
 		Utils.echo2File(ERROR, error.length()==0?"NO ERROR":error);
@@ -227,6 +235,6 @@ public class Parser {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		parser.doParser();
+		parser.doParser("./res/program_full.txt");
 	}
 }

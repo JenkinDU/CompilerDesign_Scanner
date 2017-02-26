@@ -1,0 +1,122 @@
+/**
+ * full grammar test program code
+ * 
+ * Change the <classDecl> grammar, there is no order of <varDecl>*<funcDef>*
+ * So, funcDef can be the first show
+ */
+//Test unknow token
+public class Utility {
+	//Test no function body
+	int noFunctionBody();
+	Custome customeFunc(Custome id, float array[10.0], int mult[-10]) {//Test float and negative array 
+/** 
+ * Change the <funcBody> grammar, there is no order of <varDecl>*<statement>* 
+ */
+		//remove ==
+		if((variable[1].id[2] and 100.0) or variable[1].id[2] and 100.0 /*==*/ variable[0]+not(+id(id[0]))/not -variable[0].id(v and 100.0)) then {
+			value = id[0][1]+not(+id[1](id[0]));
+			for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v()) {
+				if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
+					//only use get/put method or assignStat
+					anErrorCall();
+					get(maxValue);
+			        put(minValue);
+			        maxValue = array[idx];
+				} else//; //Test nothing 
+			};
+		} else 
+			//Test no params of get method
+			get();
+		;
+		return (maxValue);
+		get(maxValue[0].A.B.C[1]);
+        put(not(id[1] and 100.0));
+//		<varDecl>	::= <type>id<arraySize>*;
+        int value;
+        float v;
+        Custom variable[1][2];
+        variable = utility.getCustomValue(value);
+	}//; //remove ;
+	
+	Custome emptyFunc(Custome id, float array[100]) {
+		//Test inside funcition
+		Custome emptyFunc(Custome id, float array[100]){};
+	};
+	//Test no meaning .
+    int var1[4][5][7].[8][9][1][0];
+    float var2;
+	int findMax(int array[100]) {
+        int maxValue;
+        maxValue = array[100];
+      //remove the last part of for(;;);
+        for (int idx = 99; idx > 0; /*idx = idx - 1*/) {
+            if (array[idx] > maxValue) then {
+                maxValue = array[idx];
+            } else {};
+            put(maxValue);
+            put(minValue);
+        };
+        return (maxValue);
+    };
+    int idx;
+    int findMin(int array[100]) {
+        int idx;
+        minValue = array[100];
+        for (int idx = 1; idx <= 99; idx = (idx) + 1) {
+        	//could no varDecl
+        	int minValue;
+            if (array[idx] < maxValue) then {
+                maxValue = array[idx];
+            } else {};
+        };
+        return (minValue);
+    };
+    int idx;
+};
+program {
+/** There is no order of <varDecl>*<statement>* */
+	//Same situation with funcBody
+	if((id[1].id[2][3] and 100.0)  == not -id(id[1] and 100.0)) then {
+		value = id[0][1][2]+not(+id[0][1](id[0][1]));
+		for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() ) {
+			if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
+				get(maxValue);
+		        put(minValue);
+			} else;
+		};
+	} else
+		get(maxValue);
+	;
+	return (maxValue);
+	get(maxValue[0].A.B.C[1]);
+    put(not(id[1] and 100.0));
+    int value;
+    float v;
+    Custom variable[1][2];
+};
+float randomize() {
+    float value;
+    value = 100 * (2 + 3.0 / 7.0006);
+    value = 1.05 + ((2.04 * 2.47) - 3.0) + 7.0006;
+    return (value);
+};
+//same with <funcDef>
+Custom getCustomValue() {
+	//Test varDecl with assign
+	int sample[100] = {10,10};
+    int idx;
+    int maxValue;
+    int minValue;
+    Utility utility;
+    Utility arrayUtility[2][3][6][7];
+    for (int t = 0; t <= 100; t = t + 1) {
+    	if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
+			get(maxValue);
+	        put(minValue);
+	        get(sample[t]);
+	        sample[t] = (sample[t] * randomize());
+		} else //{};//Test no else bod
+    };
+    return (value);
+    return float; //Test return without ()
+};

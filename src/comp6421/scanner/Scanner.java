@@ -25,12 +25,13 @@ import comp6421.Utils;
  * @author du_zhen
  */
 public class Scanner {
-	public static String TEST_FILE = "./res/program.txt";
-	public static String TOKEN_FILE = "./res/token.txt";
-	public static String ERROR_FILE = "./res/error.txt";
+	public static String TEST_FILE = "./res/program_full.txt";
+	public static String TOKEN_FILE = "./res/scanner/out/token.txt";
+	public static String ERROR_FILE = "./res/scanner/out/error.txt";
 	
 	private static final String NO_OPEN = "No Open Pair";
-	private static final String NO_CLOSE = "No Close Pair";
+	private static final String NO_CLOSE = "";//"No Close Pair";
+	private static final String UN_KNOW = "Unknow type";
 	protected InputStreamReader input;
 	protected int t = 0;
 	protected ArrayList<Token> tokens;
@@ -262,6 +263,7 @@ public class Scanner {
 				value += (char) t;
 				tokens.add(new Token(li, EType.CMT, value));
 				nextLine();
+				backupChar();
 			} else if (t == '*') {
 				value += (char) t;
 				Token token = new Token(li, EType.OPENCMT, value, NO_CLOSE);
@@ -432,7 +434,7 @@ public class Scanner {
 		} else if (t == ' ' || t == '\t' || t == '\r' || t == '\n') {
 
 		} else {
-			tokens.add(new Token(line, EType.ERR, (char) t + ""));
+			tokens.add(new Token(line, EType.ERR, (char) t + "", UN_KNOW));
 		}
 //		next();
 	}

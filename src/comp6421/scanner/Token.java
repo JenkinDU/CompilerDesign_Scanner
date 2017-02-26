@@ -53,6 +53,6 @@ public class Token {
 
 	@Override
 	public String toString() {
-		return "Token [TYPE=" + TYPE + ", value=" + value + ", position=" + position + ", error=" + error + "]";
+		return "Token [TYPE=" + TYPE + ", value=" + value + ", position=" + position + "]";
 	}
 }

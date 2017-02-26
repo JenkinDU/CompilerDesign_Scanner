@@ -22,9 +22,9 @@ public class ExtendScanner extends Scanner {
 	 * Constructors
 	 * 
 	 */
-	public ExtendScanner() {
+	public ExtendScanner(String file) {
 		super();
-		TEST_FILE = "./res/program.txt";
+		TEST_FILE = file;
 		initLexer();
 	}
 	
@@ -45,6 +45,13 @@ public class ExtendScanner extends Scanner {
 	}
 	
 	public Token getNextToken() {
+		int s = super.tokens.size();
+		if(s!=0) {
+			Token token = tokens.get(s-1);
+			if(token.getTYPE()==EType.DOLLAR) {
+				return token;
+			}
+		}
 		do {
 			next();
 		} while(t == ' ' || t == '\t' || t == '\r' || t == '\n');
