@@ -31,7 +31,7 @@ public class Scanner {
 	
 	private static final String NO_OPEN = "No Open Pair";
 	private static final String NO_CLOSE = "";//"No Close Pair";
-	private static final String UN_KNOW = "Unknow type";
+	private static final String UN_KNOW = "Unknown type";
 	protected InputStreamReader input;
 	protected int t = 0;
 	protected ArrayList<Token> tokens;
