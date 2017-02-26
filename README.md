@@ -18,7 +18,7 @@
 
 * Program file is bellow
 
-	**program.txt**	the Simple program to verify the algorithm
+	**program.txt**	The simple program to verify the algorithm
 
 	**program_full.txt** A full version to test all the grammar rules
 
