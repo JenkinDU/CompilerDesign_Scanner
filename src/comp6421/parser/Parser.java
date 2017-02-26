@@ -125,7 +125,7 @@ public class Parser {
 	}
 	
 	private void skipError(String action) {
-		String e = "line "+token.getPosition()+" parser error " + token.getPosition() +" "+ token.toString();
+		String e = "line "+token.getPosition()+" parser error, " + token.toString();
 		e = String.format("%-80s", e)+"\tRECOVERY: " + action;
 		System.out.println(e);
 		if("POP".equals(action)) {
@@ -156,6 +156,7 @@ public class Parser {
 				for(int i=list.length-1;i>=0;i--) {
 					log+=" "+((Symbol)list[i]).getValue();
 				}
+				log = String.format("%-"+(log.length()<40?40:(log.length()<80?80:(log.length()<120?120:log.length())))+"s", log);
 				log+=("\t\t"+t);
 				System.out.println(log);
 				file+=log+"\n";
@@ -186,12 +187,14 @@ public class Parser {
 						for(int i=list.length-1;i>=0;i--) {
 							log+=" "+((Symbol)list[i]).getValue();
 						}
-						log+=("\t\tr"+row+":"+ex);
+						log = String.format("%-"+(log.length()<40?40:(log.length()<80?80:(log.length()<120?120:log.length())))+"s", log);
+						String format = String.format("%-"+(ex.length()<20?20:(ex.length()<40?40:(ex.length()<60?60:ex.length())))+"s", ex);
+						log+=("\t\tr"+row+":"+format);
 						
 						String[] exValue = this.table.getExpressionValue(rule);
 						System.out.println(log);
 						derivation = derivation.replaceFirst(exValue[0], "ε".equals(exValue[1])?"":exValue[1]);
-						log+=("\t\t\t\t"+derivation.replaceAll("[ ]+", " "));	
+						log+=("\t\t"+derivation.replaceAll("[ ]+", " "));	
 						file+=log+"\n";
 						
 						stack.pop();

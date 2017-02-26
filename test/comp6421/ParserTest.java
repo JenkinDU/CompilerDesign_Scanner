@@ -57,7 +57,7 @@ public class ParserTest {
 	public void tearDown() throws Exception {
 	}
 
-//	@Test
+	@Test
 	public void testProgram() {
 		Parser parser = new Parser();
 		String f = files.get(0);
@@ -67,7 +67,7 @@ public class ParserTest {
 		parser.doParser(f);
 	}
 	
-//	@Test
+	@Test
 	public void testProgramFull() {
 		Parser parser = new Parser();
 		String f = files.get(1);
