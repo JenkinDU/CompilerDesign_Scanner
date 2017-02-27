@@ -94,3 +94,5 @@
 94:multOp → *
 95:multOp → /
 96:multOp → and
+97:POP
+98:SCAN
