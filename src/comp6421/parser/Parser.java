@@ -30,6 +30,7 @@ public class Parser {
 	private LinkedList<Symbol> stack;
 	private Token token;
 	private String error = "";
+	private boolean showLog = true;//add for symbol table
 	
 	public Parser() {
 		this.table = new Table();
@@ -39,29 +40,40 @@ public class Parser {
 		initPredict();
 		initTable();
 	}
+	
+	public Parser(boolean showLog) {
+		this();
+		this.showLog = showLog;
+	}
 
+	private void printLog(String log) {
+		if(this.showLog) {
+			System.out.println(log);
+		}
+	}
+	
 	private void initFirstSet() {
 		ArrayList<String> lines = Utils.readFileLines(FIRST);
-		System.out.println("\n\nFIRST:");
+		printLog("\n\nFIRST:");
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			if(Symbol.nonTerminal.contains(e[0])) {
 				System.out.println("FIRST("+e[0]+") = "+e[1]);
 			}
 		}
-		System.out.println("\n");
+		printLog("\n");
 	}
 
 	private void initFollowSet() {
 		ArrayList<String> lines = Utils.readFileLines(FOLLOW);
 		Symbol.nonTerminal.clear();
 		int i = 0;
-		System.out.println("FOLLOW:");
+		printLog("FOLLOW:");
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			this.table.addPredict(e[0], ++i);
 			this.table.addPredictOrder(i, e[0]);
-			System.out.println("FOLLOW("+e[0]+") = "+(e.length>1?e[1]:""));
+			printLog("FOLLOW("+e[0]+") = "+(e.length>1?e[1]:""));
 			Symbol.nonTerminal.add(e[0]);
 		}
 	}
@@ -71,7 +83,7 @@ public class Parser {
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			this.table.addExpression(Integer.valueOf(e[0]), e[1]);
-			System.out.println("R"+e[0]+":"+e[1]);
+			printLog("R"+e[0]+":"+e[1]);
 		}
 		this.table.addExpression(this.table.getExpressionSize()+1, "POP");
 		this.table.addExpression(this.table.getExpressionSize()+1, "SCAN");
@@ -92,7 +104,7 @@ public class Parser {
 					String t = a.getString(j);
 					this.table.addToken(t, j-1);
 					Symbol.terminal.add(t);
-//					System.out.println(j-1+":"+t);
+//					printLog(j-1+":"+t);
 				}
 				this.table.initRules(Symbol.nonTerminal.size(), Symbol.terminal.size());
 			} else if(i > 1) {
@@ -100,16 +112,16 @@ public class Parser {
 				for(int j=1;j<a.length();j++) {
 					int r = a.getInt(j);
 					this.table.addRules(i-2, j-1, r);
-//					System.out.println((i-2)+"-"+(j-1)+" "+r);
+//					printLog((i-2)+"-"+(j-1)+" "+r);
 				}
 			}
 		}
-		System.out.println("\n\nPARSING TABLE:");
+		printLog("\n\nPARSING TABLE:");
 		String temp = "\t\t";
 		for(String t : Symbol.terminal) {
 			temp += (t+"\t");
 		}
-		System.out.println(temp);
+		printLog(temp);
 		for(int i=0;i<Symbol.nonTerminal.size();i++) {
 			temp = Symbol.nonTerminal.get(i);
 			if(temp.length()>7) {
@@ -120,14 +132,14 @@ public class Parser {
 			for(int j=0;j<Symbol.terminal.size();j++) {
 				temp += (this.table.getRule(i, j)+"\t");
 			}
-			System.out.println(temp);
+			printLog(temp);
 		}
 	}
 	
 	private void skipError(String action) {
 		String e = "line "+token.getPosition()+" parser error, " + token.toString();
 		e = String.format("%-80s", e)+"\tRECOVERY: " + action;
-		System.out.println(e);
+		printLog(e);
 		if("POP".equals(action)) {
 			stack.pop();
 		} else if("SCAN".equals(action)) {
@@ -137,6 +149,8 @@ public class Parser {
 	}
 	
 	public void doParser(String f) {
+		String[] exValue = null;//edit for symbol
+		
 		scanner = new ExtendScanner(f);
 		stack.clear();
 		stack.push(Table.getDollar());
@@ -144,9 +158,10 @@ public class Parser {
 		token = scanner.getNextToken();
 		boolean success = true;
 		String derivation = Table.getStart().getValue();
-		System.out.println("\n\nDERIVATION:");
+		printLog("\n\nDERIVATION:");
 		String file = "";
 		
+		createSymbolTable(stack, exValue);
 		while(stack.size()==2&&token.getTYPE()==EType.DOLLAR || stack.peek().getType() != Symbol.ESymbol.DOLLAR && token.getTYPE() != EType.DOLLAR) {
 			Symbol top = stack.peek();
 			if(top.getType() == Symbol.ESymbol.TERMINAL || top.getType() == Symbol.ESymbol.EPSILON) {
@@ -158,7 +173,7 @@ public class Parser {
 				}
 				log = String.format("%-"+(log.length()<40?40:(log.length()<80?80:(log.length()<120?120:log.length())))+"s", log);
 				log+=("\t\t"+t);
-				System.out.println(log);
+				printLog(log);
 				file+=log+"\n";
 				
 				if(t.equals(top.getValue())) {
@@ -191,8 +206,8 @@ public class Parser {
 						String format = String.format("%-"+(ex.length()<20?20:(ex.length()<40?40:(ex.length()<60?60:ex.length())))+"s", ex);
 						log+=("\t\tr"+row+":"+format);
 						
-						String[] exValue = this.table.getExpressionValue(rule);
-						System.out.println(log);
+						exValue = this.table.getExpressionValue(rule);
+						printLog(log);
 						derivation = derivation.replaceFirst(exValue[0], "ε".equals(exValue[1])?"":exValue[1]);
 						log+=("\t\t"+derivation.replaceAll("[ ]+", " "));	
 						file+=log+"\n";
@@ -209,14 +224,16 @@ public class Parser {
 					}
 				}
 			}
+			createSymbolTable(stack, exValue);
+			exValue = null;
 		}
 		if(Table.getDollar().getValue().equals(token) || !success) {
 			file += "\n\nParser Failed";
-			System.out.println("\nParser Failed");
+			printLog("\nParser Failed");
 		} else {
 			file += " $\n\nParser Success";
-			System.out.println(" $");
-			System.out.println("\nParser Success");
+			printLog(" $");
+			printLog("\nParser Success");
 		}
 		Utils.echo2File(ERROR, error.length()==0?"NO ERROR":error);
 		Utils.echo2File(DERIVATION, file);
@@ -235,6 +252,8 @@ public class Parser {
 		}
 		return t;
 	}
+	
+	protected void createSymbolTable(LinkedList<Symbol> stack, String[] exValue) {}
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();

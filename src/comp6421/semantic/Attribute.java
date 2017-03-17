@@ -13,6 +13,7 @@ public class Attribute {
 	private String value;
 	private EType returnType;
 	public static String dimension = "";
+	
 	public Attribute() {
 		
 	}
