@@ -3,7 +3,7 @@ package comp6421.semantic;
 public class Entry implements IEntry {
 	private String name;
 	private Kind kind;
-	private Type type;
+	private Attribute type;
 	private String link;
 	private String sign;
 	private String path;
