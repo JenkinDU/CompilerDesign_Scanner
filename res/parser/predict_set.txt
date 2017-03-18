@@ -1,96 +1,93 @@
-1	prog → A progBody	class, program
-2	A → classDecl A	class
-3	A → ε	program
-4	classDecl → class id { V } ;	class
-5	V → T V	int, float, id
-6	V → ε	}
-7	T → type id K	int, float, id
-8	K → S	;,
-9	K → M	(
-10	progBody → program funcBody ; C	program
-11	C → funcDef C	int, float, id
-12	C → ε	$
-13	funcHead → type id ( fParams )	int, float, id
-14	funcDef → funcHead funcBody ;	int, float, id
-15	M → ( fParams ) funcBody ;	(
-16	funcBody → { R }	{
-17	R → L R	id, if, for, get, put, return, float, int
-18	R → ε	}
-19	L → id P	id
-20	L → statement	if, for, get, put, return
-21	L → Q id S	float, int
-22	Q → float	float
-23	Q → int	int
-24	P → id S	id
-25	P → H G assignOp expr ;	, ., =
-26	E → statement E	if, for, get, put, return
-27	E → ε	}
-28	E → assignStat ; E	id
-29	varDecl → type id S	int, float, id
-30	S → F ;	, ;
-31	F → arraySize F	
-32	F → ε	,, ;, )
-33	statement → if ( expr ) then statBlock else statBlock ;	if
-34	statement → for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ;	for
-35	statement → get ( variable ) ;	get
-36	statement → put ( expr ) ;	put
-37	statement → return ( expr ) ;	return
-38	assignStat → variable assignOp expr	id
-39	statBlock → { E }	{
-40	statBlock → statement	if, for, get, put, return
-41	statBlock → assignStat ;	id
-42	statBlock → ε	else, ;
-43	expr → arithExpr X	id, num, integer, (, not, +, -
-44	X → relOp arithExpr	==, <>, <, >, <=, >=
-45	X → ε	,, ), ;
-46	relExpr → arithExpr relOp arithExpr	id, num, integer, (, not, +, -
-47	arithExpr → term Y	id, num, integer, (, not, +, -
-48	Y → ε	, ), ==, <>, <, >, <=, >=, ;, ,
-49	Y → addOp term Y	+, -, or
-50	sign → +	+
-51	sign → -	-
-52	term → factor Z	id, num, integer, (, not, +, -
-53	Z → ε	+, -, or, , ), ==, <>, <, >, <=, >=, ;, ,
-54	Z → multOp factor Z	*, /, and
-55	factor → id H G O	id
-56	factor → num	num
-57	factor → integer	integer
-58	factor → ( arithExpr )	(
-59	factor → not factor	not
-60	factor → sign factor	+, -
-61	O → ( aParams )	(
-62	O → ε	*, /, and, +, -, or, , ), ==, <>, <, >, <=, >=, ;, ,
-63	variable → id H G	id
-64	G → idnest G	.
-65	G → ε	(, =, ), *, /, and, +, -, or, , ==, <>, <, >, <=, >=, ;, ,
-66	H → indice H	
-67	H → ε	., =, ), *, /, and, +, -, or, , ==, <>, <, >, <=, >=, ;, ,, (
-68	idnest → . id H	.
-69	indice → [ arithExpr ]	
-70	arraySize → [ integer ]	
-71	type → int	int
-72	type → float	float
-73	type → id	id
-74	fParams → type id F I	int, float, id
-75	fParams → ε	)
-76	I → fParamsTail I	,
-77	I → ε	)
-78	aParams → expr J	id, num, integer, (, not, +, -
-79	aParams → ε	)
-80	J → aParamsTail J	,
-81	J → ε	)
-82	fParamsTail → , type id F	,
-83	aParamsTail → , expr	,
-84	assignOp → =	=
+1	prog → classDecl_list progBody	class, program
+2	classDecl → class id { varDeclFunctDef_list } ;	class
+3	progBody → program funcBody ; funcDef_list	program
+4	funcDef → type id ( fParams ) funcBody ;	id, float, int
+5	funcBody → { funcBody_ }	{
+6	varDeclFunctDef_list → type id varDeclFunctDef_tail	id, float, int
+7	varDeclFunctDef_list → ε	}
+8	varDeclFunctDef_tail → ( fParams ) funcBody ; varDeclFunctDef_list	(
+9	varDeclFunctDef_tail → arraySize_list ; varDeclFunctDef_list	, ;
+10	indiceIdnestList_tail → . id indiceIdnestList_tail	.
+11	indiceIdnestList_tail → [ arithExpr ] indiceIdnestList_tail	
+12	indiceIdnestList_tail → ε	=
+13	varDeclStatement_tail → id arraySize_list ; funcBody_	id
+14	varDeclStatement_tail → indiceIdnestList_tail assignOp expr ; statement_list	., , =
+15	funcBody_ → typeNumeric id arraySize_list ; funcBody_	float, int
+16	funcBody_ → id varDeclStatement_tail	id
+17	funcBody_ → restOfStatment statement_list	for, if, get, put, return
+18	funcBody_ → ε	}
+19	statement → assignmentStatment	id
+20	statement → restOfStatment	for, if, get, put, return
+21	assignmentStatment → variable_ assignOp expr ;	id
+22	restOfStatment → for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ;	for
+23	restOfStatment → if ( expr ) then statBlock else statBlock ;	if
+24	restOfStatment → get ( variable_ ) ;	get
+25	restOfStatment → put ( expr ) ;	put
+26	restOfStatment → return ( expr ) ;	return
+27	assignStat → variable_ assignOp expr	id
+28	statBlock → { statement_list }	{
+29	statBlock → statement	id, for, if, get, put, return
+30	statBlock → ε	;, else
+31	expr → arithExpr exp_	(, floatValue, intValue, not, id, +, -
+32	exp_ → relOp arithExpr	<, <=, <>, ==, >, >=
+33	exp_ → ε	,, ;, )
+34	relExpr → arithExpr relOp arithExpr	(, floatValue, intValue, not, id, +, -
+35	arithExpr → term arithExpr_	(, floatValue, intValue, not, id, +, -
+36	arithExpr_ → addOp term arithExpr_	+, -, or
+37	arithExpr_ → ε	, ), <, <=, <>, ==, >, >=, ;, ,
+38	sign → +	+
+39	sign → -	-
+40	term → factor term_	(, floatValue, intValue, not, id, +, -
+41	term_ → multOp factor term_	*, /, and
+42	term_ → ε	+, -, or, , ), <, <=, <>, ==, >, >=, ;, ,
+43	factor → ( arithExpr )	(
+44	factor → floatValue	floatValue
+45	factor → intValue	intValue
+46	factor → not factor	not
+47	factor → variable_ factor_	id
+48	factor → sign factor	+, -
+49	variable_ → id indice_list idnest_list_	id
+50	idnest_list_ → idnest_ idnest_list_	.
+51	idnest_list_ → ε	(, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
+52	idnest_ → . id indice_list	.
+53	factor_ → ( aParams )	(
+54	factor_ → ε	*, /, and, +, -, or, , ), <, <=, <>, ==, >, >=, ;, ,
+55	indice → [ arithExpr ]	
+56	arraySize → [ intValue ]	
+57	type → id	id
+58	type → typeNumeric	float, int
+59	typeNumeric → float	float
+60	typeNumeric → int	int
+61	fParams → type id arraySize_list fParamsTail_list	id, float, int
+62	fParams → ε	)
+63	aParams → expr aParamsTail_list	(, floatValue, intValue, not, id, +, -
+64	aParams → ε	)
+65	fParamsTail → , type id arraySize_list	,
+66	aParamsTail → , expr	,
+67	classDecl_list → classDecl classDecl_list	class
+68	classDecl_list → ε	program
+69	funcDef_list → funcDef funcDef_list	id, float, int
+70	funcDef_list → ε	$
+71	statement_list → statement statement_list	id, for, if, get, put, return
+72	statement_list → ε	}
+73	arraySize_list → arraySize arraySize_list	
+74	arraySize_list → ε	,, ;, )
+75	indice_list → indice indice_list	
+76	indice_list → ε	., (, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
+77	fParamsTail_list → fParamsTail fParamsTail_list	,
+78	fParamsTail_list → ε	)
+79	aParamsTail_list → aParamsTail aParamsTail_list	,
+80	aParamsTail_list → ε	)
+81	assignOp → =	=
+82	relOp → <	<
+83	relOp → <=	<=
+84	relOp → <>	<>
 85	relOp → ==	==
-86	relOp → <>	<>
-87	relOp → <	<
-88	relOp → >	>
-89	relOp → <=	<=
-90	relOp → >=	>=
-91	addOp → +	+
-92	addOp → -	-
-93	addOp → or	or
-94	multOp → *	*
-95	multOp → /	/
-96	multOp → and	and
+86	relOp → >	>
+87	relOp → >=	>=
+88	addOp → +	+
+89	addOp → -	-
+90	addOp → or	or
+91	multOp → *	*
+92	multOp → /	/
+93	multOp → and	and

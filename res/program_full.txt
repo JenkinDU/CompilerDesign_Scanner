@@ -32,10 +32,6 @@ class Utility {
 		return (maxValue);
 		get(maxValue[0].A.B.C[1]);
         put(not(id[1] and 100.0));
-//		<varDecl>	::= <type>id<arraySize>*;
-        int value;
-        float v;
-        Custom variable[1][2];
         variable = utility.getCustomValue(value);
 		
 	};
@@ -90,9 +86,6 @@ program {
 	return (maxValue);
 	get(maxValue[0].A.B.C[1]);
     put(not(id[1] and 100.0));
-    int value;
-    float v;
-    Custom variable[1][2];
 };
 float randomize() {
     float value;

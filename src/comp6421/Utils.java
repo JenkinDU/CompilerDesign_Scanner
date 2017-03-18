@@ -11,9 +11,13 @@ import java.util.ArrayList;
 public class Utils {
 	
 	public static void echo2File(String f, String data) {
+		echo2File(f, data, false);
+	}
+	
+	public static void echo2File(String f, String data, boolean append) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(f, false);
+			fw = new FileWriter(f, append);
 			fw.write(data);
 			fw.flush();
 			fw.close();

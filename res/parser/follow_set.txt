@@ -1,50 +1,47 @@
 prog	$
-A	program
 classDecl	class, program
-V	}
-T	int, float, id, }
-K	int, float, id, }
 progBody	$
-C	$
-funcHead	{
-funcDef	int, float, id, $
-M	int, float, id, }
+funcDef	id, float, int, $
 funcBody	;
-R	}
-L	id, if, for, get, put, return, float, int, }
-Q	id
-P	id, if, for, get, put, return, float, int, }
-E	}
-varDecl	
-S	id, if, for, get, put, return, float, int, }
-F	,, ;, )
-statement	if, for, get, put, return, id, else, ;, }, float, int
-assignStat	;, )
-statBlock	else, ;
-expr	,, ), ;
-X	,, ), ;
+varDeclFunctDef_list	}
+varDeclFunctDef_tail	}
+indiceIdnestList_tail	=
+varDeclStatement_tail	}
+funcBody_	}
+statement	id, for, if, get, put, return, }, ;, else
+assignmentStatment	id, for, if, get, put, return, }, ;, else
+restOfStatment	id, for, if, get, put, return, }, ;, else
+assignStat	)
+statBlock	;, else
+expr	,, ;, )
+exp_	,, ;, )
 relExpr	;
-arithExpr	], ), ==, <>, <, >, <=, >=, ;, ,
-Y	], ), ==, <>, <, >, <=, >=, ;, ,
-sign	id, num, integer, (, not, +, -
-term	+, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
-Z	+, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
-factor	*, /, and, +, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
-O	*, /, and, +, -, or, ], ), ==, <>, <, >, <=, >=, ;, ,
-variable	=, )
-G	(, =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,
-H	., =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,, (
-idnest	., (, =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,
-indice	[, ., =, ), *, /, and, +, -, or, ], ==, <>, <, >, <=, >=, ;, ,, (
+arithExpr	], ), <, <=, <>, ==, >, >=, ;, ,
+arithExpr_	], ), <, <=, <>, ==, >, >=, ;, ,
+sign	(, floatValue, intValue, not, id, +, -
+term	+, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+term_	+, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+factor	*, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+variable_	(, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+idnest_list_	(, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+idnest_	., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+factor_	*, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+indice	[, ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
 arraySize	[, ,, ;, )
 type	id
+typeNumeric	id
 fParams	)
-I	)
 aParams	)
-J	)
 fParamsTail	,, )
 aParamsTail	,, )
-assignOp	id, num, integer, (, not, +, -
-relOp	id, num, integer, (, not, +, -
-addOp	id, num, integer, (, not, +, -
-multOp	id, num, integer, (, not, +, -
+classDecl_list	program
+funcDef_list	$
+statement_list	}
+arraySize_list	,, ;, )
+indice_list	., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+fParamsTail_list	)
+aParamsTail_list	)
+assignOp	(, floatValue, intValue, not, id, +, -
+relOp	(, floatValue, intValue, not, id, +, -
+addOp	(, floatValue, intValue, not, id, +, -
+multOp	(, floatValue, intValue, not, id, +, -

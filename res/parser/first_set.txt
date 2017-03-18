@@ -1,4 +1,3 @@
-ε	ε
 class	class
 id	id
 {	{
@@ -7,82 +6,80 @@ id	id
 program	program
 (	(
 )	)
-float	float
-int	int
+ε	ε
+.	.
+[	[
+]	]
+for	for
 if	if
 then	then
 else	else
-for	for
 get	get
 put	put
 return	return
 +	+
 -	-
-num	num
-integer	integer
+floatValue	floatValue
+intValue	intValue
 not	not
-.	.
-[	[
-]	]
+float	float
+int	int
 ,	,
 =	=
-==	==
-<>	<>
 <	<
->	>
 <=	<=
+<>	<>
+==	==
+>	>
 >=	>=
 or	or
 *	*
 /	/
 and	and
-A	ε, class
 classDecl	class
-V	ε, int, float, id
 progBody	program
-C	ε, int, float, id
-M	(
 funcBody	{
-R	ε, id, if, for, get, put, return, float, int
-L	id, if, for, get, put, return, float, int
-Q	float, int
-P	id, ε, [, =, .
-E	ε, if, for, get, put, return, id
-S	;, ε, [
-F	ε, [
-statement	if, for, get, put, return
-statBlock	{, ε, if, for, get, put, return, id
-X	ε, ==, <>, <, >, <=, >=
-Y	ε, +, -, or
+varDeclFunctDef_list	ε, id, float, int
+varDeclFunctDef_tail	(, ;, ε, [
+indiceIdnestList_tail	., [, ε
+varDeclStatement_tail	id, ., [, ε, =
+funcBody_	id, ε, float, int, for, if, get, put, return
+restOfStatment	for, if, get, put, return
+statBlock	{, ε, id, for, if, get, put, return
+exp_	ε, <, <=, <>, ==, >, >=
+arithExpr_	ε, +, -, or
 sign	+, -
-Z	ε, *, /, and
-factor	id, num, integer, (, not, +, -
-O	(, ε
-variable	id
-G	ε, .
-H	ε, [
-idnest	.
+term_	ε, *, /, and
+factor	(, floatValue, intValue, not, id, +, -
+variable_	id
+idnest_list_	ε, .
+idnest_	.
+factor_	(, ε
 indice	[
 arraySize	[
-type	int, float, id
-fParams	ε, int, float, id
-I	ε, ,
-aParams	ε, id, num, integer, (, not, +, -
-J	ε, ,
+type	id, float, int
+typeNumeric	float, int
+fParams	ε, id, float, int
+aParams	ε, (, floatValue, intValue, not, id, +, -
 fParamsTail	,
 aParamsTail	,
+classDecl_list	ε, class
+funcDef_list	ε, id, float, int
+statement_list	ε, id, for, if, get, put, return
+arraySize_list	ε, [
+indice_list	ε, [
+fParamsTail_list	ε, ,
+aParamsTail_list	ε, ,
 assignOp	=
-relOp	==, <>, <, >, <=, >=
+relOp	<, <=, <>, ==, >, >=
 addOp	+, -, or
 multOp	*, /, and
-T	int, float, id
-funcHead	int, float, id
-varDecl	int, float, id
+assignmentStatment	id
 assignStat	id
 prog	ε, class, program
-funcDef	int, float, id
-term	id, num, integer, (, not, +, -
-K	;, ε, [, (
-arithExpr	id, num, integer, (, not, +, -
-expr	id, num, integer, (, not, +, -
-relExpr	id, num, integer, (, not, +, -
+funcDef	id, float, int
+statement	id, for, if, get, put, return
+term	(, floatValue, intValue, not, id, +, -
+arithExpr	(, floatValue, intValue, not, id, +, -
+expr	(, floatValue, intValue, not, id, +, -
+relExpr	(, floatValue, intValue, not, id, +, -

@@ -25,6 +25,11 @@ public class Parser {
 	public static String DERIVATION = "./res/parser/out/derivation.txt";
 	public static String ERROR = "./res/parser/out/error.txt";
 	
+	private static final String GEN_FIRST = "./res/parser/gen/first.txt";
+	private static final String GEN_FOLLOW = "./res/parser/gen/follow.txt";
+	private static final String GEN_RULES = "./res/parser/gen/rules.txt";
+	private static final String GEN_TABLE = "./res/parser/gen/table.txt";
+	
 	private ExtendScanner scanner;
 	private Table table;
 	private LinkedList<Symbol> stack;
@@ -55,38 +60,48 @@ public class Parser {
 	private void initFirstSet() {
 		ArrayList<String> lines = Utils.readFileLines(FIRST);
 		printLog("\n\nFIRST:");
+		String first = "";
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			if(Symbol.nonTerminal.contains(e[0])) {
-				System.out.println("FIRST("+e[0]+") = "+e[1]);
+				first += ("FIRST("+e[0]+") = "+e[1]+"\n");
 			}
 		}
-		printLog("\n");
+		printLog(first);
+		Utils.echo2File(GEN_FIRST, first);
 	}
 
 	private void initFollowSet() {
 		ArrayList<String> lines = Utils.readFileLines(FOLLOW);
 		Symbol.nonTerminal.clear();
 		int i = 0;
+		String follow = "";
 		printLog("FOLLOW:");
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			this.table.addPredict(e[0], ++i);
 			this.table.addPredictOrder(i, e[0]);
-			printLog("FOLLOW("+e[0]+") = "+(e.length>1?e[1]:""));
+			follow += ("FOLLOW("+e[0]+") = "+(e.length>1?e[1]:"")+"\n");
 			Symbol.nonTerminal.add(e[0]);
 		}
+		printLog(follow);
+		Utils.echo2File(GEN_FOLLOW, follow);
 	}
 	
 	private void initPredict() {
 		ArrayList<String> lines = Utils.readFileLines(PREDICT);
+		String rules = "";
 		for(String l : lines) {
 			String[] e = l.split("\t");
 			this.table.addExpression(Integer.valueOf(e[0]), e[1]);
-			printLog("R"+e[0]+":"+e[1]);
+			rules+="R"+e[0]+":"+e[1]+"\n";
 		}
 		this.table.addExpression(this.table.getExpressionSize()+1, "POP");
+		rules+="R"+this.table.getExpressionSize()+":POP\n";
 		this.table.addExpression(this.table.getExpressionSize()+1, "SCAN");
+		rules+="R"+this.table.getExpressionSize()+":SCAN\n";
+		printLog(rules);
+		Utils.echo2File(GEN_RULES, rules);
 	}
 	
 	private void initTable() {
@@ -117,23 +132,26 @@ public class Parser {
 			}
 		}
 		printLog("\n\nPARSING TABLE:");
-		String temp = "\t\t";
+		String temp = " ";
+		temp = String.format("%-22s", temp);
 		for(String t : Symbol.terminal) {
-			temp += (t+"\t");
+			t = String.format("%-10s", t);
+			temp += t;
+		}
+		temp += "\n";
+		for(int i=0;i<Symbol.nonTerminal.size();i++) {
+			String nonT = Symbol.nonTerminal.get(i);
+			nonT = String.format("%-22s", nonT);
+			temp += nonT;
+			for(int j=0;j<Symbol.terminal.size();j++) {
+				String t = this.table.getRule(i, j)+"";
+				t = String.format("%-10s", t);
+				temp += t;
+			}
+			temp += "\n";
 		}
 		printLog(temp);
-		for(int i=0;i<Symbol.nonTerminal.size();i++) {
-			temp = Symbol.nonTerminal.get(i);
-			if(temp.length()>7) {
-				temp+="\t";
-			} else {
-				temp+="\t\t";
-			}
-			for(int j=0;j<Symbol.terminal.size();j++) {
-				temp += (this.table.getRule(i, j)+"\t");
-			}
-			printLog(temp);
-		}
+		Utils.echo2File(GEN_TABLE, temp);
 	}
 	
 	private void skipError(String action) {
@@ -244,9 +262,9 @@ public class Parser {
 		if(token.getTYPE() == EType.ID) {
 			t = "id";
 		} else if(token.getTYPE() == EType.INTEGER) {
-			t = "integer";
+			t = "intValue";
 		} else if(token.getTYPE() == EType.FLOAT) {
-			t = "num";
+			t = "floatValue";
 		} else {
 			t = token.getValue();
 		}
@@ -257,6 +275,6 @@ public class Parser {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		parser.doParser("./res/program_full.txt");
+		parser.doParser("./res/program.txt");
 	}
 }

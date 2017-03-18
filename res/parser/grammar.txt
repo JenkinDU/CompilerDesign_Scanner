@@ -1,102 +1,47 @@
-prog -> A progBody
-A -> classDecl A
-A -> EPSILON
-
-classDecl -> class id { V } ;
-V -> T V
-V -> EPSILON
-T -> type id K
-K -> S
-K -> M
-
-progBody -> program funcBody ; C
-C -> funcDef C
-C -> EPSILON
-
-funcHead -> type id ( fParams )
-funcDef -> funcHead funcBody ;
-M -> ( fParams ) funcBody ;
-
-funcBody -> { R }
-R -> L R
-R -> EPSILON
-L -> id P | statement | Q id S
-Q -> float | int
-P -> id S
-P -> H G assignOp expr ;
-
-E -> statement E
-E -> EPSILON
-
-varDecl -> type id S
-S -> F ;
-F -> arraySize F
-F -> EPSILON
-
-statement -> if ( expr ) then statBlock else statBlock ; | for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ; | get ( variable ) ; | put ( expr ) ; | return ( expr ) ;
-
-assignStat -> variable assignOp expr
-
-statBlock -> { E } | statement | EPSILON
-E -> statement E
-E -> EPSILON
-
-expr -> arithExpr X
-X -> relOp arithExpr
-X -> EPSILON
-
+prog -> classDecl_list progBody
+classDecl -> class id { varDeclFunctDef_list } ;
+progBody -> program funcBody ; funcDef_list
+funcDef -> type id ( fParams ) funcBody ;
+funcBody -> { funcBody_ }
+varDeclFunctDef_list -> type id varDeclFunctDef_tail | EPSILON
+varDeclFunctDef_tail -> ( fParams ) funcBody ; varDeclFunctDef_list | arraySize_list ; varDeclFunctDef_list
+indiceIdnestList_tail -> . id indiceIdnestList_tail | [ arithExpr ] indiceIdnestList_tail | EPSILON
+varDeclStatement_tail -> id arraySize_list ; funcBody_ | indiceIdnestList_tail assignOp expr ; statement_list
+funcBody_ -> typeNumeric id arraySize_list ; funcBody_ | id varDeclStatement_tail | restOfStatment statement_list | EPSILON
+statement -> assignmentStatment | restOfStatment
+assignmentStatment -> variable_ assignOp expr ;
+restOfStatment -> for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ; | if ( expr ) then statBlock else statBlock ; | get ( variable_ ) ; | put ( expr ) ; | return ( expr ) ;
+assignStat -> variable_ assignOp expr
+statBlock -> { statement_list } | statement | EPSILON
+expr -> arithExpr exp_
+exp_ -> relOp arithExpr | EPSILON
 relExpr -> arithExpr relOp arithExpr
-
-arithExpr -> term Y
-Y -> EPSILON | addOp term Y
-
+arithExpr -> term arithExpr_
+arithExpr_ -> addOp term arithExpr_ | EPSILON
 sign -> + | -
-
-term -> factor Z
-Z -> EPSILON | multOp factor Z
-
-factor -> G id W | num | integer | ( arithExpr ) | not factor | sign factor
-G -> idnest G
-G -> EPSILON
-W -> ( aParams )
-W -> H
-
-variable -> id H G
-G -> idnest G
-G -> EPSILON
-H -> indice H
-H -> EPSILON
-
-idnest -> . id H
-H -> indice H
-H -> EPSILON
-
+term -> factor term_
+term_ -> multOp factor term_ | EPSILON
+factor -> ( arithExpr ) | floatValue | intValue | not factor | variable_ factor_ | sign factor
+variable_ -> id indice_list idnest_list_
+idnest_list_ -> idnest_ idnest_list_ | EPSILON
+idnest_ -> . id indice_list
+factor_ -> ( aParams ) | EPSILON
 indice -> [ arithExpr ]
-
-arraySize -> [ integer ]
-
-type -> int | float | id
-
-fParams -> type id F I | EPSILON
-F -> arraySize F
-F -> EPSILON
-I -> fParamsTail I
-I -> EPSILON
-
-aParams -> expr J | EPSILON
-J -> aParamsTail J
-J -> EPSILON
-
-fParamsTail -> , type id F
-F -> arraySize F
-F -> EPSILON
-
+arraySize -> [ intValue ]
+type -> id | typeNumeric
+typeNumeric -> float | int
+fParams -> type id arraySize_list fParamsTail_list | EPSILON
+aParams -> expr aParamsTail_list | EPSILON
+fParamsTail -> , type id arraySize_list
 aParamsTail -> , expr
-
+classDecl_list -> classDecl classDecl_list | EPSILON
+funcDef_list -> funcDef funcDef_list | EPSILON
+statement_list -> statement statement_list | EPSILON
+arraySize_list -> arraySize arraySize_list | EPSILON
+indice_list -> indice indice_list | EPSILON
+fParamsTail_list -> fParamsTail fParamsTail_list | EPSILON
+aParamsTail_list -> aParamsTail aParamsTail_list | EPSILON
 assignOp -> =
-
-relOp -> == | <> | < | > | <= | >=
-
+relOp -> < | <= | <> | == | > | >=
 addOp -> + | - | or
-
 multOp -> * | / | and
