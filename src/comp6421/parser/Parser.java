@@ -25,10 +25,10 @@ public class Parser {
 	public static String DERIVATION = "./res/parser/out/derivation.txt";
 	public static String ERROR = "./res/parser/out/error.txt";
 	
-	private static final String GEN_FIRST = "./res/parser/gen/first.txt";
-	private static final String GEN_FOLLOW = "./res/parser/gen/follow.txt";
-	private static final String GEN_RULES = "./res/parser/gen/rules.txt";
-	private static final String GEN_TABLE = "./res/parser/gen/table.txt";
+	private static final String GEN_FIRST = "./res/parser/generate/first.txt";
+	private static final String GEN_FOLLOW = "./res/parser/generate/follow.txt";
+	private static final String GEN_RULES = "./res/parser/generate/rules.txt";
+	private static final String GEN_TABLE = "./res/parser/generate/table.txt";
 	
 	private ExtendScanner scanner;
 	private Table table;

@@ -1,0 +1,47 @@
+FIRST(classDecl) = class
+FIRST(progBody) = program
+FIRST(funcBody) = {
+FIRST(varDeclFunctDef_list) = ε, id, float, int
+FIRST(varDeclFunctDef_tail) = (, ;, ε, [
+FIRST(indiceIdnestList_tail) = ., [, ε
+FIRST(varDeclStatement_tail) = id, ., [, ε, =
+FIRST(funcBody_) = id, ε, float, int, for, if, get, put, return
+FIRST(restOfStatment) = for, if, get, put, return
+FIRST(statBlock) = {, ε, id, for, if, get, put, return
+FIRST(exp_) = ε, <, <=, <>, ==, >, >=
+FIRST(arithExpr_) = ε, +, -, or
+FIRST(sign) = +, -
+FIRST(term_) = ε, *, /, and
+FIRST(factor) = (, floatValue, intValue, not, id, +, -
+FIRST(variable_) = id
+FIRST(idnest_list_) = ε, .
+FIRST(idnest_) = .
+FIRST(factor_) = (, ε
+FIRST(indice) = [
+FIRST(arraySize) = [
+FIRST(type) = id, float, int
+FIRST(typeNumeric) = float, int
+FIRST(fParams) = ε, id, float, int
+FIRST(aParams) = ε, (, floatValue, intValue, not, id, +, -
+FIRST(fParamsTail) = ,
+FIRST(aParamsTail) = ,
+FIRST(classDecl_list) = ε, class
+FIRST(funcDef_list) = ε, id, float, int
+FIRST(statement_list) = ε, id, for, if, get, put, return
+FIRST(arraySize_list) = ε, [
+FIRST(indice_list) = ε, [
+FIRST(fParamsTail_list) = ε, ,
+FIRST(aParamsTail_list) = ε, ,
+FIRST(assignOp) = =
+FIRST(relOp) = <, <=, <>, ==, >, >=
+FIRST(addOp) = +, -, or
+FIRST(multOp) = *, /, and
+FIRST(assignmentStatment) = id
+FIRST(assignStat) = id
+FIRST(prog) = ε, class, program
+FIRST(funcDef) = id, float, int
+FIRST(statement) = id, for, if, get, put, return
+FIRST(term) = (, floatValue, intValue, not, id, +, -
+FIRST(arithExpr) = (, floatValue, intValue, not, id, +, -
+FIRST(expr) = (, floatValue, intValue, not, id, +, -
+FIRST(relExpr) = (, floatValue, intValue, not, id, +, -

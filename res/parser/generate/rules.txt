@@ -1,0 +1,95 @@
+R1:prog → classDecl_list progBody
+R2:classDecl → class id sym_CreateClassScope { varDeclFunctDef_list } ; sym_EndScope
+R3:progBody → program sym_CreateProgram funcBody ; funcDef_list
+R4:funcDef → type sym_StoreType id sym_StoreId ( sym_StartFunction fParams ) sym_CreateFunction funcBody ;
+R5:funcBody → { funcBody_ } sym_EndScope
+R6:varDeclFunctDef_list → type sym_StoreType id sym_StoreId varDeclFunctDef_tail
+R7:varDeclFunctDef_list → ε
+R8:varDeclFunctDef_tail → ( sym_StartMemberFunction fParams ) sym_CreateFunction funcBody ; varDeclFunctDef_list
+R9:varDeclFunctDef_tail → arraySize_list ; sym_CreateVariable varDeclFunctDef_list
+R10:indiceIdnestList_tail → . id sem_PushVariableName indiceIdnestList_tail
+R11:indiceIdnestList_tail → [ arithExpr ] indiceIdnestList_tail
+R12:indiceIdnestList_tail → ε
+R13:varDeclStatement_tail → sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_
+R14:varDeclStatement_tail → sem_StartAssignmentStatment sem_PushVariableName indiceIdnestList_tail assignOp expr ; statement_list
+R15:funcBody_ → typeNumeric sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_
+R16:funcBody_ → id varDeclStatement_tail
+R17:funcBody_ → restOfStatment statement_list
+R18:funcBody_ → ε sem_StartBlock sem_EndBlock
+R19:statement → assignmentStatment
+R20:statement → sem_StartBlock restOfStatment sem_EndBlock
+R21:assignmentStatment → sem_StartBlock sem_StartAssignmentStatment variable_ assignOp expr ; sem_EndBlock
+R22:restOfStatment → for sem_StartForStatement ( type sym_StoreType sem_StartAssignmentStatment id sym_StoreId sym_CreateVariable sem_PushVariableName sem_FinishVariable assignOp expr ; relExpr ; sem_StartAssignmentStatment assignStat ) statBlock ;
+R23:restOfStatment → if sem_StartIfStatement ( expr ) then statBlock else statBlock ;
+R24:restOfStatment → get sem_StartGetStatement ( variable_ ) ;
+R25:restOfStatment → put sem_StartPutStatement ( expr ) ;
+R26:restOfStatment → return sem_StartReturnStatement ( expr ) ;
+R27:assignStat → variable_ assignOp expr
+R28:statBlock → { sem_StartBlock statement_list } sem_EndBlock
+R29:statBlock → statement
+R30:statBlock → sem_StartBlock sem_EndBlock ε
+R31:expr → sem_StartRelationExpression arithExpr exp_
+R32:exp_ → relOp sem_PushRelationOperation sem_StartRelationExpression arithExpr
+R33:exp_ → ε sem_EndRelationExpression
+R34:relExpr → sem_StartRelationExpression arithExpr relOp sem_PushRelationOperation arithExpr sem_EndRelationExpression
+R35:arithExpr → sem_StartAdditionExpression term arithExpr_
+R36:arithExpr_ → addOp sem_PushAdditionOperation sem_StartAdditionExpression term arithExpr_
+R37:arithExpr_ → ε sem_EndAdditionExpression
+R38:sign → +
+R39:sign → -
+R40:term → sem_StartMultiplicationExpression factor term_
+R41:term_ → multOp sem_PushMultiplicationOperation sem_StartMultiplicationExpression factor term_
+R42:term_ → ε sem_EndMultiplicationExpression
+R43:factor → ( arithExpr )
+R44:factor → floatValue sem_PushFloatLiteral
+R45:factor → intValue sem_PushIntLiteral
+R46:factor → not factor
+R47:factor → variable_ factor_
+R48:factor → sign factor
+R49:variable_ → id sem_PushVariableName indice_list idnest_list_
+R50:idnest_list_ → idnest_ idnest_list_
+R51:idnest_list_ → ε sem_FinishVariable
+R52:idnest_ → . id sem_PushVariableName indice_list
+R53:factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall
+R54:factor_ → ε
+R55:indice → [ arithExpr ]
+R56:arraySize → [ intValue sym_StoreDimension ]
+R57:type → id
+R58:type → typeNumeric
+R59:typeNumeric → float
+R60:typeNumeric → int
+R61:fParams → type sym_StoreType id sym_StoreId arraySize_list sym_AddFunctionParameter fParamsTail_list
+R62:fParams → ε
+R63:aParams → expr aParamsTail_list
+R64:aParams → ε
+R65:fParamsTail → , type sym_StoreType id sym_StoreId arraySize_list sym_AddFunctionParameter
+R66:aParamsTail → , expr
+R67:classDecl_list → classDecl classDecl_list
+R68:classDecl_list → ε
+R69:funcDef_list → funcDef funcDef_list
+R70:funcDef_list → ε
+R71:statement_list → statement statement_list
+R72:statement_list → ε
+R73:arraySize_list → arraySize arraySize_list
+R74:arraySize_list → ε
+R75:indice_list → indice indice_list
+R76:indice_list → ε
+R77:fParamsTail_list → fParamsTail fParamsTail_list
+R78:fParamsTail_list → ε
+R79:aParamsTail_list → aParamsTail aParamsTail_list
+R80:aParamsTail_list → ε
+R81:assignOp → =
+R82:relOp → <
+R83:relOp → <=
+R84:relOp → <>
+R85:relOp → ==
+R86:relOp → >
+R87:relOp → >=
+R88:addOp → +
+R89:addOp → -
+R90:addOp → or
+R91:multOp → *
+R92:multOp → /
+R93:multOp → and
+R94:POP
+R95:SCAN

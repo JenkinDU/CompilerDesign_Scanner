@@ -1,0 +1,47 @@
+FOLLOW(prog) = $
+FOLLOW(classDecl) = class, program
+FOLLOW(progBody) = $
+FOLLOW(funcDef) = id, float, int, $
+FOLLOW(funcBody) = ;
+FOLLOW(varDeclFunctDef_list) = }
+FOLLOW(varDeclFunctDef_tail) = }
+FOLLOW(indiceIdnestList_tail) = =
+FOLLOW(varDeclStatement_tail) = }
+FOLLOW(funcBody_) = }
+FOLLOW(statement) = id, for, if, get, put, return, }, ;, else
+FOLLOW(assignmentStatment) = id, for, if, get, put, return, }, ;, else
+FOLLOW(restOfStatment) = id, for, if, get, put, return, }, ;, else
+FOLLOW(assignStat) = )
+FOLLOW(statBlock) = ;, else
+FOLLOW(expr) = ,, ;, )
+FOLLOW(exp_) = ,, ;, )
+FOLLOW(relExpr) = ;
+FOLLOW(arithExpr) = ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(arithExpr_) = ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(sign) = (, floatValue, intValue, not, id, +, -
+FOLLOW(term) = +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(term_) = +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(factor) = *, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(variable_) = (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(idnest_list_) = (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(idnest_) = ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(factor_) = *, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(indice) = [, ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(arraySize) = [, ,, ;, )
+FOLLOW(type) = id
+FOLLOW(typeNumeric) = id
+FOLLOW(fParams) = )
+FOLLOW(aParams) = )
+FOLLOW(fParamsTail) = ,, )
+FOLLOW(aParamsTail) = ,, )
+FOLLOW(classDecl_list) = program
+FOLLOW(funcDef_list) = $
+FOLLOW(statement_list) = }
+FOLLOW(arraySize_list) = ,, ;, )
+FOLLOW(indice_list) = ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(fParamsTail_list) = )
+FOLLOW(aParamsTail_list) = )
+FOLLOW(assignOp) = (, floatValue, intValue, not, id, +, -
+FOLLOW(relOp) = (, floatValue, intValue, not, id, +, -
+FOLLOW(addOp) = (, floatValue, intValue, not, id, +, -
+FOLLOW(multOp) = (, floatValue, intValue, not, id, +, -
