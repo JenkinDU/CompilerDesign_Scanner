@@ -36,7 +36,7 @@ public class Parser {
 	private Token token;
 	private Token preToken;
 	private String error = "";
-	private boolean showLog = true;//add for symbol table
+	private boolean showLog = false;//add for symbol table
 	
 	public Parser() {
 		this.table = new Table();

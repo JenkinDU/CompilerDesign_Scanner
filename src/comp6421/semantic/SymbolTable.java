@@ -11,26 +11,12 @@ import comp6421.semantic.entry.SymbolTableEntry;
 public class SymbolTable implements ITable {
 	
 	private Map<String, SymbolTableEntry> entries;
-	private HashMap<String, Entry> entry;
-	private Scope scope = Scope.UNKNOWN;
-	private String name = null;
-	
-//	public SymbolTable() {
-//		
-//	}
+//	private HashMap<String, Entry> entry;
+//	private Scope scope = Scope.UNKNOWN;
+//	private String name = null;
 
 	@Override
 	public void create(String Tn) {
-
-	}
-
-	@Override
-	public void search(String Tn, String i, String ptr, boolean found) {
-
-	}
-
-	@Override
-	public void insert(String Tn, String i, String ptr) {
 
 	}
 
@@ -41,7 +27,7 @@ public class SymbolTable implements ITable {
 
 	@Override
 	public void print(String Tn) {
-
+		find(Tn).toString();
 	}
 
 	int currentOffset;

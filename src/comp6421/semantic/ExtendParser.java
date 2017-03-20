@@ -2,7 +2,6 @@ package comp6421.semantic;
 
 import comp6421.parser.Parser;
 import comp6421.scanner.Token;
-import comp6421.semantic.IEntry.Kind;
 import comp6421.semantic.perform.AddFunctionParameterAction;
 import comp6421.semantic.perform.CreateClassAction;
 import comp6421.semantic.perform.CreateFunctionAction;
@@ -19,9 +18,9 @@ import comp6421.semantic.perform.SymbolAction;
 public class ExtendParser extends Parser {
 
 	interface STCallback {
-		void createTable(SymbolAction action, Token t) throws CompilerError;
+		void createTable(SymbolAction action, Token t);
 
-		void createEntry(String name, Kind kind, Attribute type, String link, String sign, String path);
+		void createEntry(SymbolAction action, Token t);
 
 		void lookUpVariable(String name, String path);
 	}
@@ -34,33 +33,29 @@ public class ExtendParser extends Parser {
 
 	@Override
 	protected void createSymbolTable(String action, Token p, Token c) {
-		try {
-			if ("sym_CreateProgram".equals(action)) {
-				this.callback.createTable(new CreateProgramAction(), p);
-			} else if ("sym_CreateClassScope".equals(action)) {
-				this.callback.createTable(new CreateClassAction(), p);
-			} else if ("sym_StartFunction".equals(action)) {
-				this.callback.createTable(new StartFunctionAction(), p);
-			} else if ("sym_StartMemberFunction".equals(action)) {
-				this.callback.createTable(new StartMemberFunctionAction(), p);
-			} else if ("sym_AddFunctionParameter".equals(action)) {
-				this.callback.createTable(new AddFunctionParameterAction(), p);
-			} else if ("sym_CreateFunction".equals(action)) {
-				this.callback.createTable(new CreateFunctionAction(), p);
-			} else if ("sym_StoreType".equals(action)) {
-				this.callback.createTable(new StoreTypeAction(), p);
-			} else if ("sym_StoreId".equals(action)) {
-				this.callback.createTable(new StoreIdAction(), p);
-			} else if ("sym_StoreDimension".equals(action)) {
-				this.callback.createTable(new StoreDimensionAction(), p);
-			} else if ("sym_CreateVariable".equals(action)) {
-				this.callback.createTable(new CreateVariableAction(), p);
-			} else if ("sym_EndScope".equals(action)) {
-				this.callback.createTable(new EndScopeAction(), p);
-			} 
-		}catch(CompilerError e) {
-			e.printStackTrace();
-		}
+		if ("sym_CreateProgram".equals(action)) {
+			this.callback.createTable(new CreateProgramAction(), p);
+		} else if ("sym_CreateClassScope".equals(action)) {
+			this.callback.createTable(new CreateClassAction(), p);
+		} else if ("sym_StartFunction".equals(action)) {
+			this.callback.createTable(new StartFunctionAction(), p);
+		} else if ("sym_StartMemberFunction".equals(action)) {
+			this.callback.createTable(new StartMemberFunctionAction(), p);
+		} else if ("sym_AddFunctionParameter".equals(action)) {
+			this.callback.createEntry(new AddFunctionParameterAction(), p);
+		} else if ("sym_CreateFunction".equals(action)) {
+			this.callback.createTable(new CreateFunctionAction(), p);
+		} else if ("sym_StoreType".equals(action)) {
+			this.callback.createEntry(new StoreTypeAction(), p);
+		} else if ("sym_StoreId".equals(action)) {
+			this.callback.createEntry(new StoreIdAction(), p);
+		} else if ("sym_StoreDimension".equals(action)) {
+			this.callback.createEntry(new StoreDimensionAction(), p);
+		} else if ("sym_CreateVariable".equals(action)) {
+			this.callback.createEntry(new CreateVariableAction(), p);
+		} else if ("sym_EndScope".equals(action)) {
+			this.callback.createTable(new EndScopeAction(), p);
+		} 
 		//
 		// sym_CreateProgram(new CreateProgramAction()),
 		// sym_CreateClassScope(new CreateClassAction()),

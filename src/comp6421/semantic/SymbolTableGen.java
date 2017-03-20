@@ -8,7 +8,6 @@ import java.util.HashMap;
 import comp6421.Utils;
 import comp6421.scanner.Token;
 import comp6421.semantic.ExtendParser.STCallback;
-import comp6421.semantic.IEntry.Kind;
 import comp6421.semantic.perform.SymbolAction;
 
 /**
@@ -19,6 +18,11 @@ import comp6421.semantic.perform.SymbolAction;
  */
 public class SymbolTableGen implements STCallback {
 	
+	public static String SOURCE_FILE = "./res/symbol/program_symbol.txt";
+	public static String OUTPUT = "./res/symbol/out/symbol_table.txt";
+	public static String ERROR = "./res/symbol/out/error.txt";
+	
+	private String error = "";
 	private SymbolTable globalTable;
 	private HashMap<String, SymbolTable> functionTable;
 	private HashMap<String, SymbolTable> classTable;
@@ -43,22 +47,38 @@ public class SymbolTableGen implements STCallback {
 	public static void main(String[] args) {
 		SymbolTableGen g = new SymbolTableGen();
 		ExtendParser parser = new ExtendParser(false, g);
-		parser.doParser("D:/program.txt");
+		parser.doParser(SOURCE_FILE);
+		g.printLog();
+	}
+
+	private void printLog() {
 		SymbolTable s = SymbolContext.getCurrentScope();
-		Utils.echo2File("./res/symbol/out/symbol_table.txt", s.toString());
-		System.out.println(s.toString());
+		
+		Utils.echo2File(OUTPUT, s.toString());
+		System.out.println("\n\nSymbol Table is:\n\n"+s.toString());
+		Utils.echo2File(ERROR, error);
+	}
+	
+	@Override
+	public void createTable(SymbolAction action, Token t) {
+		try {
+			action.execute(t);
+		} catch (CompilerError e) {
+			e.printStackTrace();
+			error+=e.getMessage()+"\n";
+		}
+		System.out.println("Create table:" + action.getClass().getName() + ", Token:"+ t);
 	}
 
 	@Override
-	public void createTable(SymbolAction action, Token t) throws CompilerError {
-		action.execute(t);
-		System.out.println("Create table:" + action.toString() + ",Token:"+ t);
-	}
-
-	@Override
-	public void createEntry(String name, Kind kind, Attribute type, 
-			String link, String sign, String path) {
-		System.out.println("Insert entry to table:" + name);
+	public void createEntry(SymbolAction action, Token t) {
+		try {
+			action.execute(t);
+		} catch (CompilerError e) {
+			e.printStackTrace();
+			error+=e.getMessage()+"\n";
+		}
+		System.out.println("\t"+"Insert entry:" + action.getClass().getName() + ", Token:"+ t);
 	}
 
 	@Override
