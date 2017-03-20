@@ -5,9 +5,11 @@ package comp6421.semantic;
 
 import java.util.HashMap;
 
+import comp6421.Utils;
+import comp6421.scanner.Token;
 import comp6421.semantic.ExtendParser.STCallback;
 import comp6421.semantic.IEntry.Kind;
-import comp6421.semantic.ITable.Scope;
+import comp6421.semantic.perform.SymbolAction;
 
 /**
  * This class
@@ -15,7 +17,7 @@ import comp6421.semantic.ITable.Scope;
  * @author Zhen Du
  * @date Mar 16, 2017
  */
-public class Generator implements STCallback {
+public class SymbolTableGen implements STCallback {
 	
 	private SymbolTable globalTable;
 	private HashMap<String, SymbolTable> functionTable;
@@ -25,7 +27,7 @@ public class Generator implements STCallback {
 	 * Constructors for
 	 * 
 	 */
-	public Generator() {
+	public SymbolTableGen() {
 		
 	}
 	
@@ -39,14 +41,18 @@ public class Generator implements STCallback {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Generator g = new Generator();
+		SymbolTableGen g = new SymbolTableGen();
 		ExtendParser parser = new ExtendParser(false, g);
-		parser.doParser("./res/symbol/program_symbol.txt");
+		parser.doParser("D:/program.txt");
+		SymbolTable s = SymbolContext.getCurrentScope();
+		Utils.echo2File("./res/symbol/out/symbol_table.txt", s.toString());
+		System.out.println(s.toString());
 	}
 
 	@Override
-	public void createTable(String name, Scope scope) {
-		System.out.println("Create table:" + name + ",scope:"+ scope);
+	public void createTable(SymbolAction action, Token t) throws CompilerError {
+		action.execute(t);
+		System.out.println("Create table:" + action.toString() + ",Token:"+ t);
 	}
 
 	@Override
