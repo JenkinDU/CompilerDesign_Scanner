@@ -1,9 +1,7 @@
 package comp6421.semantic;
 
-import java.util.LinkedList;
-
 import comp6421.parser.Parser;
-import comp6421.parser.Symbol;
+import comp6421.scanner.Token;
 import comp6421.semantic.IEntry.Kind;
 import comp6421.semantic.ITable.Scope;
 
@@ -23,9 +21,8 @@ public class ExtendParser extends Parser {
 	}
 
 	@Override
-	protected void createSymbolTable(LinkedList<Symbol> stack, String[] exValue) {
-		Symbol top = stack.peek();
-		if("prog".equals(top.getValue())) {
+	protected void createSymbolTable(String action, Token p, Token c) {
+		if("sym_CreateClassScope".equals(action)) {
 			this.callback.createTable("Global", Scope.GLOBAL);
 		}
 	}

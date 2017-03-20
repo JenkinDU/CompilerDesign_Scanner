@@ -19,7 +19,7 @@ import comp6421.scanner.Token;
 public class Parser {
 	private static final String FIRST = "./res/parser/first_set.txt";
 	private static final String FOLLOW = "./res/parser/follow_set.txt";
-	private static final String PREDICT = "./res/parser/predict_set.txt";
+	private static final String PREDICT = "./res/parser/predict_set_with_action.txt";
 	private static final String TABLE = "./res/parser/parsing_table.txt";
 	
 	public static String DERIVATION = "./res/parser/out/derivation.txt";
@@ -34,6 +34,7 @@ public class Parser {
 	private Table table;
 	private LinkedList<Symbol> stack;
 	private Token token;
+	private Token preToken;
 	private String error = "";
 	private boolean showLog = true;//add for symbol table
 	
@@ -161,6 +162,7 @@ public class Parser {
 		if("POP".equals(action)) {
 			stack.pop();
 		} else if("SCAN".equals(action)) {
+			preToken = token;
 			token = scanner.getNextToken();
 		}
 		error+=e+"\n";
@@ -173,13 +175,14 @@ public class Parser {
 		stack.clear();
 		stack.push(Table.getDollar());
 		stack.push(Table.getStart());
+		preToken = token;
 		token = scanner.getNextToken();
 		boolean success = true;
 		String derivation = Table.getStart().getValue();
 		printLog("\n\nDERIVATION:");
 		String file = "";
 		
-		createSymbolTable(stack, exValue);
+//		createSymbolTable(stack, exValue);
 		while(stack.size()==2&&token.getTYPE()==EType.DOLLAR || stack.peek().getType() != Symbol.ESymbol.DOLLAR && token.getTYPE() != EType.DOLLAR) {
 			Symbol top = stack.peek();
 			if(top.getType() == Symbol.ESymbol.TERMINAL || top.getType() == Symbol.ESymbol.EPSILON) {
@@ -196,6 +199,7 @@ public class Parser {
 				
 				if(t.equals(top.getValue())) {
 					stack.pop();
+					preToken = token;
 					token = scanner.getNextToken();
 				} else {
 					skipError("POP");
@@ -214,6 +218,8 @@ public class Parser {
 					if("POP".equals(ex) || "SCAN".equals(ex)) {
 						skipError(ex);
 						success = false;
+					} else if(ex.startsWith("sem_") || ex.startsWith("sym_")) {
+						stack.pop();
 					} else {
 						String log="";
 						Object[] list = stack.toArray();
@@ -241,8 +247,10 @@ public class Parser {
 						}
 					}
 				}
+			} else {
+				createSymbolTable(top.getValue(), preToken, token);
+				stack.pop();
 			}
-			createSymbolTable(stack, exValue);
 			exValue = null;
 		}
 		if(Table.getDollar().getValue().equals(token) || !success) {
@@ -271,7 +279,8 @@ public class Parser {
 		return t;
 	}
 	
-	protected void createSymbolTable(LinkedList<Symbol> stack, String[] exValue) {}
+//	protected void createSymbolTable(LinkedList<Symbol> stack, String[] exValue) {}
+	protected void createSymbolTable(String action, Token p, Token c) {}
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
