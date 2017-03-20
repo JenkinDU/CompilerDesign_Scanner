@@ -1,0 +1,101 @@
+prog -> classDecl prog 
+ | progBody 
+classDecl -> class id #sym_CreateClassScope# { classBody 
+classBody -> type #sym_StoreType# id #sym_StoreId# classBodyPrime 
+ | } ; #sym_EndScope# 
+classBodyPrime -> classBodyVar 
+ | classBodyFunc 
+classBodyVar -> varDeclArray #sym_CreateVariable# classBody 
+classBodyFunc -> ( #sym_StartMemberFunction# fParams ) #sym_CreateFunction# funcBody ; classBodyFuncPrime 
+classBodyFuncPrime -> type #sym_StoreType# id #sym_StoreId# classBodyFunc 
+ | } ; #sym_EndScope# 
+progBody -> program #sym_CreateProgram# funcBody ; funcDefs 
+funcDefs -> type #sym_StoreType# id #sym_StoreId# ( #sym_StartFunction# fParams ) #sym_CreateFunction# funcBody ; funcDefs 
+ | ε 
+funcBody -> { funcBodyVar 
+funcBodyVar -> int #sym_StoreType# id #sym_StoreId# varDeclArray #sym_CreateVariable# funcBodyVar 
+ | float #sym_StoreType# id #sym_StoreId# varDeclArray #sym_CreateVariable# funcBodyVar 
+ | id funcBodyVarPrime 
+ | controlStat funcBodyStmt 
+ | } #sym_EndScope# 
+funcBodyVarPrime -> #sym_StoreType# id #sym_StoreId# varDeclArray #sym_CreateVariable# funcBodyVar 
+ | @sem_StartAssignmentStatment@ @sem_PushVariableName@ indices variablePrime assignStat funcBodyStmt 
+funcBodyStmt -> @sem_StartAssignmentStatment@ variable assignStat funcBodyStmt 
+ | controlStat funcBodyStmt 
+ | } #sym_EndScope# 
+varDeclArray -> arraySize varDeclArray 
+ | ; 
+controlStat -> if @sem_StartIfStatement@ ( expr ) then statBlock else statBlock ; 
+ | for @sem_StartForStatement@ ( type #sym_StoreType# @sem_StartAssignmentStatment@ id #sym_StoreId# #sym_CreateVariable# @sem_PushVariableName@ @sem_FinishVariable@ assignOp expr ; relExpr ; @sem_StartAssignmentStatment@ variable assignExpr ) statBlock ; 
+ | get @sem_StartGetStatement@ ( variable ) ; 
+ | put @sem_StartPutStatement@ ( expr ) ; 
+ | return @sem_StartReturnStatement@ ( expr ) ; 
+assignStat -> assignExpr ; 
+assignExpr -> assignOp expr 
+statBlock -> { @sem_StartBlock@ statBlockStmts 
+ | @sem_StartBlock@ @sem_StartAssignmentStatment@ variable assignStat @sem_EndBlock@ 
+ | @sem_StartBlock@ controlStat @sem_EndBlock@ 
+ | ε @sem_StartBlock@ @sem_EndBlock@ 
+statBlockStmts -> @sem_StartAssignmentStatment@ variable assignStat statBlockStmts 
+ | controlStat statBlockStmts 
+ | } @sem_EndBlock@ 
+expr -> @sem_StartRelationExpression@ arithExpr exprPrime 
+exprPrime -> relOp @sem_PushRelationOperation@ @sem_StartRelationExpression@ arithExpr exprPrime 
+ | ε @sem_EndRelationExpression@ 
+relExpr -> @sem_StartRelationExpression@ arithExpr relOp @sem_PushRelationOperation@ arithExpr @sem_EndRelationExpression@ 
+arithExpr -> @sem_StartAdditionExpression@ term arithExprPrime 
+arithExprPrime -> addOp @sem_PushAdditionOperation@ arithExpr 
+ | ε @sem_EndAdditionExpression@ 
+sign -> + 
+ | - 
+term -> @sem_StartMultiplicationExpression@ factor termPrime 
+termPrime -> multOp @sem_PushMultiplicationOperation@ @sem_StartMultiplicationExpression@ factor termPrime 
+ | ε @sem_EndMultiplicationExpression@ 
+factor -> factorIdNest 
+ | int_literal @sem_PushIntLiteral@ 
+ | float_literal @sem_PushFloatLiteral@ 
+ | ( arithExpr ) 
+ | not factor 
+ | sign factor 
+factorIdNest -> id factorIdNestPrime 
+factorIdNestPrime -> @sem_PushVariableName@ indices factorIdNestPrimePrime 
+ | @sem_StartFunctionCall@ ( aParams ) @sem_EndFunctionCall@ 
+factorIdNestPrimePrime -> . factorIdNest 
+ | ε @sem_FinishVariable@ 
+variable -> id @sem_PushVariableName@ indices variablePrime 
+variablePrime -> . variable 
+ | ε @sem_FinishVariable@ 
+indice -> [ arithExpr ] 
+indices -> indice indices 
+ | ε 
+arraySize -> [ int_literal #sym_StoreDimension# ] 
+type -> int 
+ | float 
+ | id 
+fParams -> type #sym_StoreType# id #sym_StoreId# fParamsArraySz 
+ | ε 
+fParamsArraySz -> arraySize fParamsArraySz 
+ | #sym_AddFunctionParameter# fParamsTailStar 
+fParamsTailStar -> fParamsTail fParamsTailStar 
+ | ε 
+fParamsTail -> , type #sym_StoreType# id #sym_StoreId# arraySizeStar #sym_AddFunctionParameter# 
+arraySizeStar -> arraySize arraySizeStar 
+ | ε 
+aParams -> expr aParamsTailStar 
+ | ε 
+aParamsTailStar -> aParamsTail aParamsTailStar 
+ | ε 
+aParamsTail -> , expr 
+assignOp -> = 
+relOp -> == 
+ | <> 
+ | < 
+ | > 
+ | <= 
+ | >= 
+addOp -> + 
+ | - 
+ | or 
+multOp -> * 
+ | / 
+ | and 
