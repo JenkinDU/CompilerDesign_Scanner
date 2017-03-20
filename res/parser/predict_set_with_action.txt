@@ -58,7 +58,7 @@
 58	type → typeNumeric	float, int
 59	typeNumeric → float	float
 60	typeNumeric → int	int
-61	fParams → type sym_StoreType id sym_StoreId arraySize_list fParamsTail_list	id, float, int
+61	fParams → type sym_StoreType id sym_StoreId arraySize_list sym_AddFunctionParameter fParamsTail_list	id, float, int
 62	fParams → ε	)
 63	aParams → expr aParamsTail_list	(, floatValue, intValue, not, id, +, -
 64	aParams → ε	)
@@ -74,7 +74,7 @@
 74	arraySize_list → ε	,, ;, )
 75	indice_list → indice indice_list	
 76	indice_list → ε	., (, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
-77	fParamsTail_list → sym_AddFunctionParameter fParamsTail fParamsTail_list	,
+77	fParamsTail_list → fParamsTail fParamsTail_list	,
 78	fParamsTail_list → ε	)
 79	aParamsTail_list → aParamsTail aParamsTail_list	,
 80	aParamsTail_list → ε	)
