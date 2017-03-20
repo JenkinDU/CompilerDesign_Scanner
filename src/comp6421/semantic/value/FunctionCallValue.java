@@ -12,7 +12,7 @@ import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.SymbolTableEntryType;
-import comp6421.semantic.expression.TypedExpressionElement;
+//import comp6421.semantic.expression.TypedExpressionElement;
 
 public class FunctionCallValue extends DynamicValue implements Value {
 
@@ -21,33 +21,33 @@ public class FunctionCallValue extends DynamicValue implements Value {
 	
 	private String callingLabel;
 	
-	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> expressions) throws CompilerError {
-		int nArgs = expressions.size();
-		List<SymbolTableEntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
-		
-		if(nArgs != argTypes.size()){
-			throw new CompilerError("wrong number of arguments for function " + entry.getName() + ", expected " + argTypes.size() + ", got " + nArgs);
-		}
-		
-		arguments = new ArrayList<Value>(expressions.size());
-		
-		for(int i = 0; i < expressions.size(); ++i){
-			TypedExpressionElement exp    = expressions.get(i);
-			SymbolTableEntryType expectedType = argTypes.get(i);
-			SymbolTableEntryType type = exp.getType();
-			
-			if(! type.equals( expectedType )){
-				throw new CompilerError("Argument type mismatch for argument " + (i+1) + " for call to '" + entry.getName() + "' expected '" + expectedType + "' but got '" + type + "'");
-			}
-			
-			Value arg = exp.getValue();
-
-			arguments.add(arg);
-		}
-		
-		callingLabel = entry.getLabel();
-		scopeSize = entry.getScope().getSize();
-	}
+//	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> expressions) throws CompilerError {
+//		int nArgs = expressions.size();
+//		List<SymbolTableEntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
+//		
+//		if(nArgs != argTypes.size()){
+//			throw new CompilerError("wrong number of arguments for function " + entry.getName() + ", expected " + argTypes.size() + ", got " + nArgs);
+//		}
+//		
+//		arguments = new ArrayList<Value>(expressions.size());
+//		
+//		for(int i = 0; i < expressions.size(); ++i){
+//			TypedExpressionElement exp    = expressions.get(i);
+//			SymbolTableEntryType expectedType = argTypes.get(i);
+//			SymbolTableEntryType type = exp.getType();
+//			
+//			if(! type.equals( expectedType )){
+//				throw new CompilerError("Argument type mismatch for argument " + (i+1) + " for call to '" + entry.getName() + "' expected '" + expectedType + "' but got '" + type + "'");
+//			}
+//			
+//			Value arg = exp.getValue();
+//
+//			arguments.add(arg);
+//		}
+//		
+//		callingLabel = entry.getLabel();
+//		scopeSize = entry.getScope().getSize();
+//	}
 
 	@Override
 	public Value getUseableValue(CodeGenerationContext c) throws CompilerError {
