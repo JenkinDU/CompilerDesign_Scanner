@@ -107,6 +107,7 @@ public class Parser {
 	
 	private void initTable() {
 		ArrayList<String> lines = Utils.readFileLines(TABLE);
+		Symbol.terminal.clear();
 		String value = "";
 		for(String l : lines) {
 			value +=l;

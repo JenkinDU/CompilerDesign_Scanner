@@ -46,11 +46,15 @@ public class SymbolTableGen implements STCallback {
 	 */
 	public static void main(String[] args) {
 		SymbolTableGen g = new SymbolTableGen();
-		ExtendParser parser = new ExtendParser(false, g);
-		parser.doParser(SOURCE_FILE);
-		g.printLog();
+		g.genTable(g);
 	}
 
+	public void genTable(STCallback cb) {
+		ExtendParser parser = new ExtendParser(false, cb);
+		parser.doParser(SOURCE_FILE);
+		printLog();
+	}
+	
 	private void printLog() {
 		SymbolTable s = SymbolContext.getCurrentScope();
 		
@@ -64,7 +68,7 @@ public class SymbolTableGen implements STCallback {
 		try {
 			action.execute(t);
 		} catch (CompilerError e) {
-			e.printStackTrace();
+			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
 			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
 		}
 		System.out.println("Create table:" + action.getClass().getName() + ", Token:"+ t);
@@ -75,7 +79,7 @@ public class SymbolTableGen implements STCallback {
 		try {
 			action.execute(t);
 		} catch (CompilerError e) {
-			e.printStackTrace();
+			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
 			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
 		}
 		System.out.println("\t"+"Insert entry:" + action.getClass().getName() + ", Token:"+ t);
