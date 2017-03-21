@@ -65,7 +65,7 @@ public class SymbolTableGen implements STCallback {
 			action.execute(t);
 		} catch (CompilerError e) {
 			e.printStackTrace();
-			error+=e.getMessage()+"\n";
+			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
 		}
 		System.out.println("Create table:" + action.getClass().getName() + ", Token:"+ t);
 	}
@@ -76,7 +76,7 @@ public class SymbolTableGen implements STCallback {
 			action.execute(t);
 		} catch (CompilerError e) {
 			e.printStackTrace();
-			error+=e.getMessage()+"\n";
+			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
 		}
 		System.out.println("\t"+"Insert entry:" + action.getClass().getName() + ", Token:"+ t);
 	}
