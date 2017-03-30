@@ -51,6 +51,7 @@ public class SymbolTableGen implements STCallback {
 
 	public void genTable(STCallback cb) {
 		ExtendParser parser = new ExtendParser(false, cb);
+		parser.setPredict("./res/parser/predict_set_with_action.txt");
 		parser.doParser(SOURCE_FILE);
 		printLog();
 	}

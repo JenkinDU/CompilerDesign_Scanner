@@ -30,7 +30,7 @@ public class Scanner {
 	public static String ERROR_FILE = "./res/scanner/out/error.txt";
 	
 	private static final String NO_OPEN = "[No Open Pair]";
-	private static final String NO_CLOSE = "[No Close Pair]";
+	protected static String NO_CLOSE = "[No Close Pair]";
 	private static final String UN_KNOW = "[Unknown type]";
 	protected InputStreamReader input;
 	protected int t = 0;

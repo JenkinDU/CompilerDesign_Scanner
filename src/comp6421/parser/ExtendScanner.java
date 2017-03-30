@@ -25,6 +25,7 @@ public class ExtendScanner extends Scanner {
 	public ExtendScanner(String file) {
 		super();
 		TEST_FILE = file;
+		NO_CLOSE = "";
 		initLexer();
 	}
 	

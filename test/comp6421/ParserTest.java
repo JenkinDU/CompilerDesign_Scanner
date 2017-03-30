@@ -30,9 +30,10 @@ public class ParserTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		files = new ArrayList<String>();
-		files.add("./res/program.txt");
+		files.add("./res/parser/test/program.txt");
 		files.add("./res/parser/test/program_full.txt");
 		files.add("./res/parser/test/program_error_recovery.txt");
+		System.out.println("***********Syntactic analysis***********");
 	}
 
 	/**
@@ -61,29 +62,41 @@ public class ParserTest {
 	public void testProgram() {
 		Parser parser = new Parser();
 		String f = files.get(0);
-		System.out.println("To test file "+f+"\n");
+		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
 		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";
 		parser.doParser(f);
+		if(parser.getErrorNum()==0)
+			System.out.println("NO ERROR\nDerivation in "+parser.DERIVATION);
+		else
+			System.out.println(parser.getErrorNum()+" errors\nDetail information in "+parser.ERROR);
 	}
 	
 	@Test
 	public void testProgramFull() {
 		Parser parser = new Parser();
 		String f = files.get(1);
-		System.out.println("To test file "+f+"\n");
+		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
 		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";
 		parser.doParser(f);
+		if(parser.getErrorNum()==0)
+			System.out.println("NO ERROR\nDerivation in "+parser.DERIVATION);
+		else
+			System.out.println(parser.getErrorNum()+" errors\nDetail information in "+parser.ERROR);
 	}
 	
 	@Test
 	public void testProgramErrorRecovery() {
 		Parser parser = new Parser();
 		String f = files.get(2);
-		System.out.println("To test file "+f+"\n");
-		parser.DERIVATION = f.replace("res", "res/parser/out")+"_derivation.txt";
-		parser.ERROR = f.replace("res", "res/parser/out")+"_error.txt";
+		System.out.println("\nTest file "+f);
+		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
+		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";
 		parser.doParser(f);
+		if(parser.getErrorNum()==0)
+			System.out.println("NO ERROR\nDerivation in "+parser.DERIVATION);
+		else
+			System.out.println(parser.getErrorNum()+" errors\nDetail information in "+parser.ERROR);
 	}
 }
