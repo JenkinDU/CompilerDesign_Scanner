@@ -3,8 +3,9 @@
  */
 package comp6421;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -43,13 +44,7 @@ public class ScannerTest {
 	@Before
 	public void setUp() throws Exception {
 		files = new ArrayList<String>();
-		files.add("./res/scanner/test.cpp");
-		files.add("./res/scanner/test.go");
-		files.add("./res/scanner/test.oc");
-		files.add("./res/scanner/test.py");
-		files.add("./res/scanner/test.rb");
-		files.add("./res/scanner/test.scala");
-//		files.add("./src/comp6421/Scanner.java");
+		files.add("./res/scanner/test.txt");
 	}
 
 	/**
@@ -63,12 +58,12 @@ public class ScannerTest {
 	public void test() {
 		Scanner scanner = new Scanner();
 		for(String f : files) {
-			System.out.println("To test file "+f+"\n");
 			scanner.TEST_FILE = f;
 			scanner.TOKEN_FILE = f.replace("scanner", "scanner/out")+"_token.txt";
 			scanner.ERROR_FILE = f.replace("scanner", "scanner/out")+"_error.txt";
+			System.out.println("***********Lexical analysis***********\n\tTo test file "+f+"\n");
 			scanner.lexer();
+			assertTrue(new File(scanner.TOKEN_FILE).exists());
 		}
-		
 	}
 }
