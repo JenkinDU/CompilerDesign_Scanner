@@ -25,7 +25,7 @@ import comp6421.Utils;
  * @author du_zhen
  */
 public class Scanner {
-	public static String TEST_FILE = "./res/program_full.txt";
+	public static String TEST_FILE = "./res/program.txt";
 	public static String TOKEN_FILE = "./res/scanner/out/token.txt";
 	public static String ERROR_FILE = "./res/scanner/out/error.txt";
 	

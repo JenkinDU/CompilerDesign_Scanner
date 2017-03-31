@@ -40,19 +40,19 @@ public final class SymbolContext {
 	}
 	
 	public static void reset(){
-		instance.init();
+		getInstance().init();
 	}
 
 	public static String printableString() {
-		return instance.currentSymbolTable.toString();
+		return getInstance().currentSymbolTable.toString();
 	}
 
 	public static SymbolTableEntry find(String name) {
-		return instance.currentSymbolTable.find(name);
+		return getInstance().currentSymbolTable.find(name);
 	}
 
 	public static SymbolTable getCurrentScope() {
-		return instance.currentSymbolTable;
+		return getInstance().currentSymbolTable;
 	}
 	
 

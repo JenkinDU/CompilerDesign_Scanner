@@ -30,10 +30,6 @@ public class ExtendParser extends Parser {
 		super(show);
 		this.callback = cb;
 	}
-
-	public void setPredict(String file) {
-		PREDICT = file;
-	}
 	
 	@Override
 	protected void createSymbolTable(String action, Token p, Token c) {

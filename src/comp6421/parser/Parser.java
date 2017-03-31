@@ -19,7 +19,7 @@ import comp6421.scanner.Token;
 public class Parser {
 	private static final String FIRST = "./res/parser/first_set.txt";
 	private static final String FOLLOW = "./res/parser/follow_set.txt";
-	protected static String PREDICT = "./res/parser/predict_set.txt";
+	private static final String PREDICT = "./res/parser/predict_set_with_action.txt";
 	private static final String TABLE = "./res/parser/parsing_table.txt";
 	
 	public static String DERIVATION = "./res/parser/out/derivation.txt";
