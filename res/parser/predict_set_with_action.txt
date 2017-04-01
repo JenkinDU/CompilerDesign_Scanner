@@ -9,7 +9,7 @@
 9	varDeclFunctDef_tail → arraySize_list ; sym_CreateVariable varDeclFunctDef_list	, ;
 10	indiceIdnestList_tail → . id sem_PushVariableName indiceIdnestList_tail	.
 11	indiceIdnestList_tail → [ arithExpr ] indiceIdnestList_tail	
-12	indiceIdnestList_tail → ε	=
+12	indiceIdnestList_tail → ε sem_FinishVariable	=
 13	varDeclStatement_tail → sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_	id
 14	varDeclStatement_tail → sem_StartAssignmentStatment sem_PushVariableName indiceIdnestList_tail assignOp expr ; statement_list	., , =
 15	funcBody_ → typeNumeric sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_	float, int
@@ -18,7 +18,7 @@
 18	funcBody_ → ε sem_StartBlock sem_EndBlock	}
 19	statement → assignmentStatment	id
 20	statement → sem_StartBlock restOfStatment sem_EndBlock	for, if, get, put, return
-21	assignmentStatment → sem_StartBlock sem_StartAssignmentStatment variable_ assignOp expr ; sem_EndBlock	id
+21	assignmentStatment → sem_StartAssignmentStatment variable_ assignOp expr ;	id
 22	restOfStatment → for sem_StartForStatement ( type sym_StoreType sem_StartAssignmentStatment id sym_StoreId sym_CreateVariable sem_PushVariableName sem_FinishVariable assignOp expr ; relExpr ; sem_StartAssignmentStatment assignStat ) statBlock ;	for
 23	restOfStatment → if sem_StartIfStatement ( expr ) then statBlock else statBlock ;	if
 24	restOfStatment → get sem_StartGetStatement ( variable_ ) ;	get
