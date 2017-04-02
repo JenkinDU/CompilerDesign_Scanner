@@ -2,8 +2,6 @@ package comp6421.semantic.expression;
 
 import java.util.List;
 
-import javax.lang.model.type.PrimitiveType;
-
 import comp6421.semantic.CompilerError;
 import comp6421.semantic.InternalCompilerError;
 import comp6421.semantic.SymbolContext;
@@ -15,6 +13,7 @@ import comp6421.semantic.entry.ArrayType;
 import comp6421.semantic.entry.ClassType;
 import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
+import comp6421.semantic.entry.PrimitiveType;
 import comp6421.semantic.entry.SymbolTableEntry;
 import comp6421.semantic.entry.SymbolTableEntryType;
 import comp6421.semantic.entry.VariableEntry;

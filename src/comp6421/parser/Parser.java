@@ -54,7 +54,11 @@ public class Parser {
 	}
 
 	private void printLog(String log) {
-		if(this.showLog) {
+		printLog(log, false);
+	}
+	
+	private void printLog(String log, boolean show) {
+		if(this.showLog||show) {
 			System.out.println(log);
 		}
 	}
@@ -258,11 +262,11 @@ public class Parser {
 		}
 		if(Table.getDollar().getValue().equals(token) || !success) {
 			file += "\n\nParser Failed";
-			printLog("\nParser Failed");
+			printLog("\nParser Failed", true);
 		} else {
 			file += " $\n\nParser Success";
 			printLog(" $");
-			printLog("\nParser Success");
+			printLog("\nParser Success", true);
 		}
 		Utils.echo2File(ERROR, error.length()==0?"NO ERROR":error);
 		Utils.echo2File(DERIVATION, file);

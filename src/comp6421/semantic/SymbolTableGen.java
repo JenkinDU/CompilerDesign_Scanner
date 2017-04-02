@@ -8,7 +8,7 @@ import java.util.HashMap;
 import comp6421.Utils;
 import comp6421.scanner.Token;
 import comp6421.semantic.ExtendParser.STCallback;
-import comp6421.semantic.perform.SymbolAction;
+import comp6421.semantic.perform.SemanticAction;
 
 /**
  * This class
@@ -68,7 +68,7 @@ public class SymbolTableGen implements STCallback {
 	}
 	
 	@Override
-	public void createTable(SymbolAction action, Token t) {
+	public void createTable(SemanticAction action, Token t) {
 		try {
 			action.execute(t);
 		} catch (CompilerError e) {
@@ -79,7 +79,7 @@ public class SymbolTableGen implements STCallback {
 	}
 
 	@Override
-	public void createEntry(SymbolAction action, Token t) {
+	public void createEntry(SemanticAction action, Token t) {
 		try {
 			action.execute(t);
 		} catch (CompilerError e) {
