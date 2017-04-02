@@ -5,7 +5,7 @@ import comp6421.semantic.CompilerError;
 import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.SymbolTable;
 import comp6421.semantic.entry.NoneType;
-//import comp6421.semantic.expression.ExpressionContext;
+import comp6421.semantic.expression.ExpressionContext;
 
 public class CreateProgramAction extends SymbolAction {
 
@@ -18,7 +18,7 @@ public class CreateProgramAction extends SymbolAction {
 		
 		context.currentSymbolTable = program.getScope();
 		
-//		ExpressionContext.setCurrentFunction(program);
+		ExpressionContext.setCurrentFunction(program);
 		
 	}
 

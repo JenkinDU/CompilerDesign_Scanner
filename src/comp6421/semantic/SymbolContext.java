@@ -2,7 +2,7 @@ package comp6421.semantic;
 
 import comp6421.semantic.entry.SymbolTableEntry;
 import comp6421.semantic.entry.SymbolTableEntryType;
-//import comp6421.semantic.expression.VariableExpressionFragment;
+import comp6421.semantic.expression.VariableExpressionFragment;
 
 public final class SymbolContext {
 
@@ -26,7 +26,7 @@ public final class SymbolContext {
 	public String storedId;
 	public FunctionEntry storedFunction;
 	public boolean skipNextCloseScope;
-//	public VariableExpressionFragment variableBuilder;
+	public VariableExpressionFragment variableBuilder;
 	
 	private SymbolContext(){
 		init();

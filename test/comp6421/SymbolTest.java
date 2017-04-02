@@ -3,8 +3,6 @@
  */
 package comp6421;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -13,8 +11,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import comp6421.parser.Parser;
-import comp6421.scanner.Scanner;
 import comp6421.semantic.SymbolTableGen;
 
 /**
