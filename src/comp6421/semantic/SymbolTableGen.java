@@ -35,6 +35,10 @@ public class SymbolTableGen implements STCallback {
 		
 	}
 	
+	public SymbolTableGen(String file) {
+		SOURCE_FILE = file;
+	}
+
 	private void buildGlobal(String name){}
 	private void buildFunction(String name){}
 	private void buildClass(String name){}
