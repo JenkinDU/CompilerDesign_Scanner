@@ -44,14 +44,14 @@
 44	factor → floatValue	floatValue
 45	factor → intValue	intValue
 46	factor → not factor	not
-47	factor → variable_ factor_	id
+47	factor → variable_	id
 48	factor → sign factor	+, -
 49	variable_ → id indice_list idnest_list_	id
 50	idnest_list_ → idnest_ idnest_list_	.
-51	idnest_list_ → ε	(, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
-52	idnest_ → . id indice_list	.
-53	factor_ → ( aParams )	(
-54	factor_ → ε	*, /, and, +, -, or, , ), <, <=, <>, ==, >, >=, ;, ,
+51	idnest_list_ → factor_	(
+52	idnest_list_ → ε	=, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
+53	idnest_ → . id indice_list	.
+54	factor_ → ( aParams )	(
 55	indice → [ arithExpr ]	
 56	arraySize → [ intValue ]	
 57	type → id	id

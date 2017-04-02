@@ -1,68 +1,68 @@
 R1:prog → classDecl_list progBody
-R2:classDecl → class id { varDeclFunctDef_list } ;
-R3:progBody → program funcBody ; funcDef_list
-R4:funcDef → type id ( fParams ) funcBody ;
-R5:funcBody → { funcBody_ }
-R6:varDeclFunctDef_list → type id varDeclFunctDef_tail
+R2:classDecl → class id sym_CreateClassScope { varDeclFunctDef_list } ; sym_EndScope
+R3:progBody → program sym_CreateProgram funcBody ; funcDef_list
+R4:funcDef → type sym_StoreType id sym_StoreId ( sym_StartFunction fParams ) sym_CreateFunction funcBody ;
+R5:funcBody → { funcBody_ } sym_EndScope
+R6:varDeclFunctDef_list → type sym_StoreType id sym_StoreId varDeclFunctDef_tail
 R7:varDeclFunctDef_list → ε
-R8:varDeclFunctDef_tail → ( fParams ) funcBody ; varDeclFunctDef_list
-R9:varDeclFunctDef_tail → arraySize_list ; varDeclFunctDef_list
-R10:indiceIdnestList_tail → . id indiceIdnestList_tail
+R8:varDeclFunctDef_tail → ( sym_StartMemberFunction fParams ) sym_CreateFunction funcBody ; varDeclFunctDef_list
+R9:varDeclFunctDef_tail → arraySize_list ; sym_CreateVariable varDeclFunctDef_list
+R10:indiceIdnestList_tail → . id sem_PushVariableName indiceIdnestList_tail
 R11:indiceIdnestList_tail → [ arithExpr ] indiceIdnestList_tail
-R12:indiceIdnestList_tail → ε
-R13:varDeclStatement_tail → id arraySize_list ; funcBody_
-R14:varDeclStatement_tail → indiceIdnestList_tail assignOp expr ; statement_list
-R15:funcBody_ → typeNumeric id arraySize_list ; funcBody_
+R12:indiceIdnestList_tail → ε sem_FinishVariable
+R13:varDeclStatement_tail → sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_
+R14:varDeclStatement_tail → sem_StartAssignmentStatment sem_PushVariableName indiceIdnestList_tail assignOp expr ; statement_list
+R15:funcBody_ → typeNumeric sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_
 R16:funcBody_ → id varDeclStatement_tail
 R17:funcBody_ → restOfStatment statement_list
 R18:funcBody_ → ε
 R19:statement → assignmentStatment
 R20:statement → restOfStatment
-R21:assignmentStatment → variable_ assignOp expr ;
-R22:restOfStatment → for ( type id assignOp expr ; relExpr ; assignStat ) statBlock ;
-R23:restOfStatment → if ( expr ) then statBlock else statBlock ;
-R24:restOfStatment → get ( variable_ ) ;
-R25:restOfStatment → put ( expr ) ;
-R26:restOfStatment → return ( expr ) ;
+R21:assignmentStatment → sem_StartAssignmentStatment variable_ assignOp expr ;
+R22:restOfStatment → for sem_StartForStatement ( type sym_StoreType sem_StartAssignmentStatment id sym_StoreId sym_CreateVariable sem_PushVariableName sem_FinishVariable assignOp expr ; relExpr ; sem_StartAssignmentStatment assignStat ) statBlock ;
+R23:restOfStatment → if sem_StartIfStatement ( expr ) then statBlock else statBlock ;
+R24:restOfStatment → get sem_StartGetStatement ( variable_ ) ;
+R25:restOfStatment → put sem_StartPutStatement ( expr ) ;
+R26:restOfStatment → return sem_StartReturnStatement ( expr ) ;
 R27:assignStat → variable_ assignOp expr
-R28:statBlock → { statement_list }
-R29:statBlock → statement
+R28:statBlock → { sem_StartBlock statement_list } sem_EndBlock
+R29:statBlock → sem_StartBlock statement sem_EndBlock
 R30:statBlock → ε
-R31:expr → arithExpr exp_
-R32:exp_ → relOp arithExpr
-R33:exp_ → ε
-R34:relExpr → arithExpr relOp arithExpr
-R35:arithExpr → term arithExpr_
-R36:arithExpr_ → addOp term arithExpr_
-R37:arithExpr_ → ε
+R31:expr → sem_StartRelationExpression arithExpr exp_
+R32:exp_ → relOp sem_PushRelationOperation sem_StartRelationExpression arithExpr sem_EndRelationExpression
+R33:exp_ → ε sem_EndRelationExpression
+R34:relExpr → sem_StartRelationExpression arithExpr relOp sem_PushRelationOperation arithExpr sem_EndRelationExpression
+R35:arithExpr → sem_StartAdditionExpression term arithExpr_
+R36:arithExpr_ → addOp sem_PushAdditionOperation sem_StartAdditionExpression term arithExpr_
+R37:arithExpr_ → ε sem_EndAdditionExpression
 R38:sign → +
 R39:sign → -
-R40:term → factor term_
-R41:term_ → multOp factor term_
-R42:term_ → ε
+R40:term → sem_StartMultiplicationExpression factor term_
+R41:term_ → multOp sem_PushMultiplicationOperation sem_StartMultiplicationExpression factor term_
+R42:term_ → ε sem_EndMultiplicationExpression
 R43:factor → ( arithExpr )
-R44:factor → floatValue
-R45:factor → intValue
+R44:factor → floatValue sem_PushFloatLiteral
+R45:factor → intValue sem_PushIntLiteral
 R46:factor → not factor
-R47:factor → variable_ factor_
+R47:factor → variable_
 R48:factor → sign factor
-R49:variable_ → id indice_list idnest_list_
+R49:variable_ → id sem_PushVariableName indice_list idnest_list_
 R50:idnest_list_ → idnest_ idnest_list_
-R51:idnest_list_ → ε
-R52:idnest_ → . id indice_list
-R53:factor_ → ( aParams )
-R54:factor_ → ε
+R51:idnest_list_ → factor_
+R52:idnest_list_ → ε sem_FinishVariable
+R53:idnest_ → . id indice_list
+R54:factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall
 R55:indice → [ arithExpr ]
-R56:arraySize → [ intValue ]
+R56:arraySize → [ intValue sym_StoreDimension ]
 R57:type → id
 R58:type → typeNumeric
 R59:typeNumeric → float
 R60:typeNumeric → int
-R61:fParams → type id arraySize_list fParamsTail_list
+R61:fParams → type sym_StoreType id sym_StoreId arraySize_list sym_AddFunctionParameter fParamsTail_list
 R62:fParams → ε
 R63:aParams → expr aParamsTail_list
 R64:aParams → ε
-R65:fParamsTail → , type id arraySize_list
+R65:fParamsTail → , type sym_StoreType id sym_StoreId arraySize_list sym_AddFunctionParameter
 R66:aParamsTail → , expr
 R67:classDecl_list → classDecl classDecl_list
 R68:classDecl_list → ε

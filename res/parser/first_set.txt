@@ -52,9 +52,9 @@ sign	+, -
 term_	ε, *, /, and
 factor	(, floatValue, intValue, not, id, +, -
 variable_	id
-idnest_list_	ε, .
+idnest_list_	ε, ., (
 idnest_	.
-factor_	(, ε
+factor_	(
 indice	[
 arraySize	[
 type	id, float, int

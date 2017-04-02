@@ -22,10 +22,10 @@ FOLLOW(sign) = (, floatValue, intValue, not, id, +, -
 FOLLOW(term) = +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
 FOLLOW(term_) = +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
 FOLLOW(factor) = *, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
-FOLLOW(variable_) = (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
-FOLLOW(idnest_list_) = (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(variable_) = =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(idnest_list_) = =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
 FOLLOW(idnest_) = ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
-FOLLOW(factor_) = *, /, and, +, -, or, ], ), <, <=, <>, ==, >, >=, ;, ,
+FOLLOW(factor_) = =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
 FOLLOW(indice) = [, ., (, =, ), *, /, and, +, -, or, ], <, <=, <>, ==, >, >=, ;, ,
 FOLLOW(arraySize) = [, ,, ;, )
 FOLLOW(type) = id

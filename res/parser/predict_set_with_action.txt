@@ -44,14 +44,14 @@
 44	factor → floatValue sem_PushFloatLiteral	floatValue
 45	factor → intValue sem_PushIntLiteral	intValue
 46	factor → not factor	not
-47	factor → variable_ factor_	id
+47	factor → variable_	id
 48	factor → sign factor	+, -
 49	variable_ → id sem_PushVariableName indice_list idnest_list_	id
 50	idnest_list_ → idnest_ idnest_list_	.
-51	idnest_list_ → ε sem_FinishVariable	(, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
-52	idnest_ → . id indice_list	.
-53	factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall	(
-54	factor_ → ε	*, /, and, +, -, or, , ), <, <=, <>, ==, >, >=, ;, ,
+51	idnest_list_ → factor_
+52	idnest_list_ → ε sem_FinishVariable	(, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
+53	idnest_ → . id indice_list	.
+54	factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall	(
 55	indice → [ arithExpr ]	
 56	arraySize → [ intValue sym_StoreDimension ]	
 57	type → id	id
