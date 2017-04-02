@@ -15,9 +15,9 @@
 15	funcBody_ → typeNumeric sym_StoreType id sym_StoreId arraySize_list ; sym_CreateVariable funcBody_	float, int
 16	funcBody_ → id varDeclStatement_tail	id
 17	funcBody_ → restOfStatment statement_list	for, if, get, put, return
-18	funcBody_ → ε sem_StartBlock sem_EndBlock	}
+18	funcBody_ → ε	}
 19	statement → assignmentStatment	id
-20	statement → sem_StartBlock restOfStatment sem_EndBlock	for, if, get, put, return
+20	statement → restOfStatment	for, if, get, put, return
 21	assignmentStatment → sem_StartAssignmentStatment variable_ assignOp expr ;	id
 22	restOfStatment → for sem_StartForStatement ( type sym_StoreType sem_StartAssignmentStatment id sym_StoreId sym_CreateVariable sem_PushVariableName sem_FinishVariable assignOp expr ; relExpr ; sem_StartAssignmentStatment assignStat ) statBlock ;	for
 23	restOfStatment → if sem_StartIfStatement ( expr ) then statBlock else statBlock ;	if
@@ -26,10 +26,10 @@
 26	restOfStatment → return sem_StartReturnStatement ( expr ) ;	return
 27	assignStat → variable_ assignOp expr	id
 28	statBlock → { sem_StartBlock statement_list } sem_EndBlock	{
-29	statBlock → statement	id, for, if, get, put, return
-30	statBlock → sem_StartBlock sem_EndBlock ε	;, else
+29	statBlock → sem_StartBlock statement sem_EndBlock	id, for, if, get, put, return
+30	statBlock → ε	;, else
 31	expr → sem_StartRelationExpression arithExpr exp_	(, floatValue, intValue, not, id, +, -
-32	exp_ → relOp sem_PushRelationOperation sem_StartRelationExpression arithExpr	<, <=, <>, ==, >, >=
+32	exp_ → relOp sem_PushRelationOperation sem_StartRelationExpression arithExpr sem_EndRelationExpression	<, <=, <>, ==, >, >=
 33	exp_ → ε sem_EndRelationExpression	,, ;, )
 34	relExpr → sem_StartRelationExpression arithExpr relOp sem_PushRelationOperation arithExpr sem_EndRelationExpression	(, floatValue, intValue, not, id, +, -
 35	arithExpr → sem_StartAdditionExpression term arithExpr_	(, floatValue, intValue, not, id, +, -
@@ -49,7 +49,7 @@
 49	variable_ → id sem_PushVariableName indice_list idnest_list_	id
 50	idnest_list_ → idnest_ idnest_list_	.
 51	idnest_list_ → ε sem_FinishVariable	(, =, ), *, /, and, +, -, or, , <, <=, <>, ==, >, >=, ;, ,
-52	idnest_ → . id sem_PushVariableName indice_list	.
+52	idnest_ → . id indice_list	.
 53	factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall	(
 54	factor_ → ε	*, /, and, +, -, or, , ), <, <=, <>, ==, >, >=, ;, ,
 55	indice → [ arithExpr ]	
