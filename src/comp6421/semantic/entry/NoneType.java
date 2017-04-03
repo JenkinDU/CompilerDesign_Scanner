@@ -16,6 +16,6 @@ public class NoneType implements SymbolTableEntryType {
 
 	@Override
 	public String toString() {
-		return "nothing	It's a program!!";
+		return " ";
 	}
 }

@@ -86,12 +86,26 @@ public abstract class SymbolTableEntry {
 	
 	@Override
 	public String toString(){
+		String v = "";
+		String type = getType().toString();
+		boolean add=false;
+		if(type.contains(":")) {
+			add=true;
+			String t[] = type.split(":");
+			String param = t[0];
+			String re = t[1];
+			v = (re.equals(" ")?"":re+" ") + getKind() + " " + getName() + param;
+		} else {
+			v = getKind() + " " + getName() + " " + getType();
+		}
+		v = String.format("%-"+(v.length()<50?50:v.length())+"s", v);
+		String off = "";
 		try {
-			return getKind() + " " + getName() + " " + getType() + " " + getSize();
+			off = "[Size:" + getSize() + " Add:" + (add?0:offset) + "]";
 		} catch (CompilerError e) {
 			e.printStackTrace();
 		}
-		return getKind() + " " + getName() + " " + getType();
+		return v+off;
 	}
 	
 	@Override

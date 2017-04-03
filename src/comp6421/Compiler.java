@@ -42,7 +42,7 @@ public class Compiler {
 		
 		System.out.println("~================<    Moon Output   >================~");
 		
-		moonRun(SOURCE_FILE+".m");//Log.getMasmFile());
+//		moonRun(SOURCE_FILE+".m");//Log.getMasmFile());
 		
 //		Log.close();
 	}

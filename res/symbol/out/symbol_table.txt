@@ -1,28 +1,27 @@
-Class Utility Utility 8
-   Variable minValue int 4
-   Variable maxValue int 4
-   Function findMin (Utility, int) <return int> 16
-      Parameter @this Utility 4
-      Variable minValue int 4
-      Parameter min int 4
-      Variable @returnPcAddr int 4
+Class Utility Utility                             [Size:8 Add:0]
+   Variable minValue int                             [Size:4 Add:4]
+   Variable maxValue int                             [Size:4 Add:0]
+   int Function findMin(int)                         [Size:16 Add:0]
+      Variable minValue int                             [Size:4 Add:12]
+      Variable return int                               [Size:4 Add:8]
+      Parameter min int                                 [Size:4 Add:4]
+      Parameter this-> Utility                          [Size:4 Add:0]
       
-   Function findMax (Utility, int) <return int> 16
-      Parameter @this Utility 4
-      Parameter max int 4
-      Variable maxValue int 4
-      Variable @returnPcAddr int 4
+   int Function findMax(int)                         [Size:12 Add:0]
+      Variable return int                               [Size:4 Add:8]
+      Parameter max int                                 [Size:4 Add:4]
+      Parameter this-> Utility                          [Size:4 Add:0]
       
    
-Function program () <return nothing	It's a program!!> 2056
-   Variable minValue int 4
-   Variable arrayUtility Utility[2][3][6][7] 2016
-   Variable maxValue int 4
-   Variable utility Utility 8
-   Variable idx int 4
-   Variable sample int[5] 20
+Function program()                                [Size:2056 Add:0]
+   Variable arrayUtility Utility[2][3][6][7]         [Size:2016 Add:40]
+   Variable utility Utility                          [Size:8 Add:32]
+   Variable minValue int                             [Size:4 Add:28]
+   Variable maxValue int                             [Size:4 Add:24]
+   Variable idx int                                  [Size:4 Add:20]
+   Variable sample int[5]                            [Size:20 Add:0]
    
-Function randomize () <return float> 8
-   Variable @returnPcAddr int 4
-   Variable value float 4
+float Function randomize()                        [Size:8 Add:0]
+   Variable value float                              [Size:4 Add:4]
+   Variable return int                               [Size:4 Add:0]
    

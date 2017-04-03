@@ -33,15 +33,16 @@ public class FunctionType implements SymbolTableEntryType {
 		sb.append('(');
 		
 		if(argumentTypes.size() > 0){
-			sb.append(argumentTypes.get(0));
+//			sb.append("this");//argumentTypes.get(0));
 		}
 		for(int i = 1; i < argumentTypes.size(); ++i){
-			sb.append(", ");
+			if(i!=1)
+				sb.append(", ");
 			sb.append(argumentTypes.get(i));
 		}
-		sb.append(") <return ");
+		sb.append(") :");
 		sb.append(returnType);
-		sb.append(">");
+		sb.append("");
 		
 		return sb.toString();
 	}
