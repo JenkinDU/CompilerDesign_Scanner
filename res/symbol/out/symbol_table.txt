@@ -1,28 +1,28 @@
-Class Utility Utility
-   Variable var2 float
-   Function findMin (int[100]) <return int>
-      Variable minValue int
-      Variable idx2 int
-      Parameter array int[100]
-      Variable idx int
+Class Utility Utility 8
+   Variable minValue int 4
+   Variable maxValue int 4
+   Function findMin (Utility, int) <return int> 16
+      Parameter @this Utility 4
+      Variable minValue int 4
+      Parameter min int 4
+      Variable @returnPcAddr int 4
       
-   Variable var1 int[4][5][7][8][9][1][0]
-   Function findMax (int[100]) <return int>
-      Variable idx2 int
-      Parameter array int[100]
-      Variable maxValue int
-      Variable idx int
+   Function findMax (Utility, int) <return int> 16
+      Parameter @this Utility 4
+      Parameter max int 4
+      Variable maxValue int 4
+      Variable @returnPcAddr int 4
       
    
-Function program () <return nothing	It's a program!!>
-   Variable minValue int
-   Variable t int
-   Variable arrayUtility Utility[2][3][6][7]
-   Variable maxValue int
-   Variable utility Utility
-   Variable idx int
-   Variable sample int[100]
+Function program () <return nothing	It's a program!!> 2056
+   Variable minValue int 4
+   Variable arrayUtility Utility[2][3][6][7] 2016
+   Variable maxValue int 4
+   Variable utility Utility 8
+   Variable idx int 4
+   Variable sample int[5] 20
    
-Function randomize () <return float>
-   Variable value float
+Function randomize () <return float> 8
+   Variable @returnPcAddr int 4
+   Variable value float 4
    

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import comp6421.Utils;
 import comp6421.scanner.Token;
-import comp6421.semantic.ExtendParser.STCallback;
+import comp6421.semantic.ExtendParser.ActionCallback;
 import comp6421.semantic.perform.SemanticAction;
 
 /**
@@ -16,7 +16,7 @@ import comp6421.semantic.perform.SemanticAction;
  * @author Zhen Du
  * @date Mar 16, 2017
  */
-public class SymbolTableGen implements STCallback {
+public class SymbolTableGen implements ActionCallback {
 	
 	public static String SOURCE_FILE = "./res/symbol/program_symbol.txt";
 	public static String OUTPUT = "./res/symbol/out/symbol_table.txt";
@@ -53,7 +53,7 @@ public class SymbolTableGen implements STCallback {
 		g.genTable(g);
 	}
 
-	public void genTable(STCallback cb) {
+	public void genTable(ActionCallback cb) {
 		ExtendParser parser = new ExtendParser(false, cb);
 		parser.doParser(SOURCE_FILE);
 		printLog();
@@ -67,31 +67,40 @@ public class SymbolTableGen implements STCallback {
 		Utils.echo2File(ERROR, error);
 	}
 	
-	@Override
-	public void createTable(SemanticAction action, Token t) {
-		try {
-			action.execute(t);
-		} catch (CompilerError e) {
-			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
-			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
-		}
-		System.out.println("Create table:" + action.getClass().getName() + ", Token:"+ t);
-	}
+//	@Override
+//	public void createTable(SemanticAction action, Token t) {
+//		try {
+//			action.execute(t);
+//		} catch (CompilerError e) {
+//			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
+//			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
+//		}
+//		System.out.println("Create table:" + action.getClass().getName() + ", Token:"+ t);
+//	}
+//
+//	@Override
+//	public void createEntry(SemanticAction action, Token t) {
+//		try {
+//			action.execute(t);
+//		} catch (CompilerError e) {
+//			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
+//			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
+//		}
+//		System.out.println("\t"+"Insert entry:" + action.getClass().getName() + ", Token:"+ t);
+//	}
 
 	@Override
-	public void createEntry(SemanticAction action, Token t) {
-		try {
-			action.execute(t);
-		} catch (CompilerError e) {
-			System.out.println("Line "+t.getPosition() + ", " +e.getMessage());
-			error+="Line "+t.getPosition() + ", " +e.getMessage()+"\n";
+	public void createTable(String action, Token p, Token c) {
+		if(p.getPosition() == 42)
+			System.out.println("");
+		SemanticAction a = StrategyFactor.getStategy(action);
+		if(a != null) {
+			try {
+				a.execute(p);
+			} catch (CompilerError e) {
+				e.printStackTrace();
+			}
 		}
-		System.out.println("\t"+"Insert entry:" + action.getClass().getName() + ", Token:"+ t);
-	}
-
-	@Override
-	public void lookUpVariable(String name, String path) {
-		System.out.println("lookUpVariable at" + name);
 	}
 
 }

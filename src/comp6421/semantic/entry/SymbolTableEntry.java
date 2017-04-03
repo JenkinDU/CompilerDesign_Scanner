@@ -86,7 +86,12 @@ public abstract class SymbolTableEntry {
 	
 	@Override
 	public String toString(){
-		return getKind() + " " + getName() + " " + getType(); 
+		try {
+			return getKind() + " " + getName() + " " + getType() + " " + getSize();
+		} catch (CompilerError e) {
+			e.printStackTrace();
+		}
+		return getKind() + " " + getName() + " " + getType();
 	}
 	
 	@Override
