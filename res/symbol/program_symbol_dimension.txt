@@ -1,0 +1,16 @@
+class MyClass1 {
+	int mc1v1[2][2];
+	
+	int mc1f1() {
+		return (mc1v1[1][1]);
+	};
+};
+program	{
+	int m;
+	MyClass1 m1[2][2];
+	
+	m = m1[1];//less dimension
+	m = m1[1][1].mc1v1[2];//less dimension
+	m = m1[1][1].mc1f1();
+	m = m1[1][1][1].mc1f1();//more dimension
+};
