@@ -84,7 +84,7 @@ public class IndexingExpressionFragment extends ExpressionElement {
 	@Override
 	public Value getValue() throws CompilerError {
 		if(currentIndex != dimensions.size()){
-			throw new CompilerError("Not enough indices");
+			throw new CompilerError("Can not put a array value to non-array");
 		}else{
 			return offset;
 		}

@@ -144,7 +144,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 				context.pushChild(child);
 				child.acceptSubElement(e);
 			}else{
-				throw new CompilerError("Cannot index non-array type " + currentType);
+				throw new CompilerError("Failed to visit a non-array type: " + currentType);
 			}
 		}else
 		if(e instanceof FunctionCallExpressionFragment){

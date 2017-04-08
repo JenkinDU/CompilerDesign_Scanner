@@ -98,20 +98,21 @@ public class SymbolTableGen implements ActionCallback {
 
 	@Override
 	public void createTable(String action, Token p, Token c) {
-		if("sem_PushVariableName".equals(preAction) && "sem_PushVariableName".equals(action) && c.getTYPE()==EType.OPENPAR) {
+		if(("sem_PushVariableName".equals(preAction)||"sem_EndAdditionExpression".equals(preAction)) && "sem_PushVariableName".equals(action) && c.getTYPE()==EType.OPENPAR) {
+			System.out.println("-");
 			return;
 		}
 		SemanticAction a = StrategyFactor.getStategy(action);
 		if(a != null) {
-			if(action.startsWith("sym_CreateClass")) {
-				System.out.println("Create Class :" + action.getClass().getName() + ", Token:"+ p);
-			} else if(action.startsWith("sym_CreateFunction")) {
-				System.out.println("Create Function:" + action.getClass().getName() + ", Token:"+ p);
-			} else if(action.startsWith("sym_CreateProgram")) {
-				System.out.println("Create Program:" + action.getClass().getName() + ", Token:"+ p);
-			} else if(action.startsWith("sym_CreateVariable")) {
-				System.out.println("\tInsert Variable:" + action.getClass().getName() + ", Token:"+ p);
-			}
+//			if(action.startsWith("sym_CreateClass")) {
+//				System.out.println("Create Class :" + action.getClass().getName() + ", Token:"+ p);
+//			} else if(action.startsWith("sym_CreateFunction")) {
+//				System.out.println("Create Function:" + action.getClass().getName() + ", Token:"+ p);
+//			} else if(action.startsWith("sym_CreateProgram")) {
+//				System.out.println("Create Program:" + action.getClass().getName() + ", Token:"+ p);
+//			} else if(action.startsWith("sym_CreateVariable")) {
+//				System.out.println("\tInsert Variable:" + action.getClass().getName() + ", Token:"+ p);
+//			}
 			try {
 				a.execute(p);
 			} catch (CompilerError e) {
