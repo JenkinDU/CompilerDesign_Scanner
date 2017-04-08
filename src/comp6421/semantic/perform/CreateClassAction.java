@@ -37,7 +37,7 @@ public class CreateClassAction extends SymbolAction {
 			
 		}else{
 			context.skipNextCloseScope = true;
-			throw new CompilerError("Duplicate class declaration: " + name);
+			throw new CompilerError("Multiply class declaration: " + name);
 		}
 	}
 

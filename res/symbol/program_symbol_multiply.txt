@@ -1,0 +1,29 @@
+class MyClass1 {
+	float mc1v1;
+	int mc1v1;//multiply defined variable
+	
+	int mc1f1(MyClass1 p2[3]) {
+		float p2;//multiply defined variable
+	};
+
+	int mc1f1(MyClass1 f2p1[3]) {//multiply defined function
+//		int mc1v1;
+	};
+	
+	int mc1v1(MyClass1 f2p1[3]) {//multiply defined class member
+
+	};
+};
+
+class MyClass1 {//multiply defined class
+};
+program	{
+	int m1;
+	float m2[3][2];
+	MyClass1 m2[2];//multiply defined id
+};
+
+int f1() {
+	MyClass1 mc1v3;
+	MyClass1 mc1v3[3];//multiply defined id
+};

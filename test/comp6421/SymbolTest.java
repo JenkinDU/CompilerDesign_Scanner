@@ -29,6 +29,7 @@ public class SymbolTest {
 		files = new ArrayList<String>();
 		files.add("./res/symbol/program_symbol.txt");
 		files.add("./res/symbol/program_symbol_undefined.txt");
+		files.add("./res/symbol/program_symbol_multiply.txt");
 	}
 
 	/**
@@ -68,6 +69,17 @@ public class SymbolTest {
 	public void testUndefined() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(1);
+		System.out.println("To test file "+f+"\n");
+		g.SOURCE_FILE = f;
+		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
+		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
+		g.genTable(g);
+	}
+	
+	@Test
+	public void testMultiply() {
+		SymbolTableGen g = new SymbolTableGen();
+		String f = files.get(2);
 		System.out.println("To test file "+f+"\n");
 		g.SOURCE_FILE = f;
 		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";

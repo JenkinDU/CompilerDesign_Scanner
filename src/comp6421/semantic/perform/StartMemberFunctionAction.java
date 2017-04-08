@@ -15,7 +15,7 @@ public class StartMemberFunctionAction extends SymbolAction {
 			context.storedFunction = null;
 			context.skipNextCloseScope = true;
 			
-			throw new CompilerError("Duplicate function declaration: " + context.storedId);
+			throw new CompilerError("Multiply function declaration: " + context.storedId);
 		}else{
 			SymbolTable table = new SymbolTable(context.currentSymbolTable);
 			
