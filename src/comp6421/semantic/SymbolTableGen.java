@@ -6,6 +6,7 @@ package comp6421.semantic;
 import java.util.HashMap;
 
 import comp6421.Utils;
+import comp6421.scanner.EType;
 import comp6421.scanner.Token;
 import comp6421.semantic.ExtendParser.ActionCallback;
 import comp6421.semantic.perform.SemanticAction;
@@ -23,10 +24,11 @@ public class SymbolTableGen implements ActionCallback {
 	public static String ERROR = "./res/symbol/out/error.txt";
 	
 	private String error = "";
-	private SymbolTable globalTable;
-	private HashMap<String, SymbolTable> functionTable;
-	private HashMap<String, SymbolTable> classTable;
-	private HashMap<String, SymbolTable> programTable;
+	private String preAction = "";
+//	private SymbolTable globalTable;
+//	private HashMap<String, SymbolTable> functionTable;
+//	private HashMap<String, SymbolTable> classTable;
+//	private HashMap<String, SymbolTable> programTable;
 	/**
 	 * Constructors for
 	 * 
@@ -39,10 +41,10 @@ public class SymbolTableGen implements ActionCallback {
 		SOURCE_FILE = file;
 	}
 
-	private void buildGlobal(String name){}
-	private void buildFunction(String name){}
-	private void buildClass(String name){}
-	private void buildProgram(String name){}
+//	private void buildGlobal(String name){}
+//	private void buildFunction(String name){}
+//	private void buildClass(String name){}
+//	private void buildProgram(String name){}
 	/**
 	 * This method
 	 * 
@@ -63,7 +65,12 @@ public class SymbolTableGen implements ActionCallback {
 		SymbolTable s = SymbolContext.getCurrentScope();
 		
 		Utils.echo2File(OUTPUT, s.toString());
-		System.out.println("\n\nSymbol Table is:\n\n"+s.toString());
+		if(error.length()>0) {
+			System.out.println("Semantic Error");
+		} else {
+			System.out.println("Semantic Pass");
+		}
+		System.out.println("\nSymbol Table is:\n\n"+s.toString());
 		Utils.echo2File(ERROR, error);
 	}
 	
@@ -91,16 +98,28 @@ public class SymbolTableGen implements ActionCallback {
 
 	@Override
 	public void createTable(String action, Token p, Token c) {
-		if(p.getPosition() == 42)
-			System.out.println("");
+		if("sem_PushVariableName".equals(preAction) && "sem_PushVariableName".equals(action) && c.getTYPE()==EType.OPENPAR) {
+			return;
+		}
 		SemanticAction a = StrategyFactor.getStategy(action);
 		if(a != null) {
+			if(action.startsWith("sym_CreateClass")) {
+				System.out.println("Create Class :" + action.getClass().getName() + ", Token:"+ p);
+			} else if(action.startsWith("sym_CreateFunction")) {
+				System.out.println("Create Function:" + action.getClass().getName() + ", Token:"+ p);
+			} else if(action.startsWith("sym_CreateProgram")) {
+				System.out.println("Create Program:" + action.getClass().getName() + ", Token:"+ p);
+			} else if(action.startsWith("sym_CreateVariable")) {
+				System.out.println("\tInsert Variable:" + action.getClass().getName() + ", Token:"+ p);
+			}
 			try {
 				a.execute(p);
 			} catch (CompilerError e) {
-				e.printStackTrace();
+				System.out.println("Line "+p.getPosition() + ", " +e.getMessage());
+				error+="Line "+p.getPosition() + ", " +e.getMessage()+"\n";
 			}
 		}
+		preAction = action;
 	}
 
 }

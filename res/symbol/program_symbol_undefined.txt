@@ -1,0 +1,24 @@
+class MyClass2 {
+	int mc2v1;
+	
+	int f2() {
+		int mc1v1;
+	};
+};
+
+class MyClass1 {
+	MyClass2 mc2;
+	MyClass3 mc3;//undefined Class
+	
+	int f1() {
+		mc1v1 = f2();//undefined Variable and Method
+	};
+};
+
+program	{
+	int v1;
+	MyClass1 mc1;
+	v1 = mc1.mc1;//undefined data member
+	v1 = mc1.mc2.mc2v2;//nested undefined data member
+	v1 = mc1.mc2.f3();//nested undefined method
+};

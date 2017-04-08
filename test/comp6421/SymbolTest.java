@@ -28,7 +28,7 @@ public class SymbolTest {
 	public static void setUpBeforeClass() throws Exception {
 		files = new ArrayList<String>();
 		files.add("./res/symbol/program_symbol.txt");
-		files.add("./res/symbol/program_symbol_error.txt");
+		files.add("./res/symbol/program_symbol_undefined.txt");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class SymbolTest {
 	}
 
 	@Test
-	public void testProgram() {
+	public void testNormal() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(0);
 		System.out.println("To test file "+f+"\n");
@@ -65,7 +65,7 @@ public class SymbolTest {
 	}
 	
 	@Test
-	public void testProgramErrorRecovery() {
+	public void testUndefined() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(1);
 		System.out.println("To test file "+f+"\n");

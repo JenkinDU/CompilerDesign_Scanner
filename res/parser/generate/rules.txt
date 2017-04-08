@@ -50,7 +50,7 @@ R49:variable_ → id sem_PushVariableName indice_list idnest_list_
 R50:idnest_list_ → idnest_ idnest_list_
 R51:idnest_list_ → factor_
 R52:idnest_list_ → ε sem_FinishVariable
-R53:idnest_ → . id indice_list
+R53:idnest_ → . id sem_PushVariableName indice_list
 R54:factor_ → sem_StartFunctionCall ( aParams ) sem_EndFunctionCall
 R55:indice → [ arithExpr ]
 R56:arraySize → [ intValue sym_StoreDimension ]

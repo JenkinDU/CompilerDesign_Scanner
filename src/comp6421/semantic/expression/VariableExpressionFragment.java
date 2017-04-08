@@ -112,7 +112,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		SymbolTableEntry e = currentScope.find(id);
 		
 		if(e == null){
-			throw new CompilerError("Id " + id + " not found in current scope");
+			throw new CompilerError("Id " + id + " not found in scope: "+currentScope.getEnclosingEntry().getName());
 		}
 		
 		return e;
@@ -175,7 +175,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 						throw new CompilerError("Cannot call non-function member " + f.getId() + " of class " + currentClass);
 					}
 				}else{
-					throw new CompilerError("Cannot find method " + f.getId() + " of class " + currentClass);
+					throw new CompilerError("Cannot find method " + f.getId() + " in class: " + currentClass);
 				}
 			}else{
 				throw new CompilerError("Cannot call method " + f.getId() + " of non-class type " + currentType);

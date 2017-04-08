@@ -68,7 +68,7 @@ program {
 	/*** Multiply nested with array***/
 	nest = utility[1][1].nest.nest[1][1].nestFunc(nestFunc[2][2]);
 	return (maxValue);
-	get(maxValue[0].A.B.C[1]);
+	get(maxValue[0].A.B.C[1]);//expression for params
     put(not(id[1] and 100.0));
 };
 /***Free Function***/

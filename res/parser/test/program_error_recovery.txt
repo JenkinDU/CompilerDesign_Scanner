@@ -20,7 +20,7 @@ public class Utility {
 			get();
 		;
 		return (maxValue);
-		get(maxValue[0].A.B.C[1]);
+		get(maxValue[0].A.B.C[1]);//expression for params
         put(not(id[1] and 100.0));
 //		<varDecl>	::= <type>id<arraySize>*;
         int value;
