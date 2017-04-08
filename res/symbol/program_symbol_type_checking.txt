@@ -1,0 +1,29 @@
+class MyClass1 {
+	int mc1v1;
+	
+	int mc1f1() {
+		return (mc1v1);
+	};
+	int callMethod(int a, int b) {
+		return (mc1v1);
+	};
+};
+program	{
+	int m;
+	MyClass1 mc1;
+	int array[2][2];
+	
+	m = 1.2;
+	m = mc1;
+	m = array;
+	mc1 = 2.2;
+	mc1 = array;
+	array = mc1;
+	array = m;
+	
+	m = 1+2 >= 3+4 not 4/3 and 1+2 <= 3+4;
+	mc1 = 1+2 >= 3+4 not 4/3 and 1+2 <= 3+4;
+	m = mc1.mc1f1();
+	array = mc1.callMethod();
+	array = mc1.callMethod(mc1, array);
+};

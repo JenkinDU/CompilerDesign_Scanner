@@ -49,7 +49,7 @@ public class AdditionExpressionFragment extends TypedExpressionElement {
 				SymbolTableEntryType secondType = second.getType();
 				
 				if( ! firstType.equals(secondType) ){
-					// TODO - late binding types!! // throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
+					throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
 				}
 				
 				state = State.DONE;

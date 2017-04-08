@@ -50,7 +50,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 				SymbolTableEntryType secondType = second.getType();
 				
 				if( ! firstType.equals(secondType) ){
-					// TODO - late binding types!! // throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
+					throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
 				}
 
 				state = State.DONE;
@@ -97,6 +97,25 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			break;
 		default:
 			super.pushIntLiteral(i);
+			break;		
+		}
+
+	}
+	
+	@Override
+	public void pushFloatLiteral(float i) throws CompilerError {
+		switch(state){
+		case INIT_FIRST:
+			state = State.WAITING_FOR_OP;
+			first = new FloatLiteralExpressionElement(i);
+			break;
+		case INIT_SECOND:
+			state = State.DONE;
+			second = new FloatLiteralExpressionElement(i);
+			context.finishTopElement();
+			break;
+		default:
+			super.pushFloatLiteral(i);
 			break;		
 		}
 

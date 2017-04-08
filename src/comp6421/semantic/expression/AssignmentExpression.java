@@ -6,7 +6,11 @@ import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.value.ConcreteAddressValue;
+import comp6421.semantic.value.DynamicValue;
+import comp6421.semantic.value.IndirectValue;
 import comp6421.semantic.value.RegisterValue;
+import comp6421.semantic.value.StaticFloatValue;
+import comp6421.semantic.value.StaticValue;
 import comp6421.semantic.value.StoredValue;
 import comp6421.semantic.value.Value;
 import comp6421.semantic.value.VoidValue;
@@ -51,6 +55,25 @@ public class AssignmentExpression extends ExpressionElement implements Statement
 		}else
 		if(currentState == State.RHS){
 			rhs = e.getValue();
+			System.out.println(rhs.getClass().getName());
+			if(lhs instanceof StoredValue) {
+//				if(rhs instanceof VoidValue) {
+//					throw new CompilerError("Can not put "+VoidValue.class.getSimpleName()+" value to "+lhs.getClass().getSimpleName());
+//				} else 
+				if(rhs instanceof IndirectValue) {
+					throw new CompilerError("Can not put Class or Array value to "+lhs.getClass().getSimpleName());
+				} else if(rhs instanceof StaticFloatValue) {
+					throw new CompilerError("Can not put float value to "+lhs.getClass().getSimpleName());
+				}
+			} else if(lhs instanceof IndirectValue || lhs instanceof VoidValue) {
+				if(rhs instanceof StoredValue) {
+					throw new CompilerError("Can not put "+StoredValue.class.getSimpleName()+" value to Class or Array");//+lhs.getClass().getSimpleName());
+				} else if(rhs instanceof StaticValue) {
+					throw new CompilerError("Can not put "+StaticValue.class.getSimpleName()+" value to Class or Array");//+lhs.getClass().getSimpleName());
+				} else if(rhs instanceof IndirectValue) {
+					throw new CompilerError("Can not put Class or Array value to Class or Array");//+lhs.getClass().getSimpleName());
+				}
+			}
 			currentState = State.DONE;
 			context.finishTopElement();
 		}else{

@@ -26,7 +26,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 		List<SymbolTableEntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
 		
 		if(nArgs != argTypes.size()){
-			throw new CompilerError("wrong number of arguments for function " + entry.getName() + ", expected " + argTypes.size() + ", got " + nArgs);
+			throw new CompilerError("call function " + entry.getName() +" ("+(argTypes.size()-1)+" params) "+ "error, params size:" + (nArgs-1));
 		}
 		
 		arguments = new ArrayList<Value>(expressions.size());
@@ -37,7 +37,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 			SymbolTableEntryType type = exp.getType();
 			
 			if(! type.equals( expectedType )){
-				throw new CompilerError("Argument type mismatch for argument " + (i+1) + " for call to '" + entry.getName() + "' expected '" + expectedType + "' but got '" + type + "'");
+				throw new CompilerError("call function " + entry.getName() +" error:" + "param "+(i) +" should be " + expectedType + " but " + type);
 			}
 			
 			Value arg = exp.getValue();

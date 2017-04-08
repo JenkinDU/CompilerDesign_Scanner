@@ -31,6 +31,7 @@ public class SymbolTest {
 		files.add("./res/symbol/program_symbol_undefined.txt");
 		files.add("./res/symbol/program_symbol_multiply.txt");
 		files.add("./res/symbol/program_symbol_dimension.txt");
+		files.add("./res/symbol/program_symbol_type_checking.txt");
 	}
 
 	/**
@@ -92,6 +93,17 @@ public class SymbolTest {
 	public void testDimension() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(3);
+		System.out.println("To test file "+f+"\n");
+		g.SOURCE_FILE = f;
+		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
+		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
+		g.genTable(g);
+	}
+	
+	@Test
+	public void testTypeAndFunctionChecking() {
+		SymbolTableGen g = new SymbolTableGen();
+		String f = files.get(4);
 		System.out.println("To test file "+f+"\n");
 		g.SOURCE_FILE = f;
 		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
