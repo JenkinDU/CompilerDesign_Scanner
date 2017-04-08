@@ -17,7 +17,7 @@ import comp6421.parser.Parser;
  * @author Jenkin
  *
  */
-public class ParserTest {
+public class SyntacticTest {
 	
 	private static ArrayList<String> files;
 	
@@ -57,7 +57,7 @@ public class ParserTest {
 
 	@Test
 	public void testProgram() {
-		Parser parser = new Parser();
+		Parser parser = new Parser(true);
 		String f = files.get(0);
 		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
@@ -71,7 +71,7 @@ public class ParserTest {
 	
 	@Test
 	public void testProgramFull() {
-		Parser parser = new Parser();
+		Parser parser = new Parser(true);
 		String f = files.get(1);
 		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
@@ -85,7 +85,7 @@ public class ParserTest {
 	
 	@Test
 	public void testProgramErrorRecovery() {
-		Parser parser = new Parser();
+		Parser parser = new Parser(true);
 		String f = files.get(2);
 		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";

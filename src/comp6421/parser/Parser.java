@@ -19,7 +19,7 @@ import comp6421.scanner.Token;
 public class Parser {
 	private static final String FIRST = "./res/parser/first_set.txt";
 	private static final String FOLLOW = "./res/parser/follow_set.txt";
-	private static final String PREDICT = "./res/parser/predict_set_with_action.txt";
+	private static String PREDICT = "./res/parser/predict_set_with_action.txt";
 	private static final String TABLE = "./res/parser/parsing_table.txt";
 	
 	public static String DERIVATION = "./res/parser/out/derivation.txt";
@@ -39,20 +39,19 @@ public class Parser {
 	private int errorNum = 0;
 	private boolean showLog = false;//add for symbol table
 	
-	public Parser() {
+	public Parser(boolean showLog) {
 		this.table = new Table();
 		this.stack = new LinkedList<Symbol>();
+		this.showLog = showLog;
+		if(showLog) {
+			PREDICT = "./res/parser/predict_set.txt";
+		}
 		initFollowSet();
 		initFirstSet();
 		initPredict();
 		initTable();
 	}
 	
-	public Parser(boolean showLog) {
-		this();
-		this.showLog = showLog;
-	}
-
 	private void printLog(String log) {
 		printLog(log, false);
 	}
@@ -298,7 +297,7 @@ public class Parser {
 	protected void createSymbolTable(String action, Token p, Token c) {}
 	
 	public static void main(String[] args) {
-		Parser parser = new Parser();
+		Parser parser = new Parser(true);
 		parser.doParser("./res/program.txt");
 	}
 }

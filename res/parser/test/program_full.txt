@@ -2,25 +2,34 @@
  * full grammar test program code
  */
 //<classDecl> ::= class id {<varDecl>*<funcDef>*};
+class NestClass {
+	float nestf[4][3];
+	NestClass nest[2][2];
+	int nestFunc(NestClass nest[2][2]) {
+		return (nest);
+	};
+};
 class Utility {
 	int var1[4][5][0];
     float var2;
 	Utility utility[1][2][4][5];
+	NestClass nest;
 	Custome customeFunc(Custome id, float array[100], int mult[0][0][0][0][0]) {
 //		<funcBody>	::= {<varDecl>*<statement>*}
 //		<statement>	::=	<assignStat>; |	if(<expr>)then<statBlock>else<statBlock>; 
 //					|	for(<type>id<assignOp><expr>;<relExpr>;<assignStat>)<statBlock>; 
 //					| get(<variable>); | put(<expr>); | return(<expr>);
-		if((variable[1].id[2] and 100.0) or variable[1].id[2] and 100.0 == variable[0]+not(+id(id[0]))/not -variable[0].id(v and 100.0)) then {
+		/**Complex expressions**/
+		if((variable[1].id[2] and 100.0) or variable[1].id[2] >= variable[0]+not(+id(id[0]))/not -variable[0].id(v and 100.0)) then {
 //			<statBlock>	::= {<statement>*} | <statement> | ε
 			value = id[0][1]+not(+id[1](id[0]));
 //			for(<type>id<assignOp><expr>;<relExpr>;<assignStat>)<statBlock>; 
-			for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() ) {
-				if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
+			/*** For loop nested conditional without brackets ***/
+			for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() )
+				if((id[1].id[2] and 100.0) or id[1].id[2] <= id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then
 					get(maxValue);
-			        put(minValue);
-				} else; //nothing is OK
-			};
+				else; //nothing is OK
+			;
 		} else //no {} is OK
 			get(maxValue);
 		;
@@ -34,25 +43,30 @@ class Utility {
 };
 /*** Main Function***/
 program {
+	NestClass nest[2][2];
+	Utility utility[1][2];
 //	<funcBody>	::= {<varDecl>*<statement>*}
 	if((id[1].id[2][3] and 100.0)  == not -id(id[1] and 100.0)) then {
 //					<statBlock>	::= {<statement>*} | <statement> | ε
 		value = id[0][1][2]+not(+id[0][1](id[0][1]));
 //					for(<type>id<assignOp><expr>;<relExpr>;<assignStat>)<statBlock>; 
-		for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() ) {
-			if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
-				get(maxValue);
-		        put(minValue);
-			} else; //nothing is OK
-		};
+		/*** For loop nested for without brackets ***/
+		for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() )
+			for(id id=not value[0]; value(id <> 5) <= not -id[0]; value[0]=value[1].v() )
+				if((id[1].id[2] and 100.0) or id[1].id[2] <= id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then
+					get(maxValue);
+				else; //nothing is OK
+			;
+		;
 	} else //no {} is OK
 		get(maxValue);
 	;
 	/***Access***/
 	/***Expression***/
-	utility[1] = utility.customeFunc(id, array[100], mult[0][0][0][0][0]);
-	utility[a+b/5+c-d][0][0] = utility.customeFunc(id, array[100], mult[id[1].id[2][3] and 100.0][0][0][0][0]);
-			
+	utility[id[1].id[2][3] and 100.0] = utility[1][1].customeFunc(id, array[100], mult[0][0][0][0][0]);
+	utility[a+b/5+c-d][a*c][0] = utility.customeFunc(id, array[100], mult[id[1].id[2][3] and 100.0][0][0][0][0]);
+	/*** Multiply nested with array***/
+	nest = utility[1][1].nest.nest[1][1].nestFunc(nestFunc[2][2]);
 	return (maxValue);
 	get(maxValue[0].A.B.C[1]);
     put(not(id[1] and 100.0));
@@ -73,13 +87,16 @@ Custom getCustomValue() {
     Utility utility;
     Utility arrayUtility[2][3][6][7];
     for (int t = 0; t <= 100; t = t + 1) 
-//    	if(<expr>)then<statBlock>else<statBlock>;
-    	if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then {
-			get(maxValue);
-	        put(minValue);
-	        get(sample[t]);
-	        sample[t] = (sample[t] * randomize());
-		} else {};
+    	/*** Conditional nested conditional without brackets ***/
+    	if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then
+    		if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then
+	        	put(minValue);
+    		else; //nothing is OK	
+		else
+			if((id[1].id[2] and 100.0) or id[1].id[2] and 100.0 == id[0]+not(+id[0](id[1]))/not -variable[0].v(v[1].id and 100.0)) then
+		        put(minValue);
+			else; //nothing is OK	
+		;
     ;
     return (value);
 };

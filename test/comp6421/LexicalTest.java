@@ -20,7 +20,7 @@ import comp6421.scanner.Scanner;
  * @author Jenkin
  *
  */
-public class ScannerTest {
+public class LexicalTest {
 	
 	private ArrayList<String> files;
 	
