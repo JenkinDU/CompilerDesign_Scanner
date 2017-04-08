@@ -446,6 +446,7 @@ public class Scanner {
 	protected void outPutToken(boolean print) {
 		int line = 0;
 		int index = 0;
+		int errNum = 0;
 		String error = "";
 		String token = "";
 		for (Token t : tokens) {
@@ -454,6 +455,7 @@ public class Scanner {
 				index = 0;
 			}
 			if(t.TYPE == EType.ERR) {
+				errNum++;
 				error += "Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError() + "\n";
 			} else {
 				token += "Line " + t.position + ":" + ++index + " " + t.getTYPE() + " " +t.getValue() + " " + t.getError() + "\n";
@@ -462,6 +464,8 @@ public class Scanner {
 		}
 		if(print) {
 			System.out.println("Token:\n"+token);
+			System.out.println("Total Token Number:"+tokens.size()+"\n");
+			System.out.println("Error Number:"+errNum+"\n");
 			System.out.println("Error:\n"+error);
 		}
 		Utils.echo2File(TOKEN_FILE, token);

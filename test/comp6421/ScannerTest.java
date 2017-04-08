@@ -44,6 +44,7 @@ public class ScannerTest {
 	@Before
 	public void setUp() throws Exception {
 		files = new ArrayList<String>();
+		files.add("./res/scanner/program.txt");
 		files.add("./res/scanner/test.txt");
 	}
 
@@ -55,15 +56,30 @@ public class ScannerTest {
 	}
 
 	@Test
-	public void test() {
+	public void testNormal() {
 		Scanner scanner = new Scanner();
-		for(String f : files) {
+		String f = files.get(0);
+//		for(String f : files) {
 			scanner.TEST_FILE = f;
 			scanner.TOKEN_FILE = f.replace("scanner", "scanner/out")+"_token.txt";
 			scanner.ERROR_FILE = f.replace("scanner", "scanner/out")+"_error.txt";
 			System.out.println("***********Lexical analysis***********\n\tTo test file "+f+"\n");
 			scanner.lexer();
 			assertTrue(new File(scanner.TOKEN_FILE).exists());
-		}
+//		}
+	}
+	
+	@Test
+	public void testError() {
+		Scanner scanner = new Scanner();
+		String f = files.get(1);
+//		for(String f : files) {
+			scanner.TEST_FILE = f;
+			scanner.TOKEN_FILE = f.replace("scanner", "scanner/out")+"_token.txt";
+			scanner.ERROR_FILE = f.replace("scanner", "scanner/out")+"_error.txt";
+			System.out.println("***********Lexical analysis***********\n\tTo test file "+f+"\n");
+			scanner.lexer();
+			assertTrue(new File(scanner.TOKEN_FILE).exists());
+//		}
 	}
 }
