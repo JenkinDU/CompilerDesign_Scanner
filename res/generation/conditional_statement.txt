@@ -1,0 +1,11 @@
+program {
+	int x;
+	x = 1;
+	get(x);
+	if(x == 1) then {
+		x = 101;
+	} else {
+		x = 102;
+	};
+	put(x);
+};

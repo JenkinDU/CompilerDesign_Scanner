@@ -45,7 +45,8 @@ public class GenerationTest {
 	public void setUp() throws Exception {
 		files = new ArrayList<String>();
 		files.add("./res/generation/memory_allocation.txt");
-		files.add("./res/generation/test.txt");
+		files.add("./res/generation/loop_statement.txt");
+		files.add("./res/generation/conditional_statement.txt");
 	}
 
 	/**
@@ -64,17 +65,21 @@ public class GenerationTest {
 		Compiler.run();
 	}
 	
-//	@Test
-	public void testError() {
-		Scanner scanner = new Scanner();
+	@Test
+	public void testLoop() {
 		String f = files.get(1);
-//		for(String f : files) {
-			scanner.TEST_FILE = f;
-			scanner.TOKEN_FILE = f.replace("scanner", "scanner/out")+"_token.txt";
-			scanner.ERROR_FILE = f.replace("scanner", "scanner/out")+"_error.txt";
-			System.out.println("***********Lexical analysis***********\n\tTo test file "+f+"\n");
-			scanner.lexer();
-			assertTrue(new File(scanner.TOKEN_FILE).exists());
-//		}
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
+	}
+	
+	@Test
+	public void testCondition() {
+		String f = files.get(2);
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
 	}
 }
