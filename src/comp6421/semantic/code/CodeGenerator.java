@@ -32,7 +32,6 @@ public class CodeGenerator {
 		try{
 			generateProgram((FunctionEntry) program);
 		}catch(CompilerError x){
-//			Log.logError(x.getMessage());
 			++nErrors;
 		}
 		
@@ -44,7 +43,6 @@ public class CodeGenerator {
 					try{
 						generateFunction((FunctionEntry) e);
 					}catch(CompilerError x){
-//						Log.logError(x.getMessage()); // TODO - line numbers on these errors! and report multiple per scope!!
 						++nErrors;
 					}
 				}
@@ -60,7 +58,7 @@ public class CodeGenerator {
 			
 		String stackLabel = "stack";
 		
-		c.appendInstruction(new EntryInstruction().setComment("==== Program Begin ===="));
+		c.appendInstruction(new EntryInstruction().setComment("==== ENTRY ===="));
 		c.appendInstruction(new AddWordImmediateInstruction(Register.STACK_POINTER, Register.ZERO, stackLabel));
 		c.appendInstruction(new AddWordImmediateInstruction(Register.STACK_POINTER, Register.STACK_POINTER, program.getScope().getSize()).setComment("init stack pointer"));
 		
@@ -69,7 +67,7 @@ public class CodeGenerator {
 			s.generateCode(c);
 		}
 		
-		c.appendInstruction(new HaltInstruction().setComment("==== Program End ===="));
+		c.appendInstruction(new HaltInstruction().setComment("==== END ===="));
 		
 		c.appendInstruction(new AlignInstruction().setLabel(stackLabel).setComment("start of stack"));
 		c.printCode(output);
@@ -85,7 +83,7 @@ public class CodeGenerator {
 		c.commentNext(func.toString());
 		
 		c.appendInstruction(new StoreWordInstruction(Register.STACK_POINTER, returnAddrMemOffset, Register.RETURN_ADDRESS)
-				.setComment("Store return address"));
+				.setComment("Save return address"));
 		
 		for(Statement stat : func.getStatements()){
 			c.commentNext(stat.getClass().getSimpleName());

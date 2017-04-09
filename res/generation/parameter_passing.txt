@@ -1,0 +1,22 @@
+class Utility {
+    int findMax(int multi) {
+        int maxValue;
+        maxValue = 100*multi;
+        return (maxValue);
+    };
+    int findMin(int multi) {
+        int minValue;
+        minValue = 1*multi;
+        return (minValue);
+    };
+};
+program {
+    int maxValue;
+    int minValue;
+    Utility utility;
+
+    maxValue = utility.findMax(10);
+    minValue = utility.findMin(10);
+    put(maxValue);
+    put(minValue);
+};

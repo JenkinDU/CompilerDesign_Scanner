@@ -1,0 +1,17 @@
+class Utility {
+    int findMax() {
+        int maxValue;
+        maxValue = 100;
+        return (maxValue);
+    };
+    int findMin() {
+        int minValue;
+        minValue = 0;
+        return (minValue);
+    };
+};
+program {
+    int maxValue;
+    int minValue;
+    Utility utility;
+};

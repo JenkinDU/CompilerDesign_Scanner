@@ -38,17 +38,8 @@ public class Compiler {
 		codeGenerator.generate();
 		
 		if(codeGenerator.getNumErrors() > 0){
-//			Log.logError("Errors during parsing second pass, aborting");
 			System.exit(2);
 		}
-		
-//		Log.closeMasm();
-		
-		System.out.println("~================<    Moon Output   >================~");
-		
-//		moonRun(SOURCE_FILE+".m");//Log.getMasmFile());
-		
-//		Log.close();
 	}
 	
 	public static void moonRun(String file) {

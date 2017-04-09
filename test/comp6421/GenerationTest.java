@@ -48,6 +48,9 @@ public class GenerationTest {
 		files.add("./res/generation/loop_statement.txt");
 		files.add("./res/generation/conditional_statement.txt");
 		files.add("./res/generation/expression.txt");
+		files.add("./res/generation/function_declaration.txt");
+		files.add("./res/generation/function_call.txt");
+		files.add("./res/generation/parameter_passing.txt");
 	}
 
 	/**
@@ -87,6 +90,33 @@ public class GenerationTest {
 	@Test
 	public void testExpressions() {
 		String f = files.get(3);
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
+	}
+	
+	@Test
+	public void testFunctionDeclaration() {
+		String f = files.get(4);
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
+	}
+	
+	@Test
+	public void testFunctionCall() {
+		String f = files.get(5);
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
+	}
+	
+	@Test
+	public void testParameterPassing() {
+		String f = files.get(6);
 		Compiler.SOURCE_FILE = f;
 		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
 		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
