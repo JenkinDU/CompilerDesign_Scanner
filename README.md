@@ -1,3 +1,87 @@
+# Assignment 4 - Code Generation (refactor from the Assignment 3)
+	Semantic actions are inserted in the grammar, thus transforming it in an attribute grammar
+## Semantic Define
+
+* Not support Array
+
+* Not support float
+
+* Not support multi-operation in one statement
+
+* Not support function(include free/recursive) call
+
+* Not support overloading
+ 
+* Parameter number limits, less then 7
+
+# Semantic Action
+	semantic actions added in the parser in order to do the semantic verification/translation
+	Hard-coding these actions
+	In table-driven top-down parsers, they are represented by semantic action placeholders pushed on the stack along with the right hand sides they belong to
+	migrated using a semantic stack
+	To generate each entry, (one for each element in the list), the compiler must keep track of the type of the declaration
+* Declarations:
+
+	variable declarations
+	type declarations
+	function declarations
+
+* Control structures:
+
+	conditional statements
+	loop statements
+	function calls
+	
+* Assignments and expressions: 
+
+	assignment operations
+	arithmetic and logical expressions
+	
+	
+## Semantic Checking
+	
+	check if the compiled program can have a meaning
+
+* variable declarations (integers only)
+
+	Duplicate or non-declaration
+
+* expressions (one operator only)
+	
+	If a correct expression
+
+* assignment statement
+
+	Type checking for both side element
+
+* conditional statement
+
+* loop statement
+
+
+## Attributes Migration
+
+* Abstract syntax trees
+	
+	emphasize the actual computations to be performed. They do not refer to the actual non-terminals defined in the grammar, hence their name. 
+
+*Semantic records
+
+	contain the type and location for variables (in our case, labels in the Moon code, or offsets) or the type and value for constant factors.
+	
+	created at the leaves of the tree when factors are recognized, and then passed upwards in the tree using attribute migration.
+	
+	contain the attributes that are migrated within the tree to find a global result for the symbol on top of the tree for that expression.
+
+## Function calls
+
+* jump to the function code.-> save return address in function
+
+* passing of **parameters**(which count have to less then 7) upon calling and return value upon completion. -> save the return value in return register
+
+* jump back to the instruction following the function call.
+
+***
 # Assignment 3 - Semantic Analysis (refactor from the Assignment 2)
 
 ## Syntax-directed translation
