@@ -1,0 +1,20 @@
+program	{
+	int a;
+	int b;
+	int c;
+	
+	a = 1+2*3-4/2;
+	
+	b = a >= 1;
+	b = a <= 2;
+	b = a > 3;
+	b = a < 4;
+	b = a <> 5;
+	b = a == 1;
+	
+	c = a and b;
+	c = a or b;
+	put(a);
+	put(b);
+	put(c);
+};

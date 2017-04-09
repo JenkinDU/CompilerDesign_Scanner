@@ -47,6 +47,7 @@ public class GenerationTest {
 		files.add("./res/generation/memory_allocation.txt");
 		files.add("./res/generation/loop_statement.txt");
 		files.add("./res/generation/conditional_statement.txt");
+		files.add("./res/generation/expression.txt");
 	}
 
 	/**
@@ -77,6 +78,15 @@ public class GenerationTest {
 	@Test
 	public void testCondition() {
 		String f = files.get(2);
+		Compiler.SOURCE_FILE = f;
+		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
+		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
+		Compiler.run();
+	}
+	
+	@Test
+	public void testExpressions() {
+		String f = files.get(3);
 		Compiler.SOURCE_FILE = f;
 		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
 		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
