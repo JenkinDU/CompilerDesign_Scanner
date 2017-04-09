@@ -59,67 +59,53 @@ public class GenerationTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
-	@Test
-	public void testMalloc() {
-		String f = files.get(0);
+	
+	protected void runTest(String f) {
 		Compiler.SOURCE_FILE = f;
 		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
 		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
 		Compiler.run();
+	}
+
+	@Test
+	public void testMalloc() {
+		String f = files.get(0);
+		runTest(f);
 	}
 	
 	@Test
 	public void testLoop() {
 		String f = files.get(1);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 	
 	@Test
 	public void testCondition() {
 		String f = files.get(2);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 	
 	@Test
 	public void testExpressions() {
 		String f = files.get(3);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 	
 	@Test
 	public void testFunctionDeclaration() {
 		String f = files.get(4);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 	
 	@Test
 	public void testFunctionCall() {
 		String f = files.get(5);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 	
 	@Test
 	public void testParameterPassing() {
 		String f = files.get(6);
-		Compiler.SOURCE_FILE = f;
-		Compiler.OUTPUT = f.replace("generation", "generation/out")+"_table.txt";
-		Compiler.ERROR = f.replace("generation", "generation/out")+"_error.txt";
-		Compiler.run();
+		runTest(f);
 	}
 }

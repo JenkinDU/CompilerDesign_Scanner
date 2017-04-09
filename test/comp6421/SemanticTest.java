@@ -61,61 +61,45 @@ public class SemanticTest {
 	public void testNormal() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(0);
-		System.out.println("To test file "+f+"\n");
-		g.SOURCE_FILE = f;
-		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
-		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
-		g.genTable(g);
+		runTest(g, f);
 	}
 	
 	@Test
 	public void testUndefined() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(1);
-		System.out.println("To test file "+f+"\n");
-		g.SOURCE_FILE = f;
-		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
-		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
-		g.genTable(g);
+		runTest(g, f);
 	}
 	
 	@Test
 	public void testMultiply() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(2);
-		System.out.println("To test file "+f+"\n");
-		g.SOURCE_FILE = f;
-		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
-		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
-		g.genTable(g);
+		runTest(g, f);
 	}
 	
 	@Test
 	public void testDimension() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(3);
-		System.out.println("To test file "+f+"\n");
-		g.SOURCE_FILE = f;
-		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
-		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
-		g.genTable(g);
+		runTest(g, f);
 	}
 	
 	@Test
 	public void testTypeAndFunctionChecking() {
 		SymbolTableGen g = new SymbolTableGen();
 		String f = files.get(4);
-		System.out.println("To test file "+f+"\n");
-		g.SOURCE_FILE = f;
-		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";
-		g.ERROR = f.replace("res/symbol", "res/symbol/out")+"_error.txt";
-		g.genTable(g);
+		runTest(g, f);
 	}
 	
 	@Test
 	public void showMigration() {
 		SymbolTableGen g = new SymbolTableGen(true);
 		String f = files.get(5);
+		runTest(g, f);
+	}
+
+	protected void runTest(SymbolTableGen g, String f) {
 		System.out.println("To test file "+f+"\n");
 		g.SOURCE_FILE = f;
 		g.OUTPUT = f.replace("res/symbol", "res/symbol/out")+"_table.txt";

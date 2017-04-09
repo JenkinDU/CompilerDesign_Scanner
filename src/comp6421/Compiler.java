@@ -34,9 +34,9 @@ public class Compiler {
 		g.genTable(g);
 		
 		CodeGenerator codeGenerator = new CodeGenerator(out);
-		
 		codeGenerator.generate();
 		
+		out.close();
 		if(codeGenerator.getNumErrors() > 0){
 			System.exit(2);
 		}

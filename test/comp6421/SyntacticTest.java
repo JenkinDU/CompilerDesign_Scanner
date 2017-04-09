@@ -59,34 +59,24 @@ public class SyntacticTest {
 	public void testProgram() {
 		Parser parser = new Parser(true);
 		String f = files.get(0);
-		System.out.println("\nTest file "+f);
-		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
-		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";
-		parser.doParser(f);
-		if(parser.getErrorNum()==0)
-			System.out.println("NO ERROR\nDerivation in "+parser.DERIVATION);
-		else
-			System.out.println(parser.getErrorNum()+" errors\nDetail information in "+parser.ERROR);
+		runTest(parser, f);
 	}
 	
 	@Test
 	public void testProgramFull() {
 		Parser parser = new Parser(true);
 		String f = files.get(1);
-		System.out.println("\nTest file "+f);
-		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
-		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";
-		parser.doParser(f);
-		if(parser.getErrorNum()==0)
-			System.out.println("NO ERROR\nDerivation in "+parser.DERIVATION);
-		else
-			System.out.println(parser.getErrorNum()+" errors\nDetail information in "+parser.ERROR);
+		runTest(parser, f);
 	}
 	
 	@Test
 	public void testProgramErrorRecovery() {
 		Parser parser = new Parser(true);
 		String f = files.get(2);
+		runTest(parser, f);
+	}
+
+	protected void runTest(Parser parser, String f) {
 		System.out.println("\nTest file "+f);
 		parser.DERIVATION = f.replace("res/parser/test", "res/parser/out")+"_derivation.txt";
 		parser.ERROR = f.replace("res/parser/test", "res/parser/out")+"_error.txt";

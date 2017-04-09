@@ -3,8 +3,6 @@
  */
 package comp6421.semantic;
 
-import java.util.HashMap;
-
 import comp6421.Utils;
 import comp6421.scanner.EType;
 import comp6421.scanner.Token;
@@ -39,11 +37,12 @@ public class SymbolTableGen implements ActionCallback {
 	}
 	
 	public SymbolTableGen() {
-		
+		SymbolContext.reset();
 	}
 
 	public SymbolTableGen(String file) {
 		SOURCE_FILE = file;
+		SymbolContext.reset();
 	}
 
 //	private void buildGlobal(String name){}
