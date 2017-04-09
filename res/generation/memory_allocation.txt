@@ -1,0 +1,25 @@
+class Memory {
+	int v1;
+	float v2;
+	int v3[2][5];
+	float v4[2][5];
+	
+	int getValue(int p1) {
+		return (v1);
+	};
+};
+
+program {
+	Memory v1;
+	Memory v2[2][5];
+	int v3;
+	v3 = v1.getValue(v3);
+};
+
+int Method() {
+	int v1;
+	float v2;
+	int v3[2][5];
+	float v4[2][5];
+	return(v1);
+};

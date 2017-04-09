@@ -17,7 +17,7 @@ import comp6421.semantic.SymbolTableGen;
  * @author Jenkin
  *
  */
-public class SymbolTest {
+public class SemanticTest {
 	
 	private static ArrayList<String> files;
 	
