@@ -2,6 +2,7 @@ package comp6421.semantic.expression;
 
 import comp6421.semantic.CompilerError;
 import comp6421.semantic.InternalCompilerError;
+import comp6421.semantic.SymbolContext;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
@@ -54,8 +55,10 @@ public class AssignmentExpression extends ExpressionElement implements Statement
 			currentState = State.RHS;
 		}else
 		if(currentState == State.RHS){
+			if(SymbolContext.getInstance().showMigration) {
+				System.out.println("\nAttributes Migration from MathValue Tree:");
+			}
 			rhs = e.getValue();
-			System.out.println(rhs.getClass().getName());
 			if(lhs instanceof StoredValue) {
 //				if(rhs instanceof VoidValue) {
 //					throw new CompilerError("Can not put "+VoidValue.class.getSimpleName()+" value to "+lhs.getClass().getSimpleName());

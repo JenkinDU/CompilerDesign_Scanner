@@ -2,6 +2,7 @@ package comp6421.semantic.value;
 
 import comp6421.semantic.CompilerError;
 import comp6421.semantic.InternalCompilerError;
+import comp6421.semantic.SymbolContext;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.ImmediateMathOperationInstruction;
 import comp6421.semantic.code.MathOperation;
@@ -19,6 +20,9 @@ public class MathValue extends DynamicValue {
 		this.operator = operator;
 		this.a = a;
 		this.b = b;
+		if(SymbolContext.getInstance().showMigration) {
+			System.out.println(this.toString());
+		}
 	}
 
 	@Override

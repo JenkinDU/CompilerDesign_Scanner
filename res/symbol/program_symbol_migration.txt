@@ -1,0 +1,6 @@
+program	{
+	int m;
+
+	m = 1+2*3-4/2;
+	put(m);
+};

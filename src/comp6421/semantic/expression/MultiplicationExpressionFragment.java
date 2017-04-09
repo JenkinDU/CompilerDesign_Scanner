@@ -153,4 +153,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 		}
 	}
 
+	public TypedExpressionElement getFirst(){return first;};
+	public TypedExpressionElement getSecond(){return second;};
+	public MathOperation getOperation(){return operator;};
 }

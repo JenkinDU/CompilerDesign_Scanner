@@ -82,4 +82,7 @@ public class AdditionExpressionFragment extends TypedExpressionElement {
 		return first.getType();
 	}
 	
+	public TypedExpressionElement getFirst(){return first;};
+	public TypedExpressionElement getSecond(){return second;};
+	public MathOperation getOperation(){return operator;};
 }

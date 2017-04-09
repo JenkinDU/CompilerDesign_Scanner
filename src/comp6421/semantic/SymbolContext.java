@@ -11,7 +11,7 @@ public final class SymbolContext {
 //	static {
 //		instance = new SymbolContext();
 //	}
-	
+	public boolean showMigration = false;
 	private static SymbolContext instance;
 
 	public static synchronized SymbolContext getInstance() {

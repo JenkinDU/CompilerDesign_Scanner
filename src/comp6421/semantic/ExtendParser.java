@@ -17,7 +17,7 @@ public class ExtendParser extends Parser {
 
 	@Override
 	protected void createSymbolTable(String action, Token p, Token c) {
-//		System.out.println(action);
+//		System.out.println(action + "[" + p.toString() + "]");
 		cb.createTable(action, p, c);
 	}
 
