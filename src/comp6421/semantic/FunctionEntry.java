@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.ParameterEntry;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.migration.Statement;
 
@@ -17,8 +14,8 @@ public class FunctionEntry extends STEntry {
 
 	private final String label;
 
-	public FunctionEntry(String name, EntryType returnType, STable table) {
-		super(name, Kind.Function, new FunctionType(returnType, new ArrayList<EntryType>()), table);
+	public FunctionEntry(String name, IType returnType, STable table) {
+		super(name, Kind.Function, new FunctionType(returnType, new ArrayList<IType>()), table);
 		statements = new ArrayList<Statement>();
 		this.label = name + Integer.toString(hashCode());
 	}
@@ -31,7 +28,7 @@ public class FunctionEntry extends STEntry {
 	}
 
 	@Override
-	protected int calculateSize() throws SemanticException {
+	protected int getEntrySize() {
 		int size = 0;
 		for (STEntry e : getScope().getEntries()) {
 			if (e instanceof ParameterEntry || e instanceof VariableEntry) {

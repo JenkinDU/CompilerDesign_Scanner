@@ -10,21 +10,21 @@ public class MigrationContext {
 
 	public static MigrationContext instance = new MigrationContext();
 
-	private final Stack<ExpressionElement> expressionStack;
+	private final Stack<Expression> expressionStack;
 
 	private FunctionEntry currentFunction;
 
 	private MigrationContext() {
-		expressionStack = new Stack<ExpressionElement>();
+		expressionStack = new Stack<Expression>();
 	}
 
-	public void pushChild(ExpressionElement child) {
+	public void pushChild(Expression child) {
 		expressionStack.push(child);
 	}
 
 	// TODO better name
 	public void finishTopElement() throws SemanticException {
-		ExpressionElement child = null;
+		Expression child = null;
 
 		if (!expressionStack.isEmpty()) {
 			child = expressionStack.pop();
@@ -44,7 +44,7 @@ public class MigrationContext {
 
 	}
 
-	public ExpressionElement getCurrent() throws SemanticException {
+	public Expression getCurrent() throws SemanticException {
 		if (expressionStack.isEmpty()) {
 			return null;
 		} else {
@@ -62,9 +62,9 @@ public class MigrationContext {
 
 	public String getStackString() {
 		String stack = "";
-		Iterator<ExpressionElement> i = expressionStack.iterator();
+		Iterator<Expression> i = expressionStack.iterator();
 		while (i.hasNext()) {
-			ExpressionElement e = i.next();
+			Expression e = i.next();
 			stack += e.getClass().getSimpleName().substring(0, 6) + "/";
 			// if(e instanceof AdditionExpressionFragment) {
 			// stack += e.getClass().getSimpleName().substring(0, 6)

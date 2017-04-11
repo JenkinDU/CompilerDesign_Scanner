@@ -5,25 +5,25 @@ import comp6421.semantic.value.RegisterValue;
 
 public class LoadWordInstruction extends Instruction {
 
-	private final Register destReg;
-	private final Register sourceReg;
+	private final Register d;
+	private final Register src;
 	private final int offset;
 
 	public LoadWordInstruction(RegisterValue destination, RegisterValue baseAddress, NumberValue offsetValue) {
-		destReg = destination.getRegister();
-		sourceReg = baseAddress.getRegister();
+		d = destination.getRegister();
+		src = baseAddress.getRegister();
 		offset = offsetValue.intValue();
 	}
 
 	public LoadWordInstruction(Register destination, Register baseAddress, int offsetValue) {
-		destReg = destination;
-		sourceReg = baseAddress;
+		d = destination;
+		src = baseAddress;
 		offset = offsetValue;
 	}
 
 	@Override
 	protected String code() {
-		return "lw" + '\t' + destReg.registerName + ", " + offset + "(" + sourceReg.registerName + ")";
+		return "lw" + '\t' + d.registerName + ", " + offset + "(" + src.registerName + ")";
 	}
 
 }

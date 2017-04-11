@@ -2,19 +2,19 @@ package comp6421.semantic.code;
 
 public class StoreWordInstruction extends Instruction {
 
-	private final Register destAddress;
+	private final Register d;
 	private final int offset;
-	private final Register value;
+	private final Register v;
 
 	public StoreWordInstruction(Register baseAddress, int offset, Register value) {
-		this.destAddress = baseAddress;
+		this.d = baseAddress;
 		this.offset = offset;
-		this.value = value;
+		this.v = value;
 	}
 
 	@Override
 	protected String code() {
-		return "sw" + '\t' + offset + "(" + destAddress.registerName + "), " + value.registerName;
+		return "sw" + '\t' + offset + "(" + d.registerName + "), " + v.registerName;
 	}
 
 }

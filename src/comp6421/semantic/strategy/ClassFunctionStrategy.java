@@ -1,13 +1,13 @@
 package comp6421.semantic.strategy;
 
 import comp6421.scanner.Token;
+import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.Register;
-import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
 
-public class MemberFunctionStrategy extends TableStrategy {
+public class ClassFunctionStrategy extends TableStrategy {
 
 	@Override
 	public void execute(Token token) throws SemanticException {
@@ -22,7 +22,7 @@ public class MemberFunctionStrategy extends TableStrategy {
 			ParameterEntry thisParam = new ParameterEntry(Register.THIS_POINTER_NAME,
 					context.current.getEnclosingEntry().getType());
 
-			context.function = new MemberFunctionEntry(context.id, context.type, table);
+			context.function = new FunctionEntry(context.id, context.type, table);
 			context.function.addParameter(thisParam);
 
 			table.setEnclosingEntry(context.function);

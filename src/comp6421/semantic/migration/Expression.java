@@ -4,11 +4,11 @@ import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.value.Value;
 
-public abstract class ExpressionElement {
+public abstract class Expression {
 
 	protected final MigrationContext context = MigrationContext.instance;
 
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 	}
 
 	public void pushIdentifier(String id) throws SemanticException {

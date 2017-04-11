@@ -1,8 +1,8 @@
 package comp6421.semantic.strategy;
 
 import comp6421.scanner.Token;
+import comp6421.semantic.STEntry;
 import comp6421.semantic.SemanticException;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
 
 public class VariableStrategy extends TableStrategy {

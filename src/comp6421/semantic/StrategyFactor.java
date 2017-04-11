@@ -26,7 +26,7 @@ import comp6421.semantic.strategy.ClassStrategy;
 import comp6421.semantic.strategy.DimensionStrategy;
 import comp6421.semantic.strategy.FinishScope;
 import comp6421.semantic.strategy.FunctionStrategy;
-import comp6421.semantic.strategy.MemberFunctionStrategy;
+import comp6421.semantic.strategy.ClassFunctionStrategy;
 import comp6421.semantic.strategy.ProgramStrategy;
 import comp6421.semantic.strategy.PushIdStrategy;
 import comp6421.semantic.strategy.PushTypeStrategy;
@@ -44,7 +44,7 @@ public class StrategyFactor {
 		} else if ("sym_StartFunction".equals(action)) {
 			return new StartFunctionStrategy();
 		} else if ("sym_StartMemberFunction".equals(action)) {
-			return new MemberFunctionStrategy();
+			return new ClassFunctionStrategy();
 		} else if ("sym_AddFunctionParameter".equals(action)) {
 			return new AdditionalParameter();
 		} else if ("sym_CreateFunction".equals(action)) {

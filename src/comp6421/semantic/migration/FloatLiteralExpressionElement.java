@@ -1,7 +1,7 @@
 package comp6421.semantic.migration;
 
-import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.NumberType;
+import comp6421.semantic.IType;
+import comp6421.semantic.NumberType;
 import comp6421.semantic.value.StaticFloatValue;
 import comp6421.semantic.value.Value;
 
@@ -19,7 +19,7 @@ public class FloatLiteralExpressionElement extends TypedExpressionElement {
 	}
 
 	@Override
-	public EntryType getType() {
+	public IType getType() {
 		return new NumberType("float");
 	}
 

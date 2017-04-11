@@ -2,13 +2,13 @@ package comp6421.semantic.migration.strategy;
 
 import comp6421.scanner.Token;
 import comp6421.semantic.SemanticException;
-import comp6421.semantic.migration.ExpressionElement;
+import comp6421.semantic.migration.Expression;
 import comp6421.semantic.migration.MigrationStrategy;
 
 public class StartMigrationStrategy extends MigrationStrategy {
-	ExpressionElement express;
+	Expression express;
 
-	public StartMigrationStrategy(ExpressionElement e) {
+	public StartMigrationStrategy(Expression e) {
 		express = e;
 	}
 

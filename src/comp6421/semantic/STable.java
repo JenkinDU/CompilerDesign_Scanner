@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import comp6421.semantic.entry.STEntry;
-
 public class STable implements ITable {
 
 	private Map<String, STEntry> entries;
@@ -63,7 +61,6 @@ public class STable implements ITable {
 	}
 
 	public void add(STEntry entry) throws SemanticException {
-		// Note that for functions, parameters are added in order
 		entries.put(entry.getName(), entry);
 
 		entry.setOffset(currentOffset);

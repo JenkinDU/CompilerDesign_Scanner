@@ -1,7 +1,4 @@
-package comp6421.semantic.entry;
-
-import comp6421.semantic.STable;
-import comp6421.semantic.SemanticException;
+package comp6421.semantic;
 
 public abstract class STEntry {
 
@@ -11,12 +8,12 @@ public abstract class STEntry {
 
 	private String name;
 	private Kind kind;
-	private EntryType type;
+	private IType type;
 	private STable scope;
 
 	private int offset;
 
-	public STEntry(String name, Kind kind, EntryType type, STable scope) {
+	public STEntry(String name, Kind kind, IType type, STable scope) {
 		this.name = name;
 		this.kind = kind;
 		this.type = type;
@@ -29,10 +26,10 @@ public abstract class STEntry {
 		this.offset = -1;
 	}
 
-	protected abstract int calculateSize() throws SemanticException;
+	protected abstract int getEntrySize();
 
-	public final int getSize() throws SemanticException {
-		return calculateSize();
+	public final int getSize() {
+		return getEntrySize();
 	}
 
 	public String getName() {
@@ -43,7 +40,7 @@ public abstract class STEntry {
 		return kind;
 	}
 
-	public EntryType getType() {
+	public IType getType() {
 		return type;
 	}
 
@@ -59,7 +56,7 @@ public abstract class STEntry {
 		this.kind = kind;
 	}
 
-	public void setType(EntryType type) {
+	public void setType(IType type) {
 		this.type = type;
 	}
 
@@ -83,24 +80,8 @@ public abstract class STEntry {
 		}
 		v = String.format("%-" + (v.length() < 50 ? 50 : v.length()) + "s", v);
 		String off = "";
-		try {
-			off = "[Size:" + getSize() + " Add:" + (add ? 0 : offset) + "]";
-		} catch (SemanticException e) {
-			e.printStackTrace();
-		}
+		off = "[Size:" + getSize() + " Add:" + (add ? 0 : offset) + "]";
 		return v + off;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof STEntry) {
-			STEntry e = (STEntry) other;
-			return ((e.getKind() == null && getKind() == null) || e.getKind().equals(getKind()))
-					&& ((e.getType() == null && getType() == null) || e.getType().equals(getType()))
-					&& ((e.getName() == null && getName() == null) || e.getName().equals(getName()));
-		} else {
-			return false;
-		}
 	}
 
 	public void setOffset(int offset) {

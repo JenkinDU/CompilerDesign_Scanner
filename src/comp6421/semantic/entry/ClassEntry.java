@@ -1,7 +1,9 @@
 package comp6421.semantic.entry;
 
+import comp6421.semantic.ClassType;
+import comp6421.semantic.IType;
+import comp6421.semantic.STEntry;
 import comp6421.semantic.STable;
-import comp6421.semantic.SemanticException;
 
 public class ClassEntry extends STEntry {
 
@@ -10,7 +12,7 @@ public class ClassEntry extends STEntry {
 	}
 
 	@Override
-	protected int calculateSize() throws SemanticException {
+	protected int getEntrySize() {
 		int size = 0;
 		for (STEntry e : getScope().getEntries()) {
 			if (e instanceof VariableEntry) {
@@ -21,7 +23,7 @@ public class ClassEntry extends STEntry {
 	}
 
 	@Override
-	public EntryType getType() {
+	public IType getType() {
 		return new ClassType(this);
 	}
 }

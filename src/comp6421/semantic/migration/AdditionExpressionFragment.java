@@ -1,8 +1,8 @@
 package comp6421.semantic.migration;
 
+import comp6421.semantic.IType;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
-import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.value.OperatorValue;
 import comp6421.semantic.value.Value;
 
@@ -30,7 +30,7 @@ public class AdditionExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 
 		if (e instanceof MultiplicationExpressionFragment || e instanceof AdditionExpressionFragment) {
 			switch (state) {
@@ -41,8 +41,8 @@ public class AdditionExpressionFragment extends TypedExpressionElement {
 			case WAITING_FOR_SECOND:
 				second = (TypedExpressionElement) e;
 
-				EntryType firstType = first.getType();
-				EntryType secondType = second.getType();
+				IType firstType = first.getType();
+				IType secondType = second.getType();
 
 				if (!firstType.equals(secondType)) {
 					throw new SemanticException("Type mismatch: " + firstType + " is not compatible with " + secondType
@@ -72,7 +72,7 @@ public class AdditionExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public EntryType getType() {
+	public IType getType() {
 		return first.getType();
 	}
 

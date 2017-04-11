@@ -1,7 +1,5 @@
 package comp6421.semantic;
 
-import comp6421.semantic.entry.STEntry;
-
 public interface ITable {
 	enum Scope {
 		GLOBAL, FUNCTION, CLASS, PROGRAM, UNKNOWN

@@ -8,9 +8,9 @@ import comp6421.semantic.code.NoopInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.value.RegisterValue;
 
-public class IfStatement extends ExpressionElement implements Statement {
+public class IfStatement extends Expression implements Statement {
 
-	private ExpressionElement condition;
+	private Expression condition;
 
 	private StatementBlock thenBlock;
 	private StatementBlock elseBlock;
@@ -26,7 +26,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		switch (state) {
 		case CONDITION:
 			if (e instanceof RelationExpressionFragment) {
@@ -74,7 +74,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 		thenBlock.generateCode(c);
 
 		c.appendInstruction(new JumpInstruction(endifLabel));
-		c.labelNext(elseLabel);
+		c.setLabel(elseLabel);
 
 		elseBlock.generateCode(c);
 

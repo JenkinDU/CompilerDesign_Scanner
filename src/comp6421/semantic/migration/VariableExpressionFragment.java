@@ -2,23 +2,23 @@ package comp6421.semantic.migration;
 
 import java.util.List;
 
+import comp6421.semantic.ClassType;
+import comp6421.semantic.FunctionEntry;
+import comp6421.semantic.IType;
+import comp6421.semantic.NumberType;
+import comp6421.semantic.STEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.TableContext;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.code.Register;
-import comp6421.semantic.entry.ClassType;
-import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.entry.NumberType;
 import comp6421.semantic.value.FunctionCallValue;
 import comp6421.semantic.value.FunctionOffsetValue;
 import comp6421.semantic.value.IndirectValue;
-import comp6421.semantic.value.OperatorValue;
 import comp6421.semantic.value.NumberValue;
+import comp6421.semantic.value.OperatorValue;
 import comp6421.semantic.value.RegisterValue;
 import comp6421.semantic.value.Value;
 import comp6421.semantic.value.WordValue;
@@ -33,7 +33,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 
 	private Value memberFunctionCallValue;
 
-	private EntryType currentType;
+	private IType currentType;
 
 	private boolean isReference;
 	private boolean functionCall;
@@ -50,7 +50,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 
 		final STEntry e = getEntry(id);
 
-		if (enclosingScope.getEnclosingEntry() instanceof MemberFunctionEntry) {
+		if (enclosingScope.getEnclosingEntry() instanceof FunctionEntry) {
 			STable outerScope = enclosingScope.getParent();
 			if (outerScope.exists(id) && !enclosingScope.exists(id)) {
 				init(getEntry(Register.THIS_POINTER_NAME));
@@ -115,7 +115,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		if (e instanceof FunctionCallExpressionFragment) {
 			FunctionCallExpressionFragment f = (FunctionCallExpressionFragment) e;
 			if (currentType instanceof ClassType) {
@@ -123,8 +123,8 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 
 				if (currentScope.exists(f.getId())) {
 					STEntry entry = currentScope.find(f.getId());
-					if (entry instanceof MemberFunctionEntry) {
-						MemberFunctionEntry function = (MemberFunctionEntry) entry;
+					if (entry instanceof FunctionEntry) {
+						FunctionEntry function = (FunctionEntry) entry;
 						List<TypedExpressionElement> expressions = f.getExpressions();
 
 						expressions.add(0, this);
@@ -161,7 +161,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public EntryType getType() {
+	public IType getType() {
 		return currentType;
 	}
 

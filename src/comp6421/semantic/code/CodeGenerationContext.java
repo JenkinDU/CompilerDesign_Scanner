@@ -12,28 +12,28 @@ public class CodeGenerationContext {
 
 	private static int id = 0;
 
-	private Set<Register> temporaryRegisters;
+	private Set<Register> registers;
 	private List<Instruction> instructions;
-	private String nextLabel;
-	private String nextComment;
+	private String label;
+	private String comment;
 
 	public int getId() {
 		return ++id;
 	}
 
 	public CodeGenerationContext() {
-		temporaryRegisters = new HashSet<Register>();
-		temporaryRegisters.addAll(Register.unallocatedRegisters);
+		registers = new HashSet<Register>();
+		registers.addAll(Register.registers);
 
 		instructions = new ArrayList<Instruction>();
 
-		nextLabel = null;
+		label = null;
 
 	}
 
 	public Register getTemporaryRegister() {
-		Register temp = temporaryRegisters.iterator().next();
-		temporaryRegisters.remove(temp);
+		Register temp = registers.iterator().next();
+		registers.remove(temp);
 		return temp;
 	}
 
@@ -50,18 +50,18 @@ public class CodeGenerationContext {
 		if (temp.reserved) {
 			return;
 		}
-		temporaryRegisters.add(temp);
+		registers.add(temp);
 	}
 
 	public void appendInstruction(Instruction instr) {
 		instructions.add(instr);
-		if (nextLabel != null) {
-			instr.setLabel(nextLabel);
-			nextLabel = null;
+		if (label != null) {
+			instr.setLabel(label);
+			label = null;
 		}
-		if (nextComment != null) {
-			instr.setComment(nextComment);
-			nextComment = null;
+		if (comment != null) {
+			instr.setComment(comment);
+			comment = null;
 		}
 	}
 
@@ -71,12 +71,12 @@ public class CodeGenerationContext {
 		}
 	}
 
-	public void labelNext(String label) {
-		nextLabel = label;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
-	public void commentNext(String comment) {
-		nextComment = comment;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

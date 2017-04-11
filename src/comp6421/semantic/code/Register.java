@@ -17,18 +17,18 @@ public enum Register {
 	public final String symbolicName;
 	public final boolean reserved;
 
-	public final static Set<Register> unallocatedRegisters;
+	public final static Set<Register> registers;
 
 	static {
-		Set<Register> _unallocatedRegisters = new HashSet<Register>(16);
+		Set<Register> reg = new HashSet<Register>(16);
 
 		for (Register r : values()) {
 			if (!r.reserved) {
-				_unallocatedRegisters.add(r);
+				reg.add(r);
 			}
 		}
 
-		unallocatedRegisters = Collections.unmodifiableSet(_unallocatedRegisters);
+		registers = Collections.unmodifiableSet(reg);
 	}
 
 	private Register(String name) {

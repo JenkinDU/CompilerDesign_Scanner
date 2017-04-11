@@ -1,10 +1,10 @@
 package comp6421.semantic.strategy;
 
 import comp6421.scanner.Token;
+import comp6421.semantic.NumberType;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.entry.NumberType;
 import comp6421.semantic.migration.MigrationContext;
 
 public class FunctionStrategy extends TableStrategy {

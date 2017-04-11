@@ -8,10 +8,10 @@ import comp6421.semantic.code.NoopInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.value.Value;
 
-public class ForStatement extends ExpressionElement implements Statement {
+public class ForStatement extends Expression implements Statement {
 
 	private AssignmentExpression initializer;
-	private ExpressionElement condition;
+	private Expression condition;
 	private AssignmentExpression increment;
 
 	private StatementBlock statements;
@@ -27,7 +27,7 @@ public class ForStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 
 		try {
 			switch (state) {
@@ -80,12 +80,12 @@ public class ForStatement extends ExpressionElement implements Statement {
 		String loopTopLabel = "loop_top_" + labelId;
 		String loopEndLabel = "loop_end_" + labelId;
 
-		c.commentNext("for loop initializer");
+		c.setComment("for loop initializer");
 		initializer.generateCode(c);
 
-		c.labelNext(loopTopLabel);
+		c.setLabel(loopTopLabel);
 
-		c.commentNext("evaluate condition");
+		c.setComment("evaluate condition");
 		Register r = condition.getValue().getRegisterValue(c).getRegister();
 		c.appendInstruction(new BranchOnZeroInstruction(r, loopEndLabel).setComment("break out of loop"));
 		if (!r.reserved)
@@ -93,7 +93,7 @@ public class ForStatement extends ExpressionElement implements Statement {
 
 		statements.generateCode(c);
 
-		c.commentNext("for loop incrementation");
+		c.setComment("for loop incrementation");
 		increment.generateCode(c);
 
 		c.appendInstruction(new JumpInstruction(loopTopLabel));

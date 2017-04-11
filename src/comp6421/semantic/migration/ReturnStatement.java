@@ -9,7 +9,7 @@ import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.RegisterValue;
 import comp6421.semantic.value.Value;
 
-public class ReturnStatement extends ExpressionElement implements Statement {
+public class ReturnStatement extends Expression implements Statement {
 
 	Value returnValue;
 
@@ -26,7 +26,7 @@ public class ReturnStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		if (e instanceof RelationExpressionFragment) {
 			returnValue = e.getValue();
 			context.finishTopElement();

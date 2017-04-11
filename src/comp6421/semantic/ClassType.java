@@ -1,9 +1,8 @@
-package comp6421.semantic.entry;
+package comp6421.semantic;
 
-import comp6421.semantic.STable;
-import comp6421.semantic.SemanticException;
+import comp6421.semantic.entry.ClassEntry;
 
-public class ClassType implements EntryType {
+public class ClassType implements IType {
 
 	private ClassEntry classEntry;
 
@@ -12,7 +11,7 @@ public class ClassType implements EntryType {
 	}
 
 	@Override
-	public int getSize() throws SemanticException {
+	public int getSize() {
 		return classEntry.getSize();
 	}
 

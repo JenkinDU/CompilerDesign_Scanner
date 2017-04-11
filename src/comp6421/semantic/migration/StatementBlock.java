@@ -6,7 +6,7 @@ import java.util.List;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 
-public class StatementBlock extends ExpressionElement implements Statement {
+public class StatementBlock extends Expression implements Statement {
 
 	private List<Statement> statements;
 
@@ -15,7 +15,7 @@ public class StatementBlock extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		if (e instanceof Statement) {
 			statements.add((Statement) e);
 		} else {
@@ -26,7 +26,7 @@ public class StatementBlock extends ExpressionElement implements Statement {
 	@Override
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		for (Statement s : statements) {
-			c.commentNext(s.getClass().getSimpleName());
+			c.setComment(s.getClass().getSimpleName());
 			s.generateCode(c);
 		}
 	}

@@ -10,7 +10,7 @@ import comp6421.semantic.value.RegisterValue;
 import comp6421.semantic.value.Value;
 import comp6421.semantic.value.WordValue;
 
-public class AssignmentExpression extends ExpressionElement implements Statement {
+public class AssignmentExpression extends Expression implements Statement {
 
 	private static enum State {
 		INIT_LHS, LHS, INIT_RHS, RHS, DONE
@@ -38,7 +38,7 @@ public class AssignmentExpression extends ExpressionElement implements Statement
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		if (currentState == State.LHS) {
 			lhs = e.getValue();
 			currentState = State.RHS;

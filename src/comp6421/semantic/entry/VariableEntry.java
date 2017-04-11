@@ -1,20 +1,17 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.SemanticException;
+import comp6421.semantic.IType;
+import comp6421.semantic.STEntry;
 
 public class VariableEntry extends STEntry {
 
-	public VariableEntry(String name, EntryType type) {
+	public VariableEntry(String name, IType type) {
 		super(name, Kind.Variable, type, null);
 	}
 
 	@Override
-	protected int calculateSize() throws SemanticException {
-		try {
-			return getType().getSize();
-		} catch (Throwable e) {
-			return 0;
-		}
+	protected int getEntrySize() {
+		return getType().getSize();
 	}
 
 }

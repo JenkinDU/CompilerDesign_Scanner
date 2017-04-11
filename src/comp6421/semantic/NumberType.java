@@ -1,8 +1,6 @@
-package comp6421.semantic.entry;
+package comp6421.semantic;
 
-import comp6421.semantic.STable;
-
-public class NumberType implements EntryType {
+public class NumberType implements IType {
 
 	private final String name;
 

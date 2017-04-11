@@ -6,7 +6,7 @@ import comp6421.semantic.code.PutInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.value.RegisterValue;
 
-public class PutStatement extends ExpressionElement implements Statement {
+public class PutStatement extends Expression implements Statement {
 
 	RelationExpressionFragment expr;
 
@@ -19,7 +19,7 @@ public class PutStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 		if (e instanceof RelationExpressionFragment) {
 			expr = (RelationExpressionFragment) e;
 			context.finishTopElement();

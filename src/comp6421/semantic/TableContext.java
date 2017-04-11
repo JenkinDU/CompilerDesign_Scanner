@@ -1,7 +1,5 @@
 package comp6421.semantic;
 
-import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.migration.VariableExpressionFragment;
 
 public class TableContext {
@@ -9,7 +7,7 @@ public class TableContext {
 	public boolean showMigration = false;
 	private static TableContext instance;
 	public STable current;
-	public EntryType type;
+	public IType type;
 	public String id;
 	public FunctionEntry function;
 	public boolean skip;

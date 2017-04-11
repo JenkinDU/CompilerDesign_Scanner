@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp6421.semantic.FunctionEntry;
+import comp6421.semantic.FunctionType;
+import comp6421.semantic.IType;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.AddWordImmediateInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.JumpAndLinkInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
-import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.migration.TypedExpressionElement;
 
 public class FunctionCallValue extends DynamicValue implements Value {
@@ -23,7 +23,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 
 	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> params) throws SemanticException {
 		int nArgs = params.size();
-		List<EntryType> argTypes = ((FunctionType) entry.getType()).getArgumentTypes();
+		List<IType> argTypes = ((FunctionType) entry.getType()).getArgumentTypes();
 
 		if (nArgs != argTypes.size()) {
 			throw new SemanticException("call function " + entry.getName() + " (" + (argTypes.size() - 1) + " params) "
@@ -34,8 +34,8 @@ public class FunctionCallValue extends DynamicValue implements Value {
 
 		for (int i = 0; i < params.size(); ++i) {
 			TypedExpressionElement exp = params.get(i);
-			EntryType expectedType = argTypes.get(i);
-			EntryType type = exp.getType();
+			IType expectedType = argTypes.get(i);
+			IType type = exp.getType();
 
 			if (!type.equals(expectedType)) {
 				throw new SemanticException("call function " + entry.getName() + " error:" + "param " + (i)
@@ -58,7 +58,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 		// Pass the parameters
 		int offset = 0;
 		for (Value arg : arguments) {
-			c.commentNext("storing argument");
+			c.setComment("storing argument");
 			c.appendInstruction(
 					new StoreWordInstruction(Register.STACK_POINTER, offset, arg.getRegisterValue(c).getRegister()));
 			offset += 4;

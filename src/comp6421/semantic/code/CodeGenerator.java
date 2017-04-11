@@ -3,11 +3,11 @@ package comp6421.semantic.code;
 import java.io.PrintStream;
 
 import comp6421.semantic.FunctionEntry;
+import comp6421.semantic.STEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.TableContext;
 import comp6421.semantic.entry.ClassEntry;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.migration.Statement;
 
 public class CodeGenerator {
@@ -60,7 +60,7 @@ public class CodeGenerator {
 				program.getScope().getSize()).setComment("init stack pointer"));
 
 		for (Statement s : program.getStatements()) {
-			c.commentNext(s.getClass().getSimpleName());
+			c.setComment(s.getClass().getSimpleName());
 			s.generateCode(c);
 		}
 
@@ -76,15 +76,15 @@ public class CodeGenerator {
 
 		int returnAddrMemOffset = -s.getSize() + s.find(Register.RETURN_ADDRESS_PARAMETER_NAME).getOffset();
 
-		c.labelNext(func.getLabel());
-		c.commentNext(func.toString());
+		c.setLabel(func.getLabel());
+		c.setComment(func.toString());
 
 		c.appendInstruction(
 				new StoreWordInstruction(Register.STACK_POINTER, returnAddrMemOffset, Register.RETURN_ADDRESS)
 						.setComment("Save return address"));
 
 		for (Statement stat : func.getStatements()) {
-			c.commentNext(stat.getClass().getSimpleName());
+			c.setComment(stat.getClass().getSimpleName());
 			stat.generateCode(c);
 		}
 

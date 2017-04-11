@@ -3,10 +3,10 @@ package comp6421.semantic.migration;
 import java.util.ArrayList;
 import java.util.List;
 
+import comp6421.semantic.IType;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.TableContext;
-import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.value.Value;
 
 public class FunctionCallExpressionFragment extends TypedExpressionElement {
@@ -24,7 +24,7 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws SemanticException {
+	public void acceptSubElement(Expression e) throws SemanticException {
 
 		if (e instanceof RelationExpressionFragment) {
 			expressions.add((RelationExpressionFragment) e);
@@ -39,7 +39,7 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public EntryType getType() {
+	public IType getType() {
 		return null;
 	}
 
