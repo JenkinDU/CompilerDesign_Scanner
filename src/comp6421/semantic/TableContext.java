@@ -1,8 +1,8 @@
 package comp6421.semantic;
 
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.migration.VariableExpressionFragment;
-import comp6421.semantic.entry.EntryType;
 
 public class TableContext {
 
@@ -14,15 +14,15 @@ public class TableContext {
 	public FunctionEntry function;
 	public boolean skip;
 	public VariableExpressionFragment variableBuilder;
-	
+
 	public static synchronized TableContext getInstance() {
 		if (instance == null) {
 			instance = new TableContext();
 		}
 		return instance;
 	}
-	
-	private TableContext(){
+
+	private TableContext() {
 		init();
 	}
 

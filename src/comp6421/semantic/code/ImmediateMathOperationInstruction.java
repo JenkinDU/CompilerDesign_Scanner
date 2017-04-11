@@ -6,12 +6,12 @@ public class ImmediateMathOperationInstruction extends Instruction {
 	private Register dest;
 	private Register src;
 	private int k;
-	
+
 	public ImmediateMathOperationInstruction(String opcode, Register dest, Register src, int k) {
 		this.opcode = opcode;
-		this.dest   = dest;
-		this.src    = src;
-		this.k      = k;
+		this.dest = dest;
+		this.src = src;
+		this.k = k;
 	}
 
 	@Override

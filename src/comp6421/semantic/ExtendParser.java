@@ -8,8 +8,9 @@ public class ExtendParser extends Parser {
 	interface ActionCallback {
 		void createTable(String action, Token p, Token c);
 	}
+
 	private ActionCallback cb;
-	
+
 	public ExtendParser(boolean show, ActionCallback cb) {
 		super(show);
 		this.cb = cb;
@@ -17,7 +18,7 @@ public class ExtendParser extends Parser {
 
 	@Override
 	protected void createSymbolTable(String action, Token p, Token c) {
-//		System.out.println(action + "[" + p.toString() + "]");
+		// System.out.println(action + "[" + p.toString() + "]");
 		cb.createTable(action, p, c);
 	}
 

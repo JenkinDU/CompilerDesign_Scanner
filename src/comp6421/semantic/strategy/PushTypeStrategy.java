@@ -4,8 +4,8 @@ import comp6421.scanner.Token;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.entry.ClassEntry;
 import comp6421.semantic.entry.ClassType;
-import comp6421.semantic.entry.WordType;
 import comp6421.semantic.entry.STEntry;
+import comp6421.semantic.entry.WordType;
 
 public class PushTypeStrategy extends TableStrategy {
 

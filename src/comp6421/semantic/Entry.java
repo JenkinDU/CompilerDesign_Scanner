@@ -7,7 +7,7 @@ public class Entry implements IEntry {
 	private String link;
 	private String sign;
 	private String path;
-	
+
 	public Entry() {
 		// TODO Auto-generated constructor stub
 	}

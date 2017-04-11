@@ -1,9 +1,9 @@
 package comp6421.semantic.strategy;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
 
 public class StartFunctionStrategy extends TableStrategy {
 

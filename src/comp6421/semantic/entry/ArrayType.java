@@ -3,8 +3,8 @@ package comp6421.semantic.entry;
 import java.util.Collections;
 import java.util.List;
 
-import comp6421.semantic.SemanticException;
 import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
 
 public class ArrayType implements EntryType {
 

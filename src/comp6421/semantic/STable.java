@@ -12,11 +12,11 @@ import java.util.Map.Entry;
 import comp6421.semantic.entry.STEntry;
 
 public class STable implements ITable {
-	
+
 	private Map<String, STEntry> entries;
-//	private HashMap<String, Entry> entry;
-//	private Scope scope = Scope.UNKNOWN;
-//	private String name = null;
+	// private HashMap<String, Entry> entry;
+	// private Scope scope = Scope.UNKNOWN;
+	// private String name = null;
 
 	@Override
 	public void create(String Tn) {
@@ -34,12 +34,12 @@ public class STable implements ITable {
 	}
 
 	int currentOffset;
-	
+
 	private final STable parent;
-	
+
 	private STEntry enclosingEntry;
-	
-	public STable(STable parent){
+
+	public STable(STable parent) {
 		this.parent = parent;
 		this.entries = new HashMap<String, STEntry>();
 		this.currentOffset = 0;
@@ -48,15 +48,15 @@ public class STable implements ITable {
 	public boolean exists(String name) {
 		return entries.get(name) != null;
 	}
-	
-	public STEntry find(String name){
+
+	public STEntry find(String name) {
 		STEntry e = entries.get(name);
-		if(e != null){
+		if (e != null) {
 			return e;
-		}else{
-			if(parent != null){
+		} else {
+			if (parent != null) {
 				return parent.find(name);
-			}else{
+			} else {
 				return null;
 			}
 		}
@@ -65,31 +65,31 @@ public class STable implements ITable {
 	public void add(STEntry entry) throws SemanticException {
 		// Note that for functions, parameters are added in order
 		entries.put(entry.getName(), entry);
-		
+
 		entry.setOffset(currentOffset);
 		currentOffset += entry.getSize();
 	}
 
-	public int getSize(){
+	public int getSize() {
 		return currentOffset;
 	}
-	
+
 	public STable getParent() {
 		return parent;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return new SymbolTableStringifier().toString(this);
 	}
-	
+
 	private class SymbolTableStringifier {
 
 		private int indent = 0;
 		private StringBuilder sb = new StringBuilder();
-		
-		public String toString(STable s){
-			if(s.enclosingEntry instanceof FunctionEntry) {
+
+		public String toString(STable s) {
+			if (s.enclosingEntry instanceof FunctionEntry) {
 				List<Entry<String, STEntry>> list = new ArrayList<Entry<String, STEntry>>(s.entries.entrySet());
 				Collections.sort(list, new Comparator<Entry<String, STEntry>>() {
 
@@ -98,10 +98,10 @@ public class STable implements ITable {
 						return arg1.getValue().getOffset() - arg0.getValue().getOffset();
 					}
 				});
-				for(Entry<String, STEntry> e : list){
+				for (Entry<String, STEntry> e : list) {
 					STEntry ste = e.getValue();
 					sb.append(ste);
-					if(ste.getScope() != null){
+					if (ste.getScope() != null) {
 						++indent;
 						newline();
 						toString(ste.getScope());
@@ -111,10 +111,10 @@ public class STable implements ITable {
 				}
 				return sb.toString();
 			}
-			for(Entry<String, STEntry> e : s.entries.entrySet()){
+			for (Entry<String, STEntry> e : s.entries.entrySet()) {
 				STEntry ste = e.getValue();
 				sb.append(ste);
-				if(ste.getScope() != null){
+				if (ste.getScope() != null) {
 					++indent;
 					newline();
 					toString(ste.getScope());
@@ -124,10 +124,10 @@ public class STable implements ITable {
 			}
 			return sb.toString();
 		}
-		
-		private void newline(){
+
+		private void newline() {
 			sb.append('\n');
-			for(int i = 0; i < indent; ++i){
+			for (int i = 0; i < indent; ++i) {
 				sb.append("   ");
 			}
 		}

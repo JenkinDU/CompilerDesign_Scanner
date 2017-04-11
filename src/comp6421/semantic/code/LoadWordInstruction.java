@@ -7,18 +7,18 @@ public class LoadWordInstruction extends Instruction {
 
 	private final Register destReg;
 	private final Register sourceReg;
-	private final int 	   offset;
-	
+	private final int offset;
+
 	public LoadWordInstruction(RegisterValue destination, RegisterValue baseAddress, NumberValue offsetValue) {
-		destReg   = destination.getRegister();
+		destReg = destination.getRegister();
 		sourceReg = baseAddress.getRegister();
-		offset   = offsetValue.intValue();
+		offset = offsetValue.intValue();
 	}
-	
+
 	public LoadWordInstruction(Register destination, Register baseAddress, int offsetValue) {
-		destReg   = destination;
+		destReg = destination;
 		sourceReg = baseAddress;
-		offset   = offsetValue;
+		offset = offsetValue;
 	}
 
 	@Override

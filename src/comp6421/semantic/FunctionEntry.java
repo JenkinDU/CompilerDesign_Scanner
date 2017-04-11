@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.ParameterEntry;
 import comp6421.semantic.entry.STEntry;
-import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.migration.Statement;
 
 public class FunctionEntry extends STEntry {
-	
-	private List<Statement> statements; 
-	
+
+	private List<Statement> statements;
+
 	private final String label;
-	
+
 	public FunctionEntry(String name, EntryType returnType, STable table) {
 		super(name, Kind.Function, new FunctionType(returnType, new ArrayList<EntryType>()), table);
 		statements = new ArrayList<Statement>();
@@ -24,24 +24,24 @@ public class FunctionEntry extends STEntry {
 	}
 
 	public void addParameter(ParameterEntry param) throws SemanticException {
-		FunctionType type = (FunctionType)getType();
+		FunctionType type = (FunctionType) getType();
 		type.pushParameter(param.getType());
-		
+
 		getScope().add(param);
 	}
 
 	@Override
 	protected int calculateSize() throws SemanticException {
 		int size = 0;
-		for(STEntry e : getScope().getEntries()){
-			if(e instanceof ParameterEntry || e instanceof VariableEntry){
+		for (STEntry e : getScope().getEntries()) {
+			if (e instanceof ParameterEntry || e instanceof VariableEntry) {
 				size += e.getSize();
 			}
 		}
 		return size;
 	}
-	
-	public void appendStatement(Statement s){
+
+	public void appendStatement(Statement s) {
 		statements.add(s);
 	}
 

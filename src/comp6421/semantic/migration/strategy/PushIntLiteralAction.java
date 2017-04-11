@@ -8,9 +8,9 @@ public class PushIntLiteralAction extends MigrationStrategy {
 
 	@Override
 	public void execute(Token precedingToken) throws SemanticException {
-		try{
+		try {
 			context.getCurrent().pushIntLiteral(Integer.valueOf(precedingToken.getValue()));
-		}catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			throw new SemanticException("Invalid int literal: " + e.getMessage());
 		}
 	}

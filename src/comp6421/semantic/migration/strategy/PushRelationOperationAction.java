@@ -9,8 +9,7 @@ public class PushRelationOperationAction extends MigrationStrategy {
 
 	@Override
 	public void execute(Token precedingToken) throws SemanticException {
-		context.getCurrent().pushRelationOperator(
-				MathOperation.fromToken(precedingToken.getValue()));
+		context.getCurrent().pushRelationOperator(MathOperation.fromToken(precedingToken.getValue()));
 	}
 
 }

@@ -6,12 +6,12 @@ public class MathOperationInstruction extends Instruction {
 	private Register dest;
 	private Register a;
 	private Register b;
-	
+
 	public MathOperationInstruction(String opcode, Register dest, Register a, Register b) {
 		this.opcode = opcode;
-		this.dest   = dest;
-		this.a      = a;
-		this.b      = b;
+		this.dest = dest;
+		this.a = a;
+		this.b = b;
 	}
 
 	@Override

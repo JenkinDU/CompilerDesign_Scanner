@@ -4,15 +4,15 @@ public abstract class Instruction {
 
 	private String label;
 	private String comment;
-	
-	public Instruction(){
+
+	public Instruction() {
 		label = "";
 		comment = "";
 	}
-	
+
 	protected abstract String _getCode();
-	
-	public String getCode(){
+
+	public String getCode() {
 		return label + "\t" + _getCode() + "\t% " + comment;
 	}
 
@@ -25,5 +25,5 @@ public abstract class Instruction {
 		this.comment = comment;
 		return this;
 	}
-	
+
 }

@@ -8,9 +8,9 @@ public class PushFloatLiteralAction extends MigrationStrategy {
 
 	@Override
 	public void execute(Token precedingToken) throws SemanticException {
-		try{
+		try {
 			context.getCurrent().pushFloatLiteral(Float.valueOf(precedingToken.getValue()));
-		}catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			throw new SemanticException("Invalid float literal: " + e.getMessage());
 		}
 	}

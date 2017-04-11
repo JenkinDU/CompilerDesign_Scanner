@@ -8,11 +8,11 @@ import comp6421.semantic.code.Register;
 public class StaticFloatValue extends NumberValue implements Value {
 
 	private final float v;
-	
-	public StaticFloatValue(float v){
+
+	public StaticFloatValue(float v) {
 		this.v = v;
 	}
-	
+
 	public float floatValue() {
 		return (float) v;
 	}
@@ -21,24 +21,24 @@ public class StaticFloatValue extends NumberValue implements Value {
 	public String toString() {
 		return Float.toString(v);
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof StaticFloatValue && ((StaticFloatValue)other).floatValue() == v;
+		return other instanceof StaticFloatValue && ((StaticFloatValue) other).floatValue() == v;
 	}
 
 	@Override
 	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		RegisterValue reg = new RegisterValue(c.getTemporaryRegister());
-		
+
 		c.appendInstruction(new AddWordImmediateInstruction(reg.getRegister(), Register.ZERO, intValue()));
-		
+
 		return reg;
 	}
 
 	@Override
 	public int intValue() {
-		return (int)v;
+		return (int) v;
 	}
-	
+
 }

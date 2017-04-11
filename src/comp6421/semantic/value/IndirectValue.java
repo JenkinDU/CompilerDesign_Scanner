@@ -6,7 +6,7 @@ import comp6421.semantic.code.CodeGenerationContext;
 public class IndirectValue extends DynamicValue {
 
 	Value v;
-	
+
 	public IndirectValue(Value value) {
 		this.v = value;
 	}
@@ -20,7 +20,5 @@ public class IndirectValue extends DynamicValue {
 	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return v.getRegisterValue(c);
 	}
-
-
 
 }

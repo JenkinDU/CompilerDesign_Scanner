@@ -1,7 +1,7 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.SemanticException;
 import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
 
 public abstract class LateBindingType implements EntryType {
 

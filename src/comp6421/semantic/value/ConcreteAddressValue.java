@@ -8,27 +8,27 @@ import comp6421.semantic.code.Register;
 public class ConcreteAddressValue extends DynamicValue {
 
 	private RegisterValue baseAddr;
-	private NumberValue   offset;
-	
+	private NumberValue offset;
+
 	public ConcreteAddressValue(RegisterValue baseAddr, NumberValue offset) {
 		this.baseAddr = baseAddr;
-		this.offset   = offset;
+		this.offset = offset;
 	}
 
-	public int getOffset(){
+	public int getOffset() {
 		return offset.intValue();
 	}
-	
-	public Register getBaseAddress(){
+
+	public Register getBaseAddress() {
 		return baseAddr.getRegister();
 	}
-	
+
 	@Override
 	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		RegisterValue tempReg = new RegisterValue(c.getTemporaryRegister(baseAddr.getRegister()));
-		
+
 		c.appendInstruction(new LoadWordInstruction(tempReg, baseAddr, offset));
-		
+
 		return tempReg;
 	}
 
@@ -36,17 +36,17 @@ public class ConcreteAddressValue extends DynamicValue {
 	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return (RegisterValue) getUseableValue(c);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof ConcreteAddressValue
-				&& getBaseAddress().equals(((ConcreteAddressValue )obj).getBaseAddress())
-				&&   getOffset() == (((ConcreteAddressValue )obj).getOffset());
+				&& getBaseAddress().equals(((ConcreteAddressValue) obj).getBaseAddress())
+				&& getOffset() == (((ConcreteAddressValue) obj).getOffset());
 	}
 
 	@Override
 	public String toString() {
 		return "*(" + baseAddr + " + " + offset + ")";
 	}
-	
+
 }

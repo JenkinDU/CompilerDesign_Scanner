@@ -7,8 +7,8 @@ import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.value.ConcreteAddressValue;
 import comp6421.semantic.value.RegisterValue;
-import comp6421.semantic.value.WordValue;
 import comp6421.semantic.value.Value;
+import comp6421.semantic.value.WordValue;
 
 public class AssignmentExpression extends ExpressionElement implements Statement {
 

@@ -41,7 +41,7 @@ public class FunctionType implements EntryType {
 			sb.append(argumentTypes.get(i));
 		}
 		sb.append(") :");
-		sb.append(returnType==null?" ":returnType);
+		sb.append(returnType == null ? " " : returnType);
 		sb.append("");
 
 		return sb.toString();

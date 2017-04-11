@@ -11,18 +11,17 @@ import comp6421.semantic.entry.ClassType;
 import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
-import comp6421.semantic.entry.WordType;
 import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.value.DynamicValue;
+import comp6421.semantic.entry.WordType;
 import comp6421.semantic.value.FunctionCallValue;
-import comp6421.semantic.value.IndirectValue;
 import comp6421.semantic.value.FunctionOffsetValue;
+import comp6421.semantic.value.IndirectValue;
 import comp6421.semantic.value.MathValue;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.RegisterValue;
-import comp6421.semantic.value.WordValue;
 import comp6421.semantic.value.Value;
+import comp6421.semantic.value.WordValue;
 
 public class VariableExpressionFragment extends TypedExpressionElement {
 
@@ -127,7 +126,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 					if (entry instanceof MemberFunctionEntry) {
 						MemberFunctionEntry function = (MemberFunctionEntry) entry;
 						List<TypedExpressionElement> expressions = f.getExpressions();
-						
+
 						expressions.add(0, this);
 						memberFunctionCallValue = new FunctionCallValue(function, expressions);
 						functionCall = true;

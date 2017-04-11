@@ -7,120 +7,118 @@ import comp6421.semantic.SemanticException;
 
 public enum MathOperation {
 
-	ADD("+", "add", "addi", true){
+	ADD("+", "add", "addi", true) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a + b;
 		}
 	},
-	SUBTRACT("-", "sub", "subi", false){
+	SUBTRACT("-", "sub", "subi", false) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a - b;
 		}
 	},
-	OR("or", "or", "ori", true){
+	OR("or", "or", "ori", true) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a | b;
 		}
 	},
 
-	MULTIPLY("*", "mul", "muli", true){
+	MULTIPLY("*", "mul", "muli", true) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a * b;
 		}
 	},
-	DIVIDE("/", "div", "divi", false){
+	DIVIDE("/", "div", "divi", false) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a / b;
 		}
 	},
-	AND("and", "and", "andi", true){
+	AND("and", "and", "andi", true) {
 		@Override
-		public int operate(int a, int b){
+		public int operate(int a, int b) {
 			return a & b;
 		}
 	},
-	
-	EQUALS("==", "ceq", "ceqi", true){
+
+	EQUALS("==", "ceq", "ceqi", true) {
 		@Override
 		public int operate(int a, int b) {
 			return a == b ? Register.TRUE : Register.FALSE;
 		}
 	},
-	
-	NOT_EQUALS("<>", "cne", "cnei", true){
+
+	NOT_EQUALS("<>", "cne", "cnei", true) {
 		@Override
 		public int operate(int a, int b) {
 			return a != b ? Register.TRUE : Register.FALSE;
 		}
 	},
-	
-	LESS_THAN("<", "clt", "clti", false){
+
+	LESS_THAN("<", "clt", "clti", false) {
 		@Override
 		public int operate(int a, int b) {
 			return a < b ? Register.TRUE : Register.FALSE;
 		}
 	},
-	
-	LESS_THAN_EQUALS("<=", "cle", "clei", false){
+
+	LESS_THAN_EQUALS("<=", "cle", "clei", false) {
 		@Override
 		public int operate(int a, int b) {
 			return a <= b ? Register.TRUE : Register.FALSE;
 		}
 	},
-	
-	GREATER_THAN(">", "cgt", "cgti", false){
+
+	GREATER_THAN(">", "cgt", "cgti", false) {
 		@Override
 		public int operate(int a, int b) {
 			return a > b ? Register.TRUE : Register.FALSE;
 		}
 	},
 
-	GREATER_THAN_EQUALS(">=", "cge", "cgei", false){
+	GREATER_THAN_EQUALS(">=", "cge", "cgei", false) {
 		@Override
 		public int operate(int a, int b) {
 			return a >= b ? Register.TRUE : Register.FALSE;
 		}
 	},
-	
-	
-	
+
 	;
-	
+
 	public final String symbol;
 	public final boolean commutative;
 	public final String opcode;
 	public final String immediateOpcode;
 
 	public abstract int operate(int a, int b);
-	
-	private MathOperation(String token, String opcode, String immediateOpcode, boolean commutative){
+
+	private MathOperation(String token, String opcode, String immediateOpcode, boolean commutative) {
 		this.symbol = token;
 		this.commutative = commutative;
 		this.opcode = opcode;
 		this.immediateOpcode = immediateOpcode;
 	}
-	
+
 	private final static Map<String, MathOperation> operators;
-	
+
 	static {
 		operators = new HashMap<String, MathOperation>(values().length);
-		for(MathOperation op : values()){
+		for (MathOperation op : values()) {
 			operators.put(op.symbol, op);
 		}
 	}
-	
-	public static MathOperation fromToken(String token) throws SemanticException{
+
+	public static MathOperation fromToken(String token) throws SemanticException {
 		MathOperation op = operators.get(token);
-		if(op != null){
+		if (op != null) {
 			return op;
-		}else{
+		} else {
 			throw new SemanticException("Unknown addition operator '" + token + "'");
 		}
 	}
-	
+
 }

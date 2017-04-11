@@ -35,7 +35,7 @@ import comp6421.semantic.strategy.TableStrategy;
 import comp6421.semantic.strategy.VariableStrategy;
 
 public class StrategyFactor {
-	
+
 	public static TableStrategy getSymbolStategy(String action) {
 		if ("sym_CreateProgram".equals(action)) {
 			return new ProgramStrategy();
@@ -59,9 +59,10 @@ public class StrategyFactor {
 			return new VariableStrategy();
 		} else if ("sym_EndScope".equals(action)) {
 			return new FinishScope();
-		} 
+		}
 		return null;
 	}
+
 	public static MigrationStrategy getMigrationStategy(String action, String token) {
 		if ("sem_PushVariableName".equals(action)) {
 			return new PushVariableNameAction();

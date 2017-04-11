@@ -3,11 +3,11 @@ package comp6421.semantic.code;
 public class JumpAndLinkInstruction extends Instruction {
 
 	private final Register linkRegister;
-	private final String   label;
-	
+	private final String label;
+
 	public JumpAndLinkInstruction(Register returnAddress, String callingLabel) {
 		this.linkRegister = returnAddress;
-		this.label        = callingLabel;
+		this.label = callingLabel;
 	}
 
 	@Override

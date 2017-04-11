@@ -9,9 +9,9 @@ public class FinishVariableAction extends MigrationStrategy {
 	@Override
 	public void execute(Token precedingToken) throws SemanticException {
 
-		try{
+		try {
 			context.finishTopElement();
-		}catch(RuntimeException e){
-		}		
+		} catch (RuntimeException e) {
+		}
 	}
 }

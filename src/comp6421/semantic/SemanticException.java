@@ -4,8 +4,8 @@ public class SemanticException extends Exception {
 
 	private static final long serialVersionUID = -3778242997636567108L;
 
-	public SemanticException(String message){
+	public SemanticException(String message) {
 		super("Exception: " + message);
 	}
-	
+
 }

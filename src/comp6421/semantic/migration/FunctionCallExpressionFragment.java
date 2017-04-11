@@ -7,15 +7,10 @@ import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.TableContext;
-import comp6421.semantic.code.Register;
 import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.LateBindingType;
-import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.STEntry;
-import comp6421.semantic.value.DynamicValue;
-import comp6421.semantic.value.FunctionCallValue;
-import comp6421.semantic.value.FunctionOffsetValue;
 import comp6421.semantic.value.Value;
 
 public class FunctionCallExpressionFragment extends TypedExpressionElement {
