@@ -21,18 +21,18 @@ public class FunctionCallValue extends DynamicValue implements Value {
 	
 	private String callingLabel;
 	
-	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> expressions) throws SemanticException {
-		int nArgs = expressions.size();
+	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> params) throws SemanticException {
+		int nArgs = params.size();
 		List<EntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
 		
 		if(nArgs != argTypes.size()){
 			throw new SemanticException("call function " + entry.getName() +" ("+(argTypes.size()-1)+" params) "+ "error, params size:" + (nArgs-1));
 		}
 		
-		arguments = new ArrayList<Value>(expressions.size());
+		arguments = new ArrayList<Value>(params.size());
 		
-		for(int i = 0; i < expressions.size(); ++i){
-			TypedExpressionElement exp    = expressions.get(i);
+		for(int i = 0; i < params.size(); ++i){
+			TypedExpressionElement exp = params.get(i);
 			EntryType expectedType = argTypes.get(i);
 			EntryType type = exp.getType();
 			

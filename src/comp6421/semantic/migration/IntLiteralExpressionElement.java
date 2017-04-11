@@ -1,7 +1,7 @@
 package comp6421.semantic.migration;
 
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.PrimitiveType;
+import comp6421.semantic.entry.WordType;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
 
@@ -20,7 +20,7 @@ public class IntLiteralExpressionElement extends TypedExpressionElement {
 
 	@Override
 	public EntryType getType() {
-		return new PrimitiveType("int");
+		return new WordType("int");
 	}
 
 }

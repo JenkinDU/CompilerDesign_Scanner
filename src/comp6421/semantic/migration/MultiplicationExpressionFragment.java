@@ -3,7 +3,7 @@ package comp6421.semantic.migration;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.PrimitiveType;
+import comp6421.semantic.entry.WordType;
 import comp6421.semantic.value.MathValue;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
@@ -143,7 +143,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 		try {
 			return first.getType();
 		} catch (Throwable e) {
-			return new PrimitiveType("int");
+			return new WordType("int");
 		}
 	}
 

@@ -18,6 +18,6 @@ public class DimensionStrategy extends TableStrategy {
 			type = new ArrayType(context.type, new ArrayList<Integer>());
 			context.type = type;
 		}
-		type.pushDimension(Integer.parseInt(precedingToken.lexeme));
+		type.pushDimension(Integer.parseInt(precedingToken.getValue()));
 	}
 }

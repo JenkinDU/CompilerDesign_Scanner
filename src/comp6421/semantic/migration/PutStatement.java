@@ -13,12 +13,8 @@ public class PutStatement extends ExpressionElement implements Statement {
 	@Override
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		RegisterValue useableVal = expr.getValue().getRegisterValue(c);
-
 		Register r = useableVal.getRegister();
-
-		// c.appendInstruction(new ShiftLeftInstruction(r, r, 24))
 		c.appendInstruction(new PutInstruction(r));
-
 		c.freeTemporaryRegister(r);
 	}
 

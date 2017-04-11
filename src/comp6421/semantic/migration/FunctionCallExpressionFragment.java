@@ -15,7 +15,7 @@ import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.value.DynamicValue;
 import comp6421.semantic.value.FunctionCallValue;
-import comp6421.semantic.value.LateBindingDynamicValue;
+import comp6421.semantic.value.FunctionOffsetValue;
 import comp6421.semantic.value.Value;
 
 public class FunctionCallExpressionFragment extends TypedExpressionElement {
@@ -44,28 +44,7 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 
 	@Override
 	public Value getValue() throws SemanticException {
-		return new LateBindingDynamicValue() {
-
-			@Override
-			public DynamicValue get() throws SemanticException {
-				STEntry entry = surroundingScope.find(id);
-				STable outerScope = surroundingScope.getParent();
-				if (entry instanceof MemberFunctionEntry) {
-					if (outerScope.exists(id)) {
-						expressions.add(0,
-								new VariableExpressionFragment(Register.THIS_POINTER_NAME, surroundingScope));
-						return new FunctionCallValue((FunctionEntry) entry, expressions);
-					} else {
-						throw new SemanticException("Can not find member function " + id);
-					}
-				}
-				if (entry instanceof FunctionEntry) {
-					return new FunctionCallValue((FunctionEntry) entry, expressions);
-				} else {
-					throw new SemanticException("Could not find function " + id);
-				}
-			}
-		};
+		return null;
 	}
 
 	@Override

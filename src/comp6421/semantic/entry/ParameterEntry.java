@@ -8,10 +8,9 @@ public class ParameterEntry extends STEntry {
 
 	@Override
 	protected int calculateSize() {
-		// Parameters are stored by value for primitives and by reference for composite types
+		// Parameters are stored by value for primitives and by reference for
+		// composite types
 		return 4;
 	}
-	
-	
-	
+
 }

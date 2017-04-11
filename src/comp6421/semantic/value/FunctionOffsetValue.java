@@ -3,9 +3,9 @@ package comp6421.semantic.value;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 
-public abstract class LateBindingDynamicValue extends DynamicValue {
+public abstract class FunctionOffsetValue implements Value {
 
-	public abstract DynamicValue get() throws SemanticException;
+	public abstract Value get() throws SemanticException;
 	
 	@Override
 	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
@@ -17,4 +17,8 @@ public abstract class LateBindingDynamicValue extends DynamicValue {
 		return get().getRegisterValue(c);
 	}
 
+	@Override
+	public boolean isStatic() {
+		return false;
+	}
 }

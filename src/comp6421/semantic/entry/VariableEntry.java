@@ -10,12 +10,11 @@ public class VariableEntry extends STEntry {
 
 	@Override
 	protected int calculateSize() throws SemanticException {
-		try{
+		try {
 			return getType().getSize();
-		}catch(Throwable e){
+		} catch (Throwable e) {
 			return 0;
 		}
 	}
-	
-	
+
 }

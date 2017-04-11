@@ -6,7 +6,7 @@ import comp6421.semantic.STable;
 public abstract class LateBindingType implements EntryType {
 
 	public abstract EntryType get() throws SemanticException;
-	
+
 	@Override
 	public int getSize() throws SemanticException {
 		return get().getSize();

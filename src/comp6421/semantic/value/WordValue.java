@@ -1,17 +1,16 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.InternalCompilerError;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.AddWordInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 
-public class StoredValue extends DynamicValue {
+public class WordValue extends DynamicValue {
 
 	private final Value offset;
 	private final Value baseAddress;
 
-	public StoredValue(Value baseAddr, Value offset){
+	public WordValue(Value baseAddr, Value offset){
 		this.baseAddress = baseAddr;
 		this.offset      = offset;
 	}
@@ -31,9 +30,9 @@ public class StoredValue extends DynamicValue {
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof StoredValue 
-				&& ((StoredValue)other).getBaseAddress().equals(baseAddress) 
-				&& ((StoredValue)other).getOffset().equals(offset); 
+		return other instanceof WordValue 
+				&& ((WordValue)other).getBaseAddress().equals(baseAddress) 
+				&& ((WordValue)other).getOffset().equals(offset); 
 	}
 
 	@Override
@@ -54,23 +53,25 @@ public class StoredValue extends DynamicValue {
 			
 			return new ConcreteAddressValue(baseAddrReg, (NumberValue) useableOffset);
 			
-		}else
-		if(useableOffset instanceof RegisterValue){
-
-			RegisterValue tempReg = new RegisterValue(c.getTemporaryRegister(baseAddrReg.getRegister()));
-			
-			c.appendInstruction(new AddWordInstruction(tempReg, baseAddrReg, (RegisterValue)useableOffset));
-
-			Register useableOffsetRegister = ((RegisterValue) useableOffset).getRegister();
-			if( ! useableOffsetRegister.reserved){
-				c.freeTemporaryRegister(useableOffsetRegister);				
-			}
-			
-			return new ConcreteAddressValue(tempReg, new NumberValue(0));
-						
-		}else{
-			throw new SemanticException("getUseableValue for offset returned an instance of " + useableOffset.getClass().getName());
 		}
+		return null;
+//		else
+//		if(useableOffset instanceof RegisterValue){
+//
+//			RegisterValue tempReg = new RegisterValue(c.getTemporaryRegister(baseAddrReg.getRegister()));
+//			
+//			c.appendInstruction(new AddWordInstruction(tempReg, baseAddrReg, (RegisterValue)useableOffset));
+//
+//			Register useableOffsetRegister = ((RegisterValue) useableOffset).getRegister();
+//			if( ! useableOffsetRegister.reserved){
+//				c.freeTemporaryRegister(useableOffsetRegister);				
+//			}
+//			
+//			return new ConcreteAddressValue(tempReg, new NumberValue(0));
+//						
+//		}else{
+//			throw new SemanticException("getUseableValue for offset returned an instance of " + useableOffset.getClass().getName());
+//		}
 		
 	}
 	

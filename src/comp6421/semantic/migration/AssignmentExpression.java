@@ -7,7 +7,7 @@ import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.value.ConcreteAddressValue;
 import comp6421.semantic.value.RegisterValue;
-import comp6421.semantic.value.StoredValue;
+import comp6421.semantic.value.WordValue;
 import comp6421.semantic.value.Value;
 
 public class AssignmentExpression extends ExpressionElement implements Statement {
@@ -76,9 +76,9 @@ public class AssignmentExpression extends ExpressionElement implements Statement
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		if (currentState == State.DONE) {
 
-			if (lhs instanceof StoredValue) {
+			if (lhs instanceof WordValue) {
 				RegisterValue rhsRegisterValue = rhs.getRegisterValue(c);
-				ConcreteAddressValue lhsAddrValue = ((StoredValue) lhs).getConcreteAddress(c);
+				ConcreteAddressValue lhsAddrValue = ((WordValue) lhs).getConcreteAddress(c);
 
 				c.appendInstruction(new StoreWordInstruction(lhsAddrValue.getBaseAddress(), lhsAddrValue.getOffset(),
 						rhsRegisterValue.getRegister()));

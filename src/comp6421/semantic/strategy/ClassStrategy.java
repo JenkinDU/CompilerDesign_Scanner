@@ -13,7 +13,7 @@ public class ClassStrategy extends TableStrategy {
 	public void execute(Token token) throws SemanticException {
 		String name;
 		if (token.getTYPE() == EType.ID) {
-			name = token.lexeme;
+			name = token.getValue();
 			if (context.current.exists(name)) {
 				context.skip = true;
 				throw new SemanticException("Multiply class declaration: " + name);

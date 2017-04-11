@@ -1,6 +1,3 @@
-/**
- * 
- */
 package comp6421.semantic;
 
 import comp6421.Utils;
@@ -11,12 +8,6 @@ import comp6421.semantic.migration.MigrationContext;
 import comp6421.semantic.migration.MigrationStrategy;
 import comp6421.semantic.strategy.TableStrategy;
 
-/**
- * This class
- * 
- * @author Zhen Du
- * @date Mar 16, 2017
- */
 public class SymbolTableGen implements ActionCallback {
 	
 	public static String SOURCE_FILE = "./res/symbol/program_symbol.txt";
@@ -125,7 +116,7 @@ public class SymbolTableGen implements ActionCallback {
 				error+="Line "+p.getPosition() + ", " +e.getMessage()+"\n";
 			}
 		} else {
-			MigrationStrategy a = StrategyFactor.getMigrationStategy(action);
+			MigrationStrategy a = StrategyFactor.getMigrationStategy(action, p.getValue());
 			if(a != null) {
 				if(TableContext.getInstance().showMigration&&token.length()==0) {
 					if("sem_StartRelationExpression".equals(action)&&p.getTYPE()==EType.ASSGN) {

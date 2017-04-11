@@ -1,11 +1,18 @@
 package comp6421.semantic;
 
+import comp6421.semantic.migration.AdditionExpressionFragment;
+import comp6421.semantic.migration.AssignmentExpression;
+import comp6421.semantic.migration.ForStatement;
+import comp6421.semantic.migration.FunctionCallExpressionFragment;
+import comp6421.semantic.migration.GetStatement;
+import comp6421.semantic.migration.IfStatement;
 import comp6421.semantic.migration.MigrationStrategy;
-import comp6421.semantic.migration.strategy.EndAdditionExpressionAction;
-import comp6421.semantic.migration.strategy.EndBlockAction;
-import comp6421.semantic.migration.strategy.EndFunctionCallAction;
-import comp6421.semantic.migration.strategy.EndMultiplicationExpressionAction;
-import comp6421.semantic.migration.strategy.EndRelationExpressionAction;
+import comp6421.semantic.migration.MultiplicationExpressionFragment;
+import comp6421.semantic.migration.PutStatement;
+import comp6421.semantic.migration.RelationExpressionFragment;
+import comp6421.semantic.migration.ReturnStatement;
+import comp6421.semantic.migration.StatementBlock;
+import comp6421.semantic.migration.strategy.EndMigrationStrategy;
 import comp6421.semantic.migration.strategy.FinishVariableAction;
 import comp6421.semantic.migration.strategy.PushAdditionOperationAction;
 import comp6421.semantic.migration.strategy.PushFloatLiteralAction;
@@ -13,17 +20,7 @@ import comp6421.semantic.migration.strategy.PushIntLiteralAction;
 import comp6421.semantic.migration.strategy.PushMultiplicationOperationAction;
 import comp6421.semantic.migration.strategy.PushRelationOperationAction;
 import comp6421.semantic.migration.strategy.PushVariableNameAction;
-import comp6421.semantic.migration.strategy.StartAdditionExpressionAction;
-import comp6421.semantic.migration.strategy.StartAssignmentStatementAction;
-import comp6421.semantic.migration.strategy.StartBlockAction;
-import comp6421.semantic.migration.strategy.StartForStatementAction;
-import comp6421.semantic.migration.strategy.StartFunctionCallAction;
-import comp6421.semantic.migration.strategy.StartGetStatementAction;
-import comp6421.semantic.migration.strategy.StartIfStatementAction;
-import comp6421.semantic.migration.strategy.StartMultiplicationExpressionAction;
-import comp6421.semantic.migration.strategy.StartPutStatementAction;
-import comp6421.semantic.migration.strategy.StartRelationExpressionAction;
-import comp6421.semantic.migration.strategy.StartReturnStatementAction;
+import comp6421.semantic.migration.strategy.StartMigrationStrategy;
 import comp6421.semantic.strategy.AdditionalParameter;
 import comp6421.semantic.strategy.ClassStrategy;
 import comp6421.semantic.strategy.DimensionStrategy;
@@ -37,13 +34,6 @@ import comp6421.semantic.strategy.StartFunctionStrategy;
 import comp6421.semantic.strategy.TableStrategy;
 import comp6421.semantic.strategy.VariableStrategy;
 
-/**
- *
- * This class
- * 
- * @author Zhen Du
- * @date Apr 2, 2017
- */
 public class StrategyFactor {
 	
 	public static TableStrategy getSymbolStategy(String action) {
@@ -72,27 +62,27 @@ public class StrategyFactor {
 		} 
 		return null;
 	}
-	public static MigrationStrategy getMigrationStategy(String action) {
+	public static MigrationStrategy getMigrationStategy(String action, String token) {
 		if ("sem_PushVariableName".equals(action)) {
 			return new PushVariableNameAction();
 		} else if ("sem_FinishVariable".equals(action)) {
 			return new FinishVariableAction();
 		} else if ("sem_StartAssignmentStatment".equals(action)) {
-			return new StartAssignmentStatementAction();
+			return new StartMigrationStrategy(new AssignmentExpression());
 		} else if ("sem_StartRelationExpression".equals(action)) {
-			return new StartRelationExpressionAction();
+			return new StartMigrationStrategy(new RelationExpressionFragment());
 		} else if ("sem_EndRelationExpression".equals(action)) {
-			return new EndRelationExpressionAction();
+			return new EndMigrationStrategy();
 		} else if ("sem_PushRelationOperation".equals(action)) {
 			return new PushRelationOperationAction();
 		} else if ("sem_StartAdditionExpression".equals(action)) {
-			return new StartAdditionExpressionAction();
+			return new StartMigrationStrategy(new AdditionExpressionFragment());
 		} else if ("sem_EndAdditionExpression".equals(action)) {
-			return new EndAdditionExpressionAction();
+			return new EndMigrationStrategy();
 		} else if ("sem_StartMultiplicationExpression".equals(action)) {
-			return new StartMultiplicationExpressionAction();
+			return new StartMigrationStrategy(new MultiplicationExpressionFragment());
 		} else if ("sem_EndMultiplicationExpression".equals(action)) {
-			return new EndMultiplicationExpressionAction();
+			return new EndMigrationStrategy();
 		} else if ("sem_PushIntLiteral".equals(action)) {
 			return new PushIntLiteralAction();
 		} else if ("sem_PushFloatLiteral".equals(action)) {
@@ -102,23 +92,23 @@ public class StrategyFactor {
 		} else if ("sem_PushMultiplicationOperation".equals(action)) {
 			return new PushMultiplicationOperationAction();
 		} else if ("sem_StartIfStatement".equals(action)) {
-			return new StartIfStatementAction();
+			return new StartMigrationStrategy(new IfStatement());
 		} else if ("sem_StartForStatement".equals(action)) {
-			return new StartForStatementAction();
+			return new StartMigrationStrategy(new ForStatement());
 		} else if ("sem_StartBlock".equals(action)) {
-			return new StartBlockAction();
+			return new StartMigrationStrategy(new StatementBlock());
 		} else if ("sem_EndBlock".equals(action)) {
-			return new EndBlockAction();
+			return new EndMigrationStrategy();
 		} else if ("sem_StartFunctionCall".equals(action)) {
-			return new StartFunctionCallAction();
+			return new StartMigrationStrategy(new FunctionCallExpressionFragment(token));
 		} else if ("sem_EndFunctionCall".equals(action)) {
-			return new EndFunctionCallAction();
+			return new EndMigrationStrategy();
 		} else if ("sem_StartReturnStatement".equals(action)) {
-			return new StartReturnStatementAction();
+			return new StartMigrationStrategy(new ReturnStatement());
 		} else if ("sem_StartGetStatement".equals(action)) {
-			return new StartGetStatementAction();
+			return new StartMigrationStrategy(new GetStatement());
 		} else if ("sem_StartPutStatement".equals(action)) {
-			return new StartPutStatementAction();
+			return new StartMigrationStrategy(new PutStatement());
 		}
 		return null;
 	}

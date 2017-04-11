@@ -6,7 +6,7 @@ public class PushIdStrategy extends TableStrategy {
 
 	@Override
 	public void execute(Token precedingToken) {
-		context.id = precedingToken.lexeme;
+		context.id = precedingToken.getValue();
 	}
 
 }

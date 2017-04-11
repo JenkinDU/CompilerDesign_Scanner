@@ -14,27 +14,23 @@ public class CodeGenerator {
 	
 	private PrintStream output;
 	
-	private int nErrors;
+	private int errors;
 	
 	public CodeGenerator(PrintStream output){
 		this.output = output;
-		nErrors = 0;
+		errors = 0;
 	}
 	
 	public void generate() {
 		
 		STable s = TableContext.getCurrentScope();
-		
 		generate(s);
-		
 		STEntry program = s.find("program");
-		
 		try{
 			generateProgram((FunctionEntry) program);
 		}catch(SemanticException x){
-			++nErrors;
+			errors++;
 		}
-		
 	}
 	
 	private void generate(STable s) {
@@ -43,7 +39,7 @@ public class CodeGenerator {
 					try{
 						generateFunction((FunctionEntry) e);
 					}catch(SemanticException x){
-						++nErrors;
+						errors++;
 					}
 				}
 				if(e instanceof ClassEntry){
@@ -93,7 +89,6 @@ public class CodeGenerator {
 		Register pcRegister = c.getTemporaryRegister();
 		c.appendInstruction(new LoadWordInstruction(pcRegister, Register.STACK_POINTER, returnAddrMemOffset)
 				.setComment("get return address"));
-		// reset the stackPointer!!
 		c.appendInstruction(new AddWordImmediateInstruction(Register.STACK_POINTER, Register.STACK_POINTER, -1 * s.getSize())
 			.setComment("reset stack pointer"));
 		c.appendInstruction(new JumpRegisterInstruction(pcRegister)
@@ -102,9 +97,4 @@ public class CodeGenerator {
 		c.printCode(output);
 		
 	}
-
-	public int getNumErrors() {
-		return nErrors;
-	}
-	
 }

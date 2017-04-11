@@ -4,7 +4,7 @@ import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 
-public class RegisterValue implements Value {// extends DynamicValue {
+public class RegisterValue implements Value {
 
 	private final Register register;
 	

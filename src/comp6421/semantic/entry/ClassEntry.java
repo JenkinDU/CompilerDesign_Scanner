@@ -12,15 +12,14 @@ public class ClassEntry extends STEntry {
 	@Override
 	protected int calculateSize() throws SemanticException {
 		int size = 0;
-		for(STEntry e : getScope().getEntries()){
-			if(e instanceof VariableEntry){
+		for (STEntry e : getScope().getEntries()) {
+			if (e instanceof VariableEntry) {
 				size += e.getSize();
 			}
 		}
 		return size;
 	}
 
-	
 	@Override
 	public EntryType getType() {
 		return new ClassType(this);

@@ -9,7 +9,7 @@ public class PushVariableNameAction extends MigrationStrategy {
 	
 	@Override
 	public void execute(Token precedingToken) throws SemanticException {
-		context.getCurrent().pushIdentifier(precedingToken.lexeme);		
+		context.getCurrent().pushIdentifier(precedingToken.getValue());		
 	}
 
 }

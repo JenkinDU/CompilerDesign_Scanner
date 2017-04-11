@@ -6,11 +6,11 @@ import comp6421.semantic.code.GetInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.value.ConcreteAddressValue;
-import comp6421.semantic.value.StoredValue;
+import comp6421.semantic.value.WordValue;
 
 public class GetStatement extends ExpressionElement implements Statement {
 
-	StoredValue destination;
+	WordValue destination;
 
 	@Override
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
@@ -34,7 +34,7 @@ public class GetStatement extends ExpressionElement implements Statement {
 	@Override
 	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		if (e instanceof VariableExpressionFragment) {
-			destination = (StoredValue) e.getValue();
+			destination = (WordValue) e.getValue();
 			context.finishTopElement();
 		} else {
 			super.acceptSubElement(e);

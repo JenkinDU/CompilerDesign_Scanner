@@ -5,13 +5,11 @@ public class Token {
 	protected String value = null;//the value of the token
 	protected int position = 0;//line in the file
 	protected String error = "";//error message if have
-	public String lexeme = null;
 	
 	public Token(int p, EType type, String v) {
 		this.position = p;
 		this.TYPE = type;
 		this.value = v;
-		this.lexeme = v;
 	}
 	
 	public Token(int p, EType type, String v, String e) {
@@ -19,7 +17,6 @@ public class Token {
 		this.TYPE = type;
 		this.value = v;
 		this.error = e;
-		this.lexeme = v;
 	}
 
 	public EType getTYPE() {

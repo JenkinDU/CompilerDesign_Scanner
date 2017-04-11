@@ -12,7 +12,6 @@ public class FinishVariableAction extends MigrationStrategy {
 		try{
 			context.finishTopElement();
 		}catch(RuntimeException e){
-			System.out.println("wooooooopsy " + e);
 		}		
 	}
 }

@@ -3,7 +3,7 @@ package comp6421.semantic.strategy;
 import comp6421.scanner.Token;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.Register;
-import comp6421.semantic.entry.PrimitiveType;
+import comp6421.semantic.entry.WordType;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.migration.MigrationContext;
 
@@ -18,7 +18,7 @@ public class FunctionStrategy extends TableStrategy {
 			MigrationContext.setCurrentFunction(context.function);
 
 			VariableEntry returnPcAddr = new VariableEntry(Register.RETURN_ADDRESS_PARAMETER_NAME,
-					new PrimitiveType("int"));
+					new WordType("int"));
 
 			context.current.add(returnPcAddr);
 
