@@ -1,8 +1,8 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.perform.SemanticAction;
+import comp6421.semantic.strategy.MigrationStrtegy;
 
-public abstract class ExpressionAction implements SemanticAction {
+public abstract class ExpressionAction implements MigrationStrtegy {
 
 	protected ExpressionContext context = ExpressionContext.instance;
 	

@@ -9,7 +9,7 @@ import comp6421.semantic.InternalCompilerError;
 
 public class ExpressionContext {
 
-	/*package*/ public static ExpressionContext instance = new ExpressionContext();
+	public static ExpressionContext instance = new ExpressionContext();
 
 	private final Stack<ExpressionElement> expressionStack;
 

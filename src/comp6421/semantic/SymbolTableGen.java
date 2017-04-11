@@ -8,8 +8,8 @@ import comp6421.scanner.EType;
 import comp6421.scanner.Token;
 import comp6421.semantic.ExtendParser.ActionCallback;
 import comp6421.semantic.expression.ExpressionContext;
-import comp6421.semantic.perform.SemanticAction;
-import comp6421.semantic.perform.TableStrategy;
+import comp6421.semantic.strategy.MigrationStrtegy;
+import comp6421.semantic.strategy.TableStrategy;
 
 /**
  * This class
@@ -125,7 +125,7 @@ public class SymbolTableGen implements ActionCallback {
 				error+="Line "+p.getPosition() + ", " +e.getMessage()+"\n";
 			}
 		} else {
-			SemanticAction a = StrategyFactor.getMigrationStategy(action);
+			MigrationStrtegy a = StrategyFactor.getMigrationStategy(action);
 			if(a != null) {
 				if(TableContext.getInstance().showMigration&&token.length()==0) {
 					if("sem_StartRelationExpression".equals(action)&&p.getTYPE()==EType.ASSGN) {

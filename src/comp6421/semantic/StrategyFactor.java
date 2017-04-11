@@ -23,19 +23,19 @@ import comp6421.semantic.expression.perform.StartMultiplicationExpressionAction;
 import comp6421.semantic.expression.perform.StartPutStatementAction;
 import comp6421.semantic.expression.perform.StartRelationExpressionAction;
 import comp6421.semantic.expression.perform.StartReturnStatementAction;
-import comp6421.semantic.perform.AddFunctionParameterAction;
-import comp6421.semantic.perform.CreateClassAction;
-import comp6421.semantic.perform.CreateFunctionAction;
-import comp6421.semantic.perform.CreateProgramAction;
-import comp6421.semantic.perform.CreateVariableAction;
-import comp6421.semantic.perform.EndScopeAction;
-import comp6421.semantic.perform.SemanticAction;
-import comp6421.semantic.perform.StartFunctionAction;
-import comp6421.semantic.perform.StartMemberFunctionAction;
-import comp6421.semantic.perform.StoreDimensionAction;
-import comp6421.semantic.perform.StoreIdAction;
-import comp6421.semantic.perform.StoreTypeAction;
-import comp6421.semantic.perform.TableStrategy;
+import comp6421.semantic.strategy.AdditionalParameter;
+import comp6421.semantic.strategy.ClassStrategy;
+import comp6421.semantic.strategy.FunctionStrategy;
+import comp6421.semantic.strategy.ProgramStrategy;
+import comp6421.semantic.strategy.VariableStrategy;
+import comp6421.semantic.strategy.FinishScope;
+import comp6421.semantic.strategy.MigrationStrtegy;
+import comp6421.semantic.strategy.StartFunctionStrategy;
+import comp6421.semantic.strategy.MemberFunctionStrategy;
+import comp6421.semantic.strategy.DimensionStrategy;
+import comp6421.semantic.strategy.PushIdStrategy;
+import comp6421.semantic.strategy.PushTypeStrategy;
+import comp6421.semantic.strategy.TableStrategy;
 
 /**
  *
@@ -48,31 +48,31 @@ public class StrategyFactor {
 	
 	public static TableStrategy getSymbolStategy(String action) {
 		if ("sym_CreateProgram".equals(action)) {
-			return new CreateProgramAction();
+			return new ProgramStrategy();
 		} else if ("sym_CreateClassScope".equals(action)) {
-			return new CreateClassAction();
+			return new ClassStrategy();
 		} else if ("sym_StartFunction".equals(action)) {
-			return new StartFunctionAction();
+			return new StartFunctionStrategy();
 		} else if ("sym_StartMemberFunction".equals(action)) {
-			return new StartMemberFunctionAction();
+			return new MemberFunctionStrategy();
 		} else if ("sym_AddFunctionParameter".equals(action)) {
-			return new AddFunctionParameterAction();
+			return new AdditionalParameter();
 		} else if ("sym_CreateFunction".equals(action)) {
-			return new CreateFunctionAction();
+			return new FunctionStrategy();
 		} else if ("sym_StoreType".equals(action)) {
-			return new StoreTypeAction();
+			return new PushTypeStrategy();
 		} else if ("sym_StoreId".equals(action)) {
-			return new StoreIdAction();
+			return new PushIdStrategy();
 		} else if ("sym_StoreDimension".equals(action)) {
-			return new StoreDimensionAction();
+			return new DimensionStrategy();
 		} else if ("sym_CreateVariable".equals(action)) {
-			return new CreateVariableAction();
+			return new VariableStrategy();
 		} else if ("sym_EndScope".equals(action)) {
-			return new EndScopeAction();
+			return new FinishScope();
 		} 
 		return null;
 	}
-	public static SemanticAction getMigrationStategy(String action) {
+	public static MigrationStrtegy getMigrationStategy(String action) {
 		if ("sem_PushVariableName".equals(action)) {
 			return new PushVariableNameAction();
 		} else if ("sem_FinishVariable".equals(action)) {
