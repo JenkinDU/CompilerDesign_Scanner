@@ -9,7 +9,7 @@ import comp6421.semantic.entry.ParameterEntry;
 import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.expression.Statement;
+import comp6421.semantic.migration.Statement;
 
 public class FunctionEntry extends STEntry {
 	

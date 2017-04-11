@@ -8,7 +8,7 @@ import comp6421.semantic.TableContext;
 import comp6421.semantic.STable;
 import comp6421.semantic.entry.ClassEntry;
 import comp6421.semantic.entry.STEntry;
-import comp6421.semantic.expression.Statement;
+import comp6421.semantic.migration.Statement;
 
 public class CodeGenerator {
 	

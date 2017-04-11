@@ -5,7 +5,7 @@ import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.entry.NoneType;
-import comp6421.semantic.expression.ExpressionContext;
+import comp6421.semantic.migration.MigrationContext;
 
 public class ProgramStrategy extends TableStrategy {
 
@@ -18,7 +18,7 @@ public class ProgramStrategy extends TableStrategy {
 
 		context.current = program.getScope();
 
-		ExpressionContext.setCurrentFunction(program);
+		MigrationContext.setCurrentFunction(program);
 
 	}
 

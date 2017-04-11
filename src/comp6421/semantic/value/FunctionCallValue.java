@@ -11,8 +11,8 @@ import comp6421.semantic.code.JumpAndLinkInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.entry.FunctionType;
+import comp6421.semantic.migration.TypedExpressionElement;
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.expression.TypedExpressionElement;
 
 public class FunctionCallValue extends DynamicValue implements Value {
 

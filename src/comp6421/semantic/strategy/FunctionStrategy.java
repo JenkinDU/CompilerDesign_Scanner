@@ -5,7 +5,7 @@ import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.entry.PrimitiveType;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.expression.ExpressionContext;
+import comp6421.semantic.migration.MigrationContext;
 
 public class FunctionStrategy extends TableStrategy {
 
@@ -15,14 +15,14 @@ public class FunctionStrategy extends TableStrategy {
 			context.current.add(context.function);
 			context.current = context.function.getScope();
 
-			ExpressionContext.setCurrentFunction(context.function);
+			MigrationContext.setCurrentFunction(context.function);
 
 			VariableEntry returnPcAddr = new VariableEntry(Register.RETURN_ADDRESS_PARAMETER_NAME,
 					new PrimitiveType("int"));
 
 			context.current.add(returnPcAddr);
 
-			ExpressionContext.setCurrentFunction(context.function);
+			MigrationContext.setCurrentFunction(context.function);
 		}
 	}
 }

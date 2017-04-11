@@ -10,7 +10,6 @@ public abstract class Instruction {
 		comment = "";
 	}
 	
-	// need a better name for this
 	protected abstract String _getCode();
 	
 	public String getCode(){

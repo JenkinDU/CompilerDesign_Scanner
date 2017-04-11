@@ -1,8 +1,8 @@
 package comp6421.semantic;
 
 import comp6421.semantic.entry.STEntry;
+import comp6421.semantic.migration.VariableExpressionFragment;
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.expression.VariableExpressionFragment;
 
 public class TableContext {
 

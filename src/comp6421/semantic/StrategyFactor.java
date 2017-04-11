@@ -1,41 +1,41 @@
 package comp6421.semantic;
 
-import comp6421.semantic.expression.perform.EndAdditionExpressionAction;
-import comp6421.semantic.expression.perform.EndBlockAction;
-import comp6421.semantic.expression.perform.EndFunctionCallAction;
-import comp6421.semantic.expression.perform.EndMultiplicationExpressionAction;
-import comp6421.semantic.expression.perform.EndRelationExpressionAction;
-import comp6421.semantic.expression.perform.FinishVariableAction;
-import comp6421.semantic.expression.perform.PushAdditionOperationAction;
-import comp6421.semantic.expression.perform.PushFloatLiteralAction;
-import comp6421.semantic.expression.perform.PushIntLiteralAction;
-import comp6421.semantic.expression.perform.PushMultiplicationOperationAction;
-import comp6421.semantic.expression.perform.PushRelationOperationAction;
-import comp6421.semantic.expression.perform.PushVariableNameAction;
-import comp6421.semantic.expression.perform.StartAdditionExpressionAction;
-import comp6421.semantic.expression.perform.StartAssignmentStatementAction;
-import comp6421.semantic.expression.perform.StartBlockAction;
-import comp6421.semantic.expression.perform.StartForStatementAction;
-import comp6421.semantic.expression.perform.StartFunctionCallAction;
-import comp6421.semantic.expression.perform.StartGetStatementAction;
-import comp6421.semantic.expression.perform.StartIfStatementAction;
-import comp6421.semantic.expression.perform.StartMultiplicationExpressionAction;
-import comp6421.semantic.expression.perform.StartPutStatementAction;
-import comp6421.semantic.expression.perform.StartRelationExpressionAction;
-import comp6421.semantic.expression.perform.StartReturnStatementAction;
+import comp6421.semantic.migration.MigrationStrategy;
+import comp6421.semantic.migration.strategy.EndAdditionExpressionAction;
+import comp6421.semantic.migration.strategy.EndBlockAction;
+import comp6421.semantic.migration.strategy.EndFunctionCallAction;
+import comp6421.semantic.migration.strategy.EndMultiplicationExpressionAction;
+import comp6421.semantic.migration.strategy.EndRelationExpressionAction;
+import comp6421.semantic.migration.strategy.FinishVariableAction;
+import comp6421.semantic.migration.strategy.PushAdditionOperationAction;
+import comp6421.semantic.migration.strategy.PushFloatLiteralAction;
+import comp6421.semantic.migration.strategy.PushIntLiteralAction;
+import comp6421.semantic.migration.strategy.PushMultiplicationOperationAction;
+import comp6421.semantic.migration.strategy.PushRelationOperationAction;
+import comp6421.semantic.migration.strategy.PushVariableNameAction;
+import comp6421.semantic.migration.strategy.StartAdditionExpressionAction;
+import comp6421.semantic.migration.strategy.StartAssignmentStatementAction;
+import comp6421.semantic.migration.strategy.StartBlockAction;
+import comp6421.semantic.migration.strategy.StartForStatementAction;
+import comp6421.semantic.migration.strategy.StartFunctionCallAction;
+import comp6421.semantic.migration.strategy.StartGetStatementAction;
+import comp6421.semantic.migration.strategy.StartIfStatementAction;
+import comp6421.semantic.migration.strategy.StartMultiplicationExpressionAction;
+import comp6421.semantic.migration.strategy.StartPutStatementAction;
+import comp6421.semantic.migration.strategy.StartRelationExpressionAction;
+import comp6421.semantic.migration.strategy.StartReturnStatementAction;
 import comp6421.semantic.strategy.AdditionalParameter;
 import comp6421.semantic.strategy.ClassStrategy;
-import comp6421.semantic.strategy.FunctionStrategy;
-import comp6421.semantic.strategy.ProgramStrategy;
-import comp6421.semantic.strategy.VariableStrategy;
-import comp6421.semantic.strategy.FinishScope;
-import comp6421.semantic.strategy.MigrationStrtegy;
-import comp6421.semantic.strategy.StartFunctionStrategy;
-import comp6421.semantic.strategy.MemberFunctionStrategy;
 import comp6421.semantic.strategy.DimensionStrategy;
+import comp6421.semantic.strategy.FinishScope;
+import comp6421.semantic.strategy.FunctionStrategy;
+import comp6421.semantic.strategy.MemberFunctionStrategy;
+import comp6421.semantic.strategy.ProgramStrategy;
 import comp6421.semantic.strategy.PushIdStrategy;
 import comp6421.semantic.strategy.PushTypeStrategy;
+import comp6421.semantic.strategy.StartFunctionStrategy;
 import comp6421.semantic.strategy.TableStrategy;
+import comp6421.semantic.strategy.VariableStrategy;
 
 /**
  *
@@ -72,7 +72,7 @@ public class StrategyFactor {
 		} 
 		return null;
 	}
-	public static MigrationStrtegy getMigrationStategy(String action) {
+	public static MigrationStrategy getMigrationStategy(String action) {
 		if ("sem_PushVariableName".equals(action)) {
 			return new PushVariableNameAction();
 		} else if ("sem_FinishVariable".equals(action)) {
