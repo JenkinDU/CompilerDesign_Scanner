@@ -14,8 +14,6 @@ public class EndFunctionCallAction extends MigrationStrategy {
 		ExpressionElement top = context.getCurrent();
 		if(top instanceof FunctionCallExpressionFragment){
 			context.finishTopElement();
-		}else{
-			throw new InternalCompilerError("Expected " + FunctionCallExpressionFragment.class.getName() + " but was " + top.getClass().getName());
 		}
 	}
 

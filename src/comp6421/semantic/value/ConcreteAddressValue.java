@@ -1,6 +1,6 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.InternalCompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.LoadWordInstruction;
 import comp6421.semantic.code.Register;
@@ -24,7 +24,7 @@ public class ConcreteAddressValue extends DynamicValue {
 	}
 	
 	@Override
-	public Value getUseableValue(CodeGenerationContext c) throws InternalCompilerError {
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		RegisterValue tempReg = new RegisterValue(c.getTemporaryRegister(baseAddr.getRegister()));
 		
 		c.appendInstruction(new LoadWordInstruction(tempReg, baseAddr, offset));
@@ -33,7 +33,7 @@ public class ConcreteAddressValue extends DynamicValue {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws InternalCompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return (RegisterValue) getUseableValue(c);
 	}
 	

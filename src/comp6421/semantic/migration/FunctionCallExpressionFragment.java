@@ -21,45 +21,47 @@ import comp6421.semantic.value.Value;
 public class FunctionCallExpressionFragment extends TypedExpressionElement {
 
 	private String id;
-	
+
 	private List<TypedExpressionElement> expressions;
-	
+
 	private STable surroundingScope;
-	
-	public FunctionCallExpressionFragment(String id){
+
+	public FunctionCallExpressionFragment(String id) {
 		this.id = id;
 		this.expressions = new ArrayList<TypedExpressionElement>();
 		this.surroundingScope = TableContext.getCurrentScope();
 	}
-	
+
 	@Override
 	public void acceptSubElement(ExpressionElement e) throws SemanticException {
-		
-		if(e instanceof RelationExpressionFragment){
+
+		if (e instanceof RelationExpressionFragment) {
 			expressions.add((RelationExpressionFragment) e);
-		}else{
-			super.acceptSubElement(e);			
-		}		
+		} else {
+			super.acceptSubElement(e);
+		}
 	}
-	
+
 	@Override
 	public Value getValue() throws SemanticException {
 		return new LateBindingDynamicValue() {
-			
+
 			@Override
 			public DynamicValue get() throws SemanticException {
 				STEntry entry = surroundingScope.find(id);
 				STable outerScope = surroundingScope.getParent();
-				if(entry instanceof MemberFunctionEntry){
-					if(outerScope.exists(id)){
-						expressions.add(0, new VariableExpressionFragment(Register.THIS_POINTER_NAME, surroundingScope));
+				if (entry instanceof MemberFunctionEntry) {
+					if (outerScope.exists(id)) {
+						expressions.add(0,
+								new VariableExpressionFragment(Register.THIS_POINTER_NAME, surroundingScope));
 						return new FunctionCallValue((FunctionEntry) entry, expressions);
-					}else{
+					} else {
 						throw new SemanticException("Can not find member function " + id);
 					}
-				}if(entry instanceof FunctionEntry){
+				}
+				if (entry instanceof FunctionEntry) {
 					return new FunctionCallValue((FunctionEntry) entry, expressions);
-				}else{
+				} else {
 					throw new SemanticException("Could not find function " + id);
 				}
 			}
@@ -68,14 +70,14 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 
 	@Override
 	public EntryType getType() {
-		return new LateBindingType(){
+		return new LateBindingType() {
 			@Override
 			public EntryType get() throws SemanticException {
 				STEntry entry = surroundingScope.find(id);
-				
-				if(entry instanceof FunctionEntry){
-					return ((FunctionType)((FunctionEntry) entry).getType()).getReturnType();
-				}else{
+
+				if (entry instanceof FunctionEntry) {
+					return ((FunctionType) ((FunctionEntry) entry).getType()).getReturnType();
+				} else {
 					throw new SemanticException("Could not find function " + id);
 				}
 

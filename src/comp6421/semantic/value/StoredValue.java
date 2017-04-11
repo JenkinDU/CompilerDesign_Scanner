@@ -69,7 +69,7 @@ public class StoredValue extends DynamicValue {
 			return new ConcreteAddressValue(tempReg, new NumberValue(0));
 						
 		}else{
-			throw new InternalCompilerError("getUseableValue for offset returned an instance of " + useableOffset.getClass().getName());
+			throw new SemanticException("getUseableValue for offset returned an instance of " + useableOffset.getClass().getName());
 		}
 		
 	}

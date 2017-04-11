@@ -2,8 +2,8 @@ package comp6421.semantic.migration;
 
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
-import comp6421.semantic.entry.PrimitiveType;
 import comp6421.semantic.entry.EntryType;
+import comp6421.semantic.entry.PrimitiveType;
 import comp6421.semantic.value.MathValue;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
@@ -11,32 +11,25 @@ import comp6421.semantic.value.Value;
 public class MultiplicationExpressionFragment extends TypedExpressionElement {
 
 	private static enum State {
-		INIT_FIRST,
-		FIRST,
-		WAITING_FOR_OP,
-		INIT_SECOND,
-		SECOND,
-		DONE
+		INIT_FIRST, FIRST, WAITING_FOR_OP, INIT_SECOND, SECOND, DONE
 	};
-	
+
 	private State state;
 	private TypedExpressionElement first;
 	private TypedExpressionElement second;
 	private MathOperation operator;
-	
+
 	public MultiplicationExpressionFragment() {
 		state = State.INIT_FIRST;
 	}
-	
+
 	@Override
 	public void acceptSubElement(ExpressionElement e) throws SemanticException {
-		
-		if(e instanceof MultiplicationExpressionFragment
-		|| e instanceof VariableExpressionFragment
-		|| e instanceof AdditionExpressionFragment
-		|| e instanceof FunctionCallExpressionFragment){
-			
-			switch(state){
+
+		if (e instanceof MultiplicationExpressionFragment || e instanceof VariableExpressionFragment
+				|| e instanceof AdditionExpressionFragment || e instanceof FunctionCallExpressionFragment) {
+
+			switch (state) {
 			case INIT_FIRST:
 			case FIRST:
 				state = State.WAITING_FOR_OP;
@@ -46,11 +39,12 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			case SECOND:
 				second = (TypedExpressionElement) e;
 
-				EntryType firstType  = first.getType();
+				EntryType firstType = first.getType();
 				EntryType secondType = second.getType();
-				
-				if( ! firstType.equals(secondType) ){
-					throw new SemanticException("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
+
+				if (!firstType.equals(secondType)) {
+					throw new SemanticException("Type mismatch: " + firstType + " is not compatible with " + secondType
+							+ " for operator '" + operator.symbol + "'");
 				}
 
 				state = State.DONE;
@@ -59,16 +53,16 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			default:
 				super.acceptSubElement(e);
 				break;
-			
-			}	
-		}else{
+
+			}
+		} else {
 			super.acceptSubElement(e);
-		}	
+		}
 	}
-	
+
 	@Override
 	public void pushIdentifier(String id) throws SemanticException {
-		switch(state){
+		switch (state) {
 		case INIT_FIRST:
 			state = State.FIRST;
 			context.pushChild(new VariableExpressionFragment(id));
@@ -79,13 +73,13 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			break;
 		default:
 			super.pushIdentifier(id);
-			break;		
+			break;
 		}
 	}
-	
+
 	@Override
 	public void pushIntLiteral(int i) throws SemanticException {
-		switch(state){
+		switch (state) {
 		case INIT_FIRST:
 			state = State.WAITING_FOR_OP;
 			first = new IntLiteralExpressionElement(i);
@@ -97,14 +91,14 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			break;
 		default:
 			super.pushIntLiteral(i);
-			break;		
+			break;
 		}
 
 	}
-	
+
 	@Override
 	public void pushFloatLiteral(float i) throws SemanticException {
-		switch(state){
+		switch (state) {
 		case INIT_FIRST:
 			state = State.WAITING_FOR_OP;
 			first = new FloatLiteralExpressionElement(i);
@@ -116,44 +110,52 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			break;
 		default:
 			super.pushFloatLiteral(i);
-			break;		
+			break;
 		}
 
 	}
-	
+
 	@Override
 	public void pushMultiplicationOperator(MathOperation operator) throws SemanticException {
-		if(state == State.WAITING_FOR_OP){
+		if (state == State.WAITING_FOR_OP) {
 			state = State.INIT_SECOND;
 			this.operator = operator;
-		}else{
+		} else {
 			super.pushMultiplicationOperator(operator);
 		}
 	}
-	
+
 	@Override
 	public Value getValue() throws SemanticException {
-		try{
-			if(state == State.WAITING_FOR_OP){
+		try {
+			if (state == State.WAITING_FOR_OP) {
 				return first.getValue();
-			}else{
+			} else {
 				return new MathValue(operator, first.getValue(), second.getValue());
 			}
-		}catch(Throwable e){
+		} catch (Throwable e) {
 			return new NumberValue(0);
 		}
 	}
 
 	@Override
 	public EntryType getType() {
-		try{
+		try {
 			return first.getType();
-		}catch(Throwable e){
+		} catch (Throwable e) {
 			return new PrimitiveType("int");
 		}
 	}
 
-	public TypedExpressionElement getFirst(){return first;};
-	public TypedExpressionElement getSecond(){return second;};
-	public MathOperation getOperation(){return operator;};
+	public TypedExpressionElement getFirst() {
+		return first;
+	};
+
+	public TypedExpressionElement getSecond() {
+		return second;
+	};
+
+	public MathOperation getOperation() {
+		return operator;
+	};
 }

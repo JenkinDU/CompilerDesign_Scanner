@@ -46,12 +46,10 @@ public class MathValue extends DynamicValue {
 			return _getUseableValue((NumberValue)uA, (NumberValue)uB, c);
 		}
 		
-		
-		throw new InternalCompilerError("Unexpected combination of types for a and b: " + uA.getClass() + ", " + uB.getClass());
+		throw new SemanticException("Unexpected combination of types for a and b: " + uA.getClass() + ", " + uB.getClass());
 	}
 
 	private Value _getUseableValue(NumberValue uA, NumberValue uB, CodeGenerationContext c) {
-		// If both values are static, then we do the operation at compile time! We're so smart!
 		return new NumberValue(operator.operate(uA.intValue(), uB.intValue()));
 	}
 

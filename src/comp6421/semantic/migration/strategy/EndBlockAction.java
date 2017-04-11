@@ -14,8 +14,6 @@ public class EndBlockAction extends MigrationStrategy {
 		ExpressionElement top = context.getCurrent();
 		if(top instanceof StatementBlock){
 			context.finishTopElement();
-		}else{
-			throw new InternalCompilerError("Expected " + StatementBlock.class.getName() + " but was " + top.getClass().getName());
 		}
 	}
 

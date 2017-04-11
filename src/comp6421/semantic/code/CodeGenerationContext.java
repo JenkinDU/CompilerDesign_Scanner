@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import comp6421.semantic.InternalCompilerError;
+import comp6421.semantic.SemanticException;
 
 public class CodeGenerationContext {
 
@@ -48,16 +49,12 @@ public class CodeGenerationContext {
 		return temp;
 	}
 	
-	public void freeTemporaryRegister(Register temp) throws InternalCompilerError{
+	public void freeTemporaryRegister(Register temp) throws SemanticException{
 		if(temp.reserved){
 			return;
 		}
 		
 		boolean alreadyExisted = ! temporaryRegisters.add(temp);
-		
-		if(alreadyExisted){
-			throw new InternalCompilerError("double free of a temp register!");
-		}
 	}
 
 	public void appendInstruction(Instruction instr) {

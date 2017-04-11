@@ -7,14 +7,16 @@ import comp6421.semantic.value.Value;
 public abstract class ExpressionElement {
 
 	protected final MigrationContext context = MigrationContext.instance;
-	
+
 	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 	}
 
 	public void pushIdentifier(String id) throws SemanticException {
 	}
-	
-	public abstract Value getValue() throws SemanticException;
+
+	public Value getValue() throws SemanticException {
+		return null;
+	}
 
 	public void pushIntLiteral(int i) throws SemanticException {
 	}
@@ -31,5 +33,5 @@ public abstract class ExpressionElement {
 
 	public void pushRelationOperator(MathOperation operator) throws SemanticException {
 	}
-	
+
 }
