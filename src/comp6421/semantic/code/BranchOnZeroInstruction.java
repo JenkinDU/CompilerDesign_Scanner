@@ -2,17 +2,17 @@ package comp6421.semantic.code;
 
 public class BranchOnZeroInstruction extends Instruction {
 
-	private String label;
-	private Register register;
+	private String l;
+	private Register r;
 
 	public BranchOnZeroInstruction(Register register, String label) {
-		this.label = label;
-		this.register = register;
+		this.l = label;
+		this.r = register;
 	}
 
 	@Override
-	protected String _getCode() {
-		return "bz" + '\t' + register.registerName + ", " + label;
+	protected String code() {
+		return "bz" + '\t' + r.registerName + ", " + l;
 	}
 
 }

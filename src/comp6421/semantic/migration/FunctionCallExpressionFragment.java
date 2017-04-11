@@ -3,14 +3,10 @@ package comp6421.semantic.migration;
 import java.util.ArrayList;
 import java.util.List;
 
-import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.STable;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.TableContext;
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.FunctionType;
-import comp6421.semantic.entry.LateBindingType;
-import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.value.Value;
 
 public class FunctionCallExpressionFragment extends TypedExpressionElement {
@@ -44,19 +40,7 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 
 	@Override
 	public EntryType getType() {
-		return new LateBindingType() {
-			@Override
-			public EntryType get() throws SemanticException {
-				STEntry entry = surroundingScope.find(id);
-
-				if (entry instanceof FunctionEntry) {
-					return ((FunctionType) ((FunctionEntry) entry).getType()).getReturnType();
-				} else {
-					throw new SemanticException("Could not find function " + id);
-				}
-
-			}
-		};
+		return null;
 	}
 
 	public String getId() {

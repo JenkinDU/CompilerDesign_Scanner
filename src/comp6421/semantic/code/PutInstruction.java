@@ -9,7 +9,7 @@ public class PutInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return "putc\t" + source.registerName;
 	}
 

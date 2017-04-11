@@ -10,10 +10,10 @@ public abstract class Instruction {
 		comment = "";
 	}
 
-	protected abstract String _getCode();
+	protected abstract String code();
 
 	public String getCode() {
-		return label + "\t" + _getCode() + "\t% " + comment;
+		return label + "\t" + code() + "\t% " + comment;
 	}
 
 	public Instruction setLabel(String label) {

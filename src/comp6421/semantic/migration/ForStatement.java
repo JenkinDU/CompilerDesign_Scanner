@@ -76,7 +76,7 @@ public class ForStatement extends ExpressionElement implements Statement {
 	@Override
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
 
-		int labelId = c.getUniqueLabelId();
+		int labelId = c.getId();
 		String loopTopLabel = "loop_top_" + labelId;
 		String loopEndLabel = "loop_end_" + labelId;
 

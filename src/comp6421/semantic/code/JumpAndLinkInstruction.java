@@ -11,7 +11,7 @@ public class JumpAndLinkInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return "jl\t" + linkRegister.registerName + ", " + label;
 	}
 

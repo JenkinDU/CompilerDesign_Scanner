@@ -64,7 +64,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		RegisterValue conditionValue = condition.getValue().getRegisterValue(c);
 		Register r = conditionValue.getRegister();
-		int labelId = c.getUniqueLabelId();
+		int labelId = c.getId();
 
 		String elseLabel = "else_" + labelId;
 		String endifLabel = "endif_" + labelId;

@@ -2,15 +2,15 @@ package comp6421.semantic.code;
 
 public class JumpRegisterInstruction extends Instruction {
 
-	private final Register register;
+	private final Register r;
 
 	public JumpRegisterInstruction(Register register) {
-		this.register = register;
+		this.r = register;
 	}
 
 	@Override
-	protected String _getCode() {
-		return "jr\t" + register.registerName;
+	protected String code() {
+		return "jr\t" + r.registerName;
 	}
 
 }

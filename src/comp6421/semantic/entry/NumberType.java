@@ -2,11 +2,11 @@ package comp6421.semantic.entry;
 
 import comp6421.semantic.STable;
 
-public class WordType implements EntryType {
+public class NumberType implements EntryType {
 
 	private final String name;
 
-	public WordType(String name) {
+	public NumberType(String name) {
 		this.name = name;
 	}
 
@@ -21,7 +21,7 @@ public class WordType implements EntryType {
 
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof WordType && name.equals(((WordType) other).name);
+		return other instanceof NumberType && name.equals(((NumberType) other).name);
 	}
 
 	@Override

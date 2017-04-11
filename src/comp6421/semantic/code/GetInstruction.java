@@ -9,7 +9,7 @@ public class GetInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return "getc\t" + destination.registerName;
 	}
 

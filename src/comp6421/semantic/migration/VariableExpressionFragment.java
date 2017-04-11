@@ -13,11 +13,11 @@ import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
 import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
-import comp6421.semantic.entry.WordType;
+import comp6421.semantic.entry.NumberType;
 import comp6421.semantic.value.FunctionCallValue;
 import comp6421.semantic.value.FunctionOffsetValue;
 import comp6421.semantic.value.IndirectValue;
-import comp6421.semantic.value.MathValue;
+import comp6421.semantic.value.OperatorValue;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.RegisterValue;
 import comp6421.semantic.value.Value;
@@ -68,12 +68,12 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		Value offsetValue = new FunctionOffsetValue() {
 			@Override
 			public Value get() throws SemanticException {
-				return new MathValue(MathOperation.SUBTRACT, new NumberValue(e.getOffset()),
+				return new OperatorValue(MathOperation.SUBTRACT, new NumberValue(e.getOffset()),
 						new NumberValue(enclosingScope.getSize()));
 			}
 		};
 
-		if (e instanceof VariableEntry || e.getType() instanceof WordType) {
+		if (e instanceof VariableEntry || e.getType() instanceof NumberType) {
 			isReference = false;
 			baseAddr = new RegisterValue(Register.STACK_POINTER);
 			offset = offsetValue;
@@ -107,7 +107,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 
 		STEntry e = getEntry(id);
 
-		offset = new MathValue(MathOperation.ADD, offset, new NumberValue(e.getOffset()));
+		offset = new OperatorValue(MathOperation.ADD, offset, new NumberValue(e.getOffset()));
 		currentType = e.getType();
 		currentScope = currentType.getScope();
 
@@ -145,7 +145,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 	@Override
 	public Value getValue() {
 
-		if (getType() instanceof WordType) {
+		if (getType() instanceof NumberType) {
 			return new WordValue(baseAddr, offset);
 		}
 		if (functionCall) {
@@ -154,7 +154,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 			if (isReference) {
 				return baseAddr;
 			} else {
-				return new IndirectValue(new MathValue(MathOperation.ADD, baseAddr, offset));
+				return new IndirectValue(new OperatorValue(MathOperation.ADD, baseAddr, offset));
 			}
 		}
 

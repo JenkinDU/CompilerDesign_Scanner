@@ -15,7 +15,7 @@ public class MathOperationInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return opcode + '\t' + dest.registerName + ", " + a.registerName + ", " + b.registerName;
 	}
 

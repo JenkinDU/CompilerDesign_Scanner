@@ -10,19 +10,15 @@ import comp6421.semantic.SemanticException;
 
 public class CodeGenerationContext {
 
-	private static int uniqueLebelId;
-
-	static {
-		uniqueLebelId = 0;
-	}
+	private static int id = 0;
 
 	private Set<Register> temporaryRegisters;
 	private List<Instruction> instructions;
 	private String nextLabel;
 	private String nextComment;
 
-	public int getUniqueLabelId() {
-		return ++uniqueLebelId;
+	public int getId() {
+		return ++id;
 	}
 
 	public CodeGenerationContext() {
@@ -54,8 +50,7 @@ public class CodeGenerationContext {
 		if (temp.reserved) {
 			return;
 		}
-
-		boolean alreadyExisted = !temporaryRegisters.add(temp);
+		temporaryRegisters.add(temp);
 	}
 
 	public void appendInstruction(Instruction instr) {

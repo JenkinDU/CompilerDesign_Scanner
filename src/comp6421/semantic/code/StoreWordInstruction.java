@@ -13,7 +13,7 @@ public class StoreWordInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return "sw" + '\t' + offset + "(" + destAddress.registerName + "), " + value.registerName;
 	}
 

@@ -9,7 +9,7 @@ public class JumpInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return "j\t" + label;
 	}
 

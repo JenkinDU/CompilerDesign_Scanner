@@ -8,13 +8,13 @@ import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.code.MathOperationInstruction;
 import comp6421.semantic.code.Register;
 
-public class MathValue extends DynamicValue {
+public class OperatorValue extends DynamicValue {
 
 	private final MathOperation operator;
 	private final Value b;
 	private final Value a;
 
-	public MathValue(MathOperation operator, Value a, Value b) {
+	public OperatorValue(MathOperation operator, Value a, Value b) {
 		this.operator = operator;
 		this.a = a;
 		this.b = b;

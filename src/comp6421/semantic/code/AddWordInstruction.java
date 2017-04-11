@@ -4,25 +4,25 @@ import comp6421.semantic.value.RegisterValue;
 
 public class AddWordInstruction extends Instruction {
 
-	private final Register dest;
+	private final Register d;
 	private final Register a;
 	private final Register b;
 
-	public AddWordInstruction(RegisterValue destVal, RegisterValue aVal, RegisterValue bVal) {
-		dest = destVal.getRegister();
+	public AddWordInstruction(RegisterValue dVal, RegisterValue aVal, RegisterValue bVal) {
+		d = dVal.getRegister();
 		a = aVal.getRegister();
 		b = bVal.getRegister();
 	}
 
-	public AddWordInstruction(Register destVal, Register aVal, Register bVal) {
-		dest = destVal;
+	public AddWordInstruction(Register dVal, Register aVal, Register bVal) {
+		d = dVal;
 		a = aVal;
 		b = bVal;
 	}
 
 	@Override
-	protected String _getCode() {
-		return "add" + '\t' + dest.registerName + ", " + a.registerName + ", " + b.registerName;
+	protected String code() {
+		return "add" + '\t' + d.registerName + ", " + a.registerName + ", " + b.registerName;
 	}
 
 }

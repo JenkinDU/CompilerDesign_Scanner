@@ -3,8 +3,8 @@ package comp6421.semantic.migration;
 import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.entry.EntryType;
-import comp6421.semantic.entry.WordType;
-import comp6421.semantic.value.MathValue;
+import comp6421.semantic.entry.NumberType;
+import comp6421.semantic.value.OperatorValue;
 import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
 
@@ -131,7 +131,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			if (state == State.WAITING_FOR_OP) {
 				return first.getValue();
 			} else {
-				return new MathValue(operator, first.getValue(), second.getValue());
+				return new OperatorValue(operator, first.getValue(), second.getValue());
 			}
 		} catch (Throwable e) {
 			return new NumberValue(0);
@@ -143,7 +143,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 		try {
 			return first.getType();
 		} catch (Throwable e) {
-			return new WordType("int");
+			return new NumberType("int");
 		}
 	}
 

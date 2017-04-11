@@ -15,7 +15,7 @@ public class ImmediateMathOperationInstruction extends Instruction {
 	}
 
 	@Override
-	protected String _getCode() {
+	protected String code() {
 		return opcode + '\t' + dest.registerName + ", " + src.registerName + ", " + k;
 	}
 
