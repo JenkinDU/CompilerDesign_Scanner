@@ -1,11 +1,11 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.entry.PrimitiveType;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.value.MathValue;
-import comp6421.semantic.value.StaticIntValue;
+import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
 
 public class MultiplicationExpressionFragment extends TypedExpressionElement {
@@ -29,7 +29,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		
 		if(e instanceof MultiplicationExpressionFragment
 		|| e instanceof VariableExpressionFragment
@@ -46,11 +46,11 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 			case SECOND:
 				second = (TypedExpressionElement) e;
 
-				SymbolTableEntryType firstType  = first.getType();
-				SymbolTableEntryType secondType = second.getType();
+				EntryType firstType  = first.getType();
+				EntryType secondType = second.getType();
 				
 				if( ! firstType.equals(secondType) ){
-					throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
+					throw new SemanticException("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
 				}
 
 				state = State.DONE;
@@ -67,7 +67,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void pushIdentifier(String id) throws CompilerError {
+	public void pushIdentifier(String id) throws SemanticException {
 		switch(state){
 		case INIT_FIRST:
 			state = State.FIRST;
@@ -84,7 +84,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void pushIntLiteral(int i) throws CompilerError {
+	public void pushIntLiteral(int i) throws SemanticException {
 		switch(state){
 		case INIT_FIRST:
 			state = State.WAITING_FOR_OP;
@@ -103,7 +103,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void pushFloatLiteral(float i) throws CompilerError {
+	public void pushFloatLiteral(float i) throws SemanticException {
 		switch(state){
 		case INIT_FIRST:
 			state = State.WAITING_FOR_OP;
@@ -122,7 +122,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void pushMultiplicationOperator(MathOperation operator) throws CompilerError {
+	public void pushMultiplicationOperator(MathOperation operator) throws SemanticException {
 		if(state == State.WAITING_FOR_OP){
 			state = State.INIT_SECOND;
 			this.operator = operator;
@@ -132,7 +132,7 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		try{
 			if(state == State.WAITING_FOR_OP){
 				return first.getValue();
@@ -140,12 +140,12 @@ public class MultiplicationExpressionFragment extends TypedExpressionElement {
 				return new MathValue(operator, first.getValue(), second.getValue());
 			}
 		}catch(Throwable e){
-			return new StaticIntValue(0);
+			return new NumberValue(0);
 		}
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		try{
 			return first.getType();
 		}catch(Throwable e){

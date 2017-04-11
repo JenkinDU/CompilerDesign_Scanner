@@ -1,6 +1,6 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.BranchOnZeroInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.JumpInstruction;
@@ -31,7 +31,7 @@ public class ForStatement extends ExpressionElement implements Statement {
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		
 		try{
 		switch(state){
@@ -72,13 +72,13 @@ public class ForStatement extends ExpressionElement implements Statement {
 			super.acceptSubElement(e);
 			break;
 		}
-		}catch(CompilerError x){
+		}catch(SemanticException x){
 			System.err.println(x);
 		}
 	}
 	
 	@Override
-	public void generateCode(CodeGenerationContext c) throws CompilerError {
+	public void generateCode(CodeGenerationContext c) throws SemanticException {
 
 		int labelId = c.getUniqueLabelId();
 		String loopTopLabel = "loop_top_" + labelId;
@@ -111,7 +111,7 @@ public class ForStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		// TODO Auto-generated method stub
 		return null;
 	}

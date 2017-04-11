@@ -1,8 +1,8 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
 
-public class NoneType implements SymbolTableEntryType {
+public class NoneType implements EntryType {
 
 	@Override
 	public int getSize() {
@@ -10,7 +10,7 @@ public class NoneType implements SymbolTableEntryType {
 	}
 
 	@Override
-	public SymbolTable getScope() {
+	public STable getScope() {
 		return null;
 	}
 

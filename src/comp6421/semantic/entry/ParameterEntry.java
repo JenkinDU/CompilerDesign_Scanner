@@ -1,8 +1,8 @@
 package comp6421.semantic.entry;
 
-public class ParameterEntry extends SymbolTableEntry {
+public class ParameterEntry extends STEntry {
 
-	public ParameterEntry(String name, SymbolTableEntryType type) {
+	public ParameterEntry(String name, EntryType type) {
 		super(name, Kind.Parameter, type, null);
 	}
 

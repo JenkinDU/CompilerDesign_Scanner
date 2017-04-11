@@ -3,27 +3,27 @@ package comp6421.semantic.entry;
 import java.util.Collections;
 import java.util.List;
 
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
 
-public class FunctionType implements SymbolTableEntryType {
+public class FunctionType implements EntryType {
 
-	private SymbolTableEntryType returnType;
-	private List<SymbolTableEntryType> argumentTypes;
+	private EntryType returnType;
+	private List<EntryType> argumentTypes;
 	
-	public FunctionType(SymbolTableEntryType returnType, List<SymbolTableEntryType> argumentTypes){
+	public FunctionType(EntryType returnType, List<EntryType> argumentTypes){
 		this.returnType = returnType;
 		this.argumentTypes = argumentTypes;
 	}
 
-	public SymbolTableEntryType getReturnType() {
+	public EntryType getReturnType() {
 		return returnType;
 	}
 
-	public List<SymbolTableEntryType> getArgumentTypes() {
+	public List<EntryType> getArgumentTypes() {
 		return Collections.unmodifiableList(argumentTypes);
 	}
 
-	public void pushParameter(SymbolTableEntryType param) {
+	public void pushParameter(EntryType param) {
 		argumentTypes.add(param);
 	}
 	
@@ -76,7 +76,7 @@ public class FunctionType implements SymbolTableEntryType {
 	}
 
 	@Override
-	public SymbolTable getScope() {
+	public STable getScope() {
 		return null;
 	}
 	

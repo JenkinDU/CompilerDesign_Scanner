@@ -3,16 +3,16 @@ package comp6421.semantic.expression;
 import java.util.ArrayList;
 import java.util.List;
 
-import comp6421.semantic.CompilerError;
 import comp6421.semantic.FunctionEntry;
-import comp6421.semantic.SymbolContext;
-import comp6421.semantic.SymbolTable;
-import comp6421.semantic.code.SpecialValues;
+import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.TableContext;
+import comp6421.semantic.code.Register;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.LateBindingType;
 import comp6421.semantic.entry.MemberFunctionEntry;
-import comp6421.semantic.entry.SymbolTableEntry;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.value.DynamicValue;
 import comp6421.semantic.value.FunctionCallValue;
 import comp6421.semantic.value.LateBindingDynamicValue;
@@ -24,16 +24,16 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 	
 	private List<TypedExpressionElement> expressions;
 	
-	private SymbolTable surroundingScope;
+	private STable surroundingScope;
 	
 	public FunctionCallExpressionFragment(String id){
 		this.id = id;
 		this.expressions = new ArrayList<TypedExpressionElement>();
-		this.surroundingScope = SymbolContext.getCurrentScope();
+		this.surroundingScope = TableContext.getCurrentScope();
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		
 		if(e instanceof RelationExpressionFragment){
 			expressions.add((RelationExpressionFragment) e);
@@ -43,40 +43,40 @@ public class FunctionCallExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		return new LateBindingDynamicValue() {
 			
 			@Override
-			public DynamicValue get() throws CompilerError {
-				SymbolTableEntry entry = surroundingScope.find(id);
-				SymbolTable outerScope = surroundingScope.getParent();
+			public DynamicValue get() throws SemanticException {
+				STEntry entry = surroundingScope.find(id);
+				STable outerScope = surroundingScope.getParent();
 				if(entry instanceof MemberFunctionEntry){
 					if(outerScope.exists(id)){
-						expressions.add(0, new VariableExpressionFragment(SpecialValues.THIS_POINTER_NAME, surroundingScope));
+						expressions.add(0, new VariableExpressionFragment(Register.THIS_POINTER_NAME, surroundingScope));
 						return new FunctionCallValue((FunctionEntry) entry, expressions);
 					}else{
-						throw new CompilerError("Can not find member function " + id);
+						throw new SemanticException("Can not find member function " + id);
 					}
 				}if(entry instanceof FunctionEntry){
 					return new FunctionCallValue((FunctionEntry) entry, expressions);
 				}else{
-					throw new CompilerError("Could not find function " + id);
+					throw new SemanticException("Could not find function " + id);
 				}
 			}
 		};
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return new LateBindingType(){
 			@Override
-			public SymbolTableEntryType get() throws CompilerError {
-				SymbolTableEntry entry = surroundingScope.find(id);
+			public EntryType get() throws SemanticException {
+				STEntry entry = surroundingScope.find(id);
 				
 				if(entry instanceof FunctionEntry){
 					return ((FunctionType)((FunctionEntry) entry).getType()).getReturnType();
 				}else{
-					throw new CompilerError("Could not find function " + id);
+					throw new SemanticException("Could not find function " + id);
 				}
 
 			}

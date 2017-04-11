@@ -1,8 +1,8 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.MathOperation;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.value.MathValue;
 import comp6421.semantic.value.Value;
 
@@ -25,7 +25,7 @@ public class RelationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void pushRelationOperator(MathOperation operator) throws CompilerError {
+	public void pushRelationOperator(MathOperation operator) throws SemanticException {
 		if(this.state == State.WAITING_FOR_OP ){
 			this.operator = operator;
 			this.state = State.WAITING_FOR_SECOND;
@@ -33,7 +33,7 @@ public class RelationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		
 		if(e instanceof RelationExpressionFragment
 		|| e instanceof AdditionExpressionFragment){
@@ -45,11 +45,11 @@ public class RelationExpressionFragment extends TypedExpressionElement {
 			case WAITING_FOR_SECOND:
 				second = (TypedExpressionElement) e;
 				
-				SymbolTableEntryType firstType  = first.getType();
-				SymbolTableEntryType secondType = second.getType();
+				EntryType firstType  = first.getType();
+				EntryType secondType = second.getType();
 				
 				if( ! firstType.equals(secondType) ){
-					throw new CompilerError("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
+					throw new SemanticException("Type mismatch: " + firstType + " is not compatible with " + secondType + " for operator '" + operator.symbol + "'");	
 				}
 				
 				state = State.DONE;
@@ -67,7 +67,7 @@ public class RelationExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		if(state == State.WAITING_FOR_OP){
 			return first.getValue();
 		}else{
@@ -76,7 +76,7 @@ public class RelationExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return first.getType();
 	}
 	

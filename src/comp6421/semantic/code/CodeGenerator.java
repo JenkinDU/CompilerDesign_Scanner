@@ -2,12 +2,12 @@ package comp6421.semantic.code;
 
 import java.io.PrintStream;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
-import comp6421.semantic.SymbolContext;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.TableContext;
+import comp6421.semantic.STable;
 import comp6421.semantic.entry.ClassEntry;
-import comp6421.semantic.entry.SymbolTableEntry;
+import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.expression.Statement;
 
 public class CodeGenerator {
@@ -23,26 +23,26 @@ public class CodeGenerator {
 	
 	public void generate() {
 		
-		SymbolTable s = SymbolContext.getCurrentScope();
+		STable s = TableContext.getCurrentScope();
 		
 		generate(s);
 		
-		SymbolTableEntry program = s.find("program");
+		STEntry program = s.find("program");
 		
 		try{
 			generateProgram((FunctionEntry) program);
-		}catch(CompilerError x){
+		}catch(SemanticException x){
 			++nErrors;
 		}
 		
 	}
 	
-	private void generate(SymbolTable s) {
-			for(SymbolTableEntry e : s.getEntries()){
+	private void generate(STable s) {
+			for(STEntry e : s.getEntries()){
 				if(e instanceof FunctionEntry && e.getName() != "program"){
 					try{
 						generateFunction((FunctionEntry) e);
-					}catch(CompilerError x){
+					}catch(SemanticException x){
 						++nErrors;
 					}
 				}
@@ -52,7 +52,7 @@ public class CodeGenerator {
 			}
 	}
 	
-	private void generateProgram(FunctionEntry program) throws CompilerError{
+	private void generateProgram(FunctionEntry program) throws SemanticException{
 		
 		CodeGenerationContext c = new CodeGenerationContext();
 			
@@ -73,11 +73,11 @@ public class CodeGenerator {
 		c.printCode(output);
 	}
 	
-	private void generateFunction(FunctionEntry func) throws CompilerError{
+	private void generateFunction(FunctionEntry func) throws SemanticException{
 		CodeGenerationContext c = new CodeGenerationContext();
-		SymbolTable s = func.getScope();
+		STable s = func.getScope();
 		
-		int returnAddrMemOffset =  -s.getSize() + s.find(SpecialValues.RETURN_ADDRESS_PARAMETER_NAME).getOffset();
+		int returnAddrMemOffset =  -s.getSize() + s.find(Register.RETURN_ADDRESS_PARAMETER_NAME).getOffset();
 		
 		c.labelNext(func.getLabel());
 		c.commentNext(func.toString());

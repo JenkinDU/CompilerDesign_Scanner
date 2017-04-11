@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import comp6421.semantic.entry.SymbolTableEntry;
+import comp6421.semantic.entry.STEntry;
 
-public class SymbolTable implements ITable {
+public class STable implements ITable {
 	
-	private Map<String, SymbolTableEntry> entries;
+	private Map<String, STEntry> entries;
 //	private HashMap<String, Entry> entry;
 //	private Scope scope = Scope.UNKNOWN;
 //	private String name = null;
@@ -35,13 +35,13 @@ public class SymbolTable implements ITable {
 
 	int currentOffset;
 	
-	private final SymbolTable parent;
+	private final STable parent;
 	
-	private SymbolTableEntry enclosingEntry;
+	private STEntry enclosingEntry;
 	
-	public SymbolTable(SymbolTable parent){
+	public STable(STable parent){
 		this.parent = parent;
-		this.entries = new HashMap<String, SymbolTableEntry>();
+		this.entries = new HashMap<String, STEntry>();
 		this.currentOffset = 0;
 	}
 
@@ -49,8 +49,8 @@ public class SymbolTable implements ITable {
 		return entries.get(name) != null;
 	}
 	
-	public SymbolTableEntry find(String name){
-		SymbolTableEntry e = entries.get(name);
+	public STEntry find(String name){
+		STEntry e = entries.get(name);
 		if(e != null){
 			return e;
 		}else{
@@ -62,7 +62,7 @@ public class SymbolTable implements ITable {
 		}
 	}
 
-	public void add(SymbolTableEntry entry) throws CompilerError {
+	public void add(STEntry entry) throws SemanticException {
 		// Note that for functions, parameters are added in order
 		entries.put(entry.getName(), entry);
 		
@@ -74,7 +74,7 @@ public class SymbolTable implements ITable {
 		return currentOffset;
 	}
 	
-	public SymbolTable getParent() {
+	public STable getParent() {
 		return parent;
 	}
 	
@@ -88,18 +88,18 @@ public class SymbolTable implements ITable {
 		private int indent = 0;
 		private StringBuilder sb = new StringBuilder();
 		
-		public String toString(SymbolTable s){
+		public String toString(STable s){
 			if(s.enclosingEntry instanceof FunctionEntry) {
-				List<Entry<String, SymbolTableEntry>> list = new ArrayList<Entry<String, SymbolTableEntry>>(s.entries.entrySet());
-				Collections.sort(list, new Comparator<Entry<String, SymbolTableEntry>>() {
+				List<Entry<String, STEntry>> list = new ArrayList<Entry<String, STEntry>>(s.entries.entrySet());
+				Collections.sort(list, new Comparator<Entry<String, STEntry>>() {
 
 					@Override
-					public int compare(Entry<String, SymbolTableEntry> arg0, Entry<String, SymbolTableEntry> arg1) {
+					public int compare(Entry<String, STEntry> arg0, Entry<String, STEntry> arg1) {
 						return arg1.getValue().getOffset() - arg0.getValue().getOffset();
 					}
 				});
-				for(Entry<String, SymbolTableEntry> e : list){
-					SymbolTableEntry ste = e.getValue();
+				for(Entry<String, STEntry> e : list){
+					STEntry ste = e.getValue();
 					sb.append(ste);
 					if(ste.getScope() != null){
 						++indent;
@@ -111,8 +111,8 @@ public class SymbolTable implements ITable {
 				}
 				return sb.toString();
 			}
-			for(Entry<String, SymbolTableEntry> e : s.entries.entrySet()){
-				SymbolTableEntry ste = e.getValue();
+			for(Entry<String, STEntry> e : s.entries.entrySet()){
+				STEntry ste = e.getValue();
 				sb.append(ste);
 				if(ste.getScope() != null){
 					++indent;
@@ -133,15 +133,15 @@ public class SymbolTable implements ITable {
 		}
 	}
 
-	public Collection<SymbolTableEntry> getEntries() {
+	public Collection<STEntry> getEntries() {
 		return Collections.unmodifiableCollection(entries.values());
 	}
 
-	public SymbolTableEntry getEnclosingEntry() {
+	public STEntry getEnclosingEntry() {
 		return enclosingEntry;
 	}
 
-	public void setEnclosingEntry(SymbolTableEntry enclosingEntry) {
+	public void setEnclosingEntry(STEntry enclosingEntry) {
 		this.enclosingEntry = enclosingEntry;
 	}
 }

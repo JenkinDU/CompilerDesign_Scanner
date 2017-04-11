@@ -8,9 +8,9 @@ import comp6421.semantic.code.Register;
 public class ConcreteAddressValue extends DynamicValue {
 
 	private RegisterValue baseAddr;
-	private StaticValue   offset;
+	private NumberValue   offset;
 	
-	public ConcreteAddressValue(RegisterValue baseAddr, StaticValue offset) {
+	public ConcreteAddressValue(RegisterValue baseAddr, NumberValue offset) {
 		this.baseAddr = baseAddr;
 		this.offset   = offset;
 	}

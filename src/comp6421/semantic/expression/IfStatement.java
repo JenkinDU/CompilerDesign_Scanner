@@ -1,6 +1,6 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.BranchOnZeroInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.JumpInstruction;
@@ -31,7 +31,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		switch(state){
 			case CONDITION:
 				if(e instanceof RelationExpressionFragment) {
@@ -66,7 +66,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 	}
 	
 	@Override
-	public void generateCode(CodeGenerationContext c) throws CompilerError {
+	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		RegisterValue conditionValue = condition.getValue().getRegisterValue(c);
 		Register r = conditionValue.getRegister();
 		int labelId = c.getUniqueLabelId();
@@ -94,7 +94,7 @@ public class IfStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		return VoidValue.get();
 	}
 

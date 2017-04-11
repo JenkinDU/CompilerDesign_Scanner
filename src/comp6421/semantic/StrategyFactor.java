@@ -35,6 +35,7 @@ import comp6421.semantic.perform.StartMemberFunctionAction;
 import comp6421.semantic.perform.StoreDimensionAction;
 import comp6421.semantic.perform.StoreIdAction;
 import comp6421.semantic.perform.StoreTypeAction;
+import comp6421.semantic.perform.TableStrategy;
 
 /**
  *
@@ -45,7 +46,7 @@ import comp6421.semantic.perform.StoreTypeAction;
  */
 public class StrategyFactor {
 	
-	public static SemanticAction getStategy(String action) {
+	public static TableStrategy getSymbolStategy(String action) {
 		if ("sym_CreateProgram".equals(action)) {
 			return new CreateProgramAction();
 		} else if ("sym_CreateClassScope".equals(action)) {
@@ -68,7 +69,11 @@ public class StrategyFactor {
 			return new CreateVariableAction();
 		} else if ("sym_EndScope".equals(action)) {
 			return new EndScopeAction();
-		} else if ("sem_PushVariableName".equals(action)) {
+		} 
+		return null;
+	}
+	public static SemanticAction getMigrationStategy(String action) {
+		if ("sem_PushVariableName".equals(action)) {
 			return new PushVariableNameAction();
 		} else if ("sem_FinishVariable".equals(action)) {
 			return new FinishVariableAction();

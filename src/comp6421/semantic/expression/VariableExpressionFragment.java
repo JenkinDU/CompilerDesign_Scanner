@@ -2,52 +2,50 @@ package comp6421.semantic.expression;
 
 import java.util.List;
 
-import comp6421.semantic.CompilerError;
 import comp6421.semantic.InternalCompilerError;
-import comp6421.semantic.SymbolContext;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.TableContext;
 import comp6421.semantic.code.MathOperation;
 import comp6421.semantic.code.Register;
-import comp6421.semantic.code.SpecialValues;
-import comp6421.semantic.entry.ArrayType;
 import comp6421.semantic.entry.ClassType;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
 import comp6421.semantic.entry.PrimitiveType;
-import comp6421.semantic.entry.SymbolTableEntry;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.value.DynamicValue;
 import comp6421.semantic.value.FunctionCallValue;
 import comp6421.semantic.value.IndirectValue;
 import comp6421.semantic.value.LateBindingDynamicValue;
 import comp6421.semantic.value.MathValue;
+import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.RegisterValue;
-import comp6421.semantic.value.StaticIntValue;
 import comp6421.semantic.value.StoredValue;
 import comp6421.semantic.value.Value;
 
 public class VariableExpressionFragment extends TypedExpressionElement {
 	
-	private final SymbolTable enclosingScope;
-	private SymbolTable currentScope;
+	private final STable enclosingScope;
+	private STable currentScope;
 
 	private Value offset;
 	private Value baseAddr;
 	
 	private Value memberFunctionCallValue;
 	
-	private SymbolTableEntryType currentType;
+	private EntryType currentType;
 	
 	private boolean isReference;
 	private boolean functionCall;
 	
 	
-	public VariableExpressionFragment(String id) throws CompilerError{
-		this(id, SymbolContext.getCurrentScope());
+	public VariableExpressionFragment(String id) throws SemanticException{
+		this(id, TableContext.getCurrentScope());
 	}
 		
-	public VariableExpressionFragment(String id, SymbolTable scope) throws CompilerError{
+	public VariableExpressionFragment(String id, STable scope) throws SemanticException{
 		this.currentScope  = scope;
 		this.enclosingScope = currentScope;
 		// Stack pointer is always at the top of the stack frame, offsets are
@@ -57,18 +55,18 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		
 		this.functionCall = false;
 		
-		final SymbolTableEntry e = getEntry(id);
+		final STEntry e = getEntry(id);
 
 				
 		// if we are in a member function
 		if( enclosingScope.getEnclosingEntry() instanceof MemberFunctionEntry ){
 			// get the class scope
-			SymbolTable outerScope = enclosingScope.getParent();
+			STable outerScope = enclosingScope.getParent();
 
 			// and if the name we're looking for is not a local to the function
 			// and is a class member ...
 			if (outerScope.exists(id) && ! enclosingScope.exists(id)){
-				init(getEntry(SpecialValues.THIS_POINTER_NAME));
+				init(getEntry(Register.THIS_POINTER_NAME));
 				pushIdentifier(id);
 			}else{
 				init(e);
@@ -79,11 +77,11 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		
 	}
 
-	private void init(final SymbolTableEntry e) throws CompilerError{
+	private void init(final STEntry e) throws SemanticException{
 		Value offsetValue = new  LateBindingDynamicValue() {			
 			@Override
-			public DynamicValue get() throws CompilerError {
-				 return new MathValue(MathOperation.SUBTRACT, new StaticIntValue(e.getOffset()), new StaticIntValue(enclosingScope.getSize()));
+			public DynamicValue get() throws SemanticException {
+				 return new MathValue(MathOperation.SUBTRACT, new NumberValue(e.getOffset()), new NumberValue(enclosingScope.getSize()));
 			}
 		};
 
@@ -95,7 +93,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		if(e instanceof ParameterEntry){
 			isReference = true;
 			baseAddr	= new StoredValue(new RegisterValue(Register.STACK_POINTER), offsetValue);
-			offset      = new StaticIntValue(0);
+			offset      = new NumberValue(0);
 		}else{
 			throw new InternalCompilerError("Something went wrong, entry is not VariableEntry, type is not PrimitiveType *AND* it's not ParameterEntry");
 		}
@@ -104,26 +102,26 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 		currentScope = currentType.getScope();
 	}
 	
-	private SymbolTableEntry getEntry(String id) throws CompilerError{
+	private STEntry getEntry(String id) throws SemanticException{
 		if(currentScope == null){
-			throw new CompilerError("Cannot access property " + id + " of non-class type " + currentType);
+			throw new SemanticException("Cannot access property " + id + " of non-class type " + currentType);
 		}
 		
-		SymbolTableEntry e = currentScope.find(id);
+		STEntry e = currentScope.find(id);
 		
 		if(e == null){
-			throw new CompilerError("Id " + id + " not found in scope: "+currentScope.getEnclosingEntry().getName());
+			throw new SemanticException("Id " + id + " not found in scope: "+currentScope.getEnclosingEntry().getName());
 		}
 		
 		return e;
 	}
 	
 	@Override
-	public void pushIdentifier(String id) throws CompilerError {
+	public void pushIdentifier(String id) throws SemanticException {
 		
-		SymbolTableEntry e = getEntry(id);
+		STEntry e = getEntry(id);
 	
-		offset       = new MathValue(MathOperation.ADD, offset, new StaticIntValue(e.getOffset()));
+		offset       = new MathValue(MathOperation.ADD, offset, new NumberValue(e.getOffset()));
 		currentType  = e.getType();
 		currentScope = currentType.getScope();
 		
@@ -131,22 +129,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
-		if(e instanceof IndexingExpressionFragment){
-			IndexingExpressionFragment a = (IndexingExpressionFragment) e;
-			offset = new MathValue(MathOperation.ADD, offset, a.getValue());
-			currentType = ((ArrayType) currentType).getType();
-			currentScope = currentType.getScope();
-		}else
-		if(e instanceof AdditionExpressionFragment){
-			if(currentType instanceof ArrayType){
-				IndexingExpressionFragment child = new IndexingExpressionFragment((ArrayType)currentType);
-				context.pushChild(child);
-				child.acceptSubElement(e);
-			}else{
-				throw new CompilerError("Failed to visit a non-array type: " + currentType);
-			}
-		}else
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		if(e instanceof FunctionCallExpressionFragment){
 			FunctionCallExpressionFragment f = (FunctionCallExpressionFragment) e;
 			// then this is a member function call
@@ -155,7 +138,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 				
 				// We don't want to do a recursive search for it, but rather check that it exists in the current scope
 				if(currentScope.exists(f.getId())){
-					SymbolTableEntry entry = currentScope.find(f.getId());
+					STEntry entry = currentScope.find(f.getId());
 					if(entry instanceof MemberFunctionEntry){
 						MemberFunctionEntry function = (MemberFunctionEntry) entry;
 						
@@ -172,13 +155,13 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 						currentType = function.getType();//((FunctionType)function.getType()).getReturnType();
 						context.finishTopElement();
 					}else{
-						throw new CompilerError("Cannot call non-function member " + f.getId() + " of class " + currentClass);
+						throw new SemanticException("Cannot call non-function member " + f.getId() + " of class " + currentClass);
 					}
 				}else{
-					throw new CompilerError("Cannot find method " + f.getId() + " in class: " + currentClass);
+					throw new SemanticException("Cannot find method " + f.getId() + " in class: " + currentClass);
 				}
 			}else{
-				throw new CompilerError("Cannot call method " + f.getId() + " of non-class type " + currentType);
+				throw new SemanticException("Cannot call method " + f.getId() + " of non-class type " + currentType);
 			}
 		}else{
 			super.acceptSubElement(e);
@@ -203,7 +186,7 @@ public class VariableExpressionFragment extends TypedExpressionElement {
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return currentType;
 	}
 	

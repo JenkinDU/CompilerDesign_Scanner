@@ -1,26 +1,25 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.AddWordImmediateInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 
-public class StaticIntValue extends StaticValue implements Value {
+public class NumberValue implements Value {
 
 	private final int v;
 	
-	public StaticIntValue(int v){
+	public NumberValue(){
+		this.v = 0;
+	}
+	
+	
+	public NumberValue(int v){
 		this.v = v;
 	}
 	
-	@Override
 	public int intValue() {
 		return v;
-	}
-
-	@Override
-	public float floatValue() {
-		return (float) v;
 	}
 
 	@Override
@@ -30,11 +29,11 @@ public class StaticIntValue extends StaticValue implements Value {
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof StaticIntValue && ((StaticIntValue)other).intValue() == v;
+		return other instanceof NumberValue && ((NumberValue)other).intValue() == v;
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		RegisterValue reg = new RegisterValue(c.getTemporaryRegister());
 		
 		c.appendInstruction(new AddWordImmediateInstruction(reg.getRegister(), Register.ZERO, v));
@@ -42,4 +41,13 @@ public class StaticIntValue extends StaticValue implements Value {
 		return reg;
 	}
 	
+	@Override
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
+		return this;
+	}
+	
+	@Override
+	public boolean isStatic() {
+		return true;
+	}
 }

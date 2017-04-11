@@ -1,25 +1,25 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.entry.ClassEntry;
 import comp6421.semantic.entry.ClassType;
 import comp6421.semantic.entry.PrimitiveType;
-import comp6421.semantic.entry.SymbolTableEntry;
+import comp6421.semantic.entry.STEntry;
 
-public class StoreTypeAction extends SymbolAction {
+public class StoreTypeAction extends TableStrategy {
 
 	@Override
-	public void execute(Token precedingToken) throws CompilerError {
+	public void execute(Token precedingToken) throws SemanticException {
 		String typeName = precedingToken.lexeme;
 		if(typeName.equals("int") || typeName.equals("float")){
-			context.storedType = new PrimitiveType(precedingToken.lexeme);
+			context.type = new PrimitiveType(precedingToken.lexeme);
 		}else{
-			SymbolTableEntry entry = context.currentSymbolTable.find(typeName);
+			STEntry entry = context.current.find(typeName);
 			if(entry instanceof ClassEntry){
-				context.storedType = new ClassType((ClassEntry) entry);
+				context.type = new ClassType((ClassEntry) entry);
 			}else{
-				throw new CompilerError("unknown type " + typeName);
+				throw new SemanticException("Undefined type variable" + typeName);
 			}
 		}
 	}

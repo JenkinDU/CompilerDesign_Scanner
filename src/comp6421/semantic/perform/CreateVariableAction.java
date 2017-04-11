@@ -1,19 +1,19 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.entry.SymbolTableEntry;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.entry.STEntry;
 import comp6421.semantic.entry.VariableEntry;
 
-public class CreateVariableAction extends SymbolAction {
+public class CreateVariableAction extends TableStrategy {
 	
 	@Override
-	public void execute(Token token) throws CompilerError {
-		if(context.currentSymbolTable.exists(context.storedId)){
-			throw new CompilerError("Multiply defined id: " + context.storedId);
+	public void execute(Token token) throws SemanticException {
+		if(context.current.exists(context.id)){
+			throw new SemanticException("Multiply defined id: " + context.id);
 		}else{
-			SymbolTableEntry entry = new VariableEntry(context.storedId, context.storedType);
-			context.currentSymbolTable.add(entry);
+			STEntry entry = new VariableEntry(context.id, context.type);
+			context.current.add(entry);
 		}
 	}
 

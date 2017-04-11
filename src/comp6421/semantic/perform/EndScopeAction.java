@@ -1,20 +1,18 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
 
-public class EndScopeAction extends SymbolAction {
+public class EndScopeAction extends TableStrategy {
 	
 	@Override
 	public void execute(Token token) {
-		if(context.skipNextCloseScope){
-			context.skipNextCloseScope = false;
+		if(context.skip){
+			context.skip = false;
 		}else{
-			SymbolTable parent = context.currentSymbolTable.getParent();
+			STable parent = context.current.getParent();
 			if(parent != null){
-				context.currentSymbolTable = parent;
-			}else{
-				throw new RuntimeException("Tried to close global scope");
+				context.current = parent;
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
 
-public class PrimitiveType implements SymbolTableEntryType{
+public class PrimitiveType implements EntryType{
 
 	private final String name;
 	
@@ -32,7 +32,7 @@ public class PrimitiveType implements SymbolTableEntryType{
 	}
 
 	@Override
-	public SymbolTable getScope() {
+	public STable getScope() {
 		return null;
 	}
 }

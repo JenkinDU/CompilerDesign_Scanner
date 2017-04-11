@@ -1,31 +1,27 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.code.SpecialValues;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.code.Register;
 import comp6421.semantic.entry.PrimitiveType;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.expression.ExpressionContext;
 
-public class CreateFunctionAction extends SymbolAction {
+public class CreateFunctionAction extends TableStrategy {
 	
 	@Override
-	public void execute(Token precedingToken) throws CompilerError {
-		if(context.storedFunction != null){
-			context.currentSymbolTable.add(context.storedFunction);
-			context.currentSymbolTable = context.storedFunction.getScope();
+	public void execute(Token precedingToken) throws SemanticException {
+		if(context.function != null){
+			context.current.add(context.function);
+			context.current = context.function.getScope();
 			
-			ExpressionContext.setCurrentFunction(context.storedFunction);
+			ExpressionContext.setCurrentFunction(context.function);
 			
-			// Adding these pseudo-parameters ensures that all stack-frame offsets will make sense.
-			//
-			// '@' sign guarantees no name collisions
-			VariableEntry returnPcAddr    = new VariableEntry(SpecialValues.RETURN_ADDRESS_PARAMETER_NAME, new PrimitiveType("int"));
+			VariableEntry returnPcAddr    = new VariableEntry(Register.RETURN_ADDRESS_PARAMETER_NAME, new PrimitiveType("int"));
 
-			//table.add(returnValueAddr);
-			context.currentSymbolTable.add(returnPcAddr);
+			context.current.add(returnPcAddr);
 
-			ExpressionContext.setCurrentFunction(context.storedFunction);
+			ExpressionContext.setCurrentFunction(context.function);
 		}
 	}
 }

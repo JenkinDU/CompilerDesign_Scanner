@@ -1,9 +1,9 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.STable;
 
-public class ClassType implements SymbolTableEntryType {
+public class ClassType implements EntryType {
 
 	private ClassEntry classEntry;
 	
@@ -12,7 +12,7 @@ public class ClassType implements SymbolTableEntryType {
 	}
 	
 	@Override
-	public int getSize() throws CompilerError {
+	public int getSize() throws SemanticException {
 		return classEntry.getSize();
 	}
 	
@@ -22,7 +22,7 @@ public class ClassType implements SymbolTableEntryType {
 	}
 	
 	@Override
-	public SymbolTable getScope(){
+	public STable getScope(){
 		return classEntry.getScope();
 	}
 	

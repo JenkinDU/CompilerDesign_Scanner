@@ -2,11 +2,11 @@ package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
 
-public class StoreIdAction extends SymbolAction {
+public class StoreIdAction extends TableStrategy {
 	
 	@Override
 	public void execute(Token precedingToken) {
-		context.storedId = precedingToken.lexeme;
+		context.id = precedingToken.lexeme;
 	}
 
 }

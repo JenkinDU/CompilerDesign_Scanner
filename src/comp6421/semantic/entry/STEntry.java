@@ -1,9 +1,9 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.STable;
 
-public abstract class SymbolTableEntry {
+public abstract class STEntry {
 
 	public static enum Kind {
 		Function,
@@ -14,12 +14,12 @@ public abstract class SymbolTableEntry {
 	
 	private String name;
 	private Kind kind;
-	private SymbolTableEntryType type;
-	private SymbolTable scope;
+	private EntryType type;
+	private STable scope;
 	
 	private int offset;
 	
-	public SymbolTableEntry(String name, Kind kind, SymbolTableEntryType type, SymbolTable scope){
+	public STEntry(String name, Kind kind, EntryType type, STable scope){
 		this.name  = name;
 		this.kind  = kind;
 		this.type  = type;
@@ -31,24 +31,10 @@ public abstract class SymbolTableEntry {
 		
 		this.offset = -1;
 	}
-
-	/**
-	 * Force this {@link SymbolTableEntry} to calcuate its size.
-	 * 
-	 * For a variable or parameter this is the amount of space taken to store that
-	 * value.
-	 * 
-	 * For a Class this is the amount of space required to store an instance of that class
-	 * 
-	 * For a function, this is the amount of space required for the function's stack frame
-	 * 
-	 * @return the calculated size as described above in units of bytes.
-	 * @throws CompilerError 
-	 */
-	protected abstract int calculateSize() throws CompilerError;
+	protected abstract int calculateSize() throws SemanticException;
 	
-	public final int getSize() throws CompilerError{
-		return calculateSize(); // TODO - make lazy in calculating size
+	public final int getSize() throws SemanticException{
+		return calculateSize();
 	}
 	
 	
@@ -60,11 +46,11 @@ public abstract class SymbolTableEntry {
 		return kind;
 	}
 
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return type;
 	}
 
-	public SymbolTable getScope() {
+	public STable getScope() {
 		return scope;
 	}
 
@@ -76,11 +62,11 @@ public abstract class SymbolTableEntry {
 		this.kind = kind;
 	}
 
-	public void setType(SymbolTableEntryType type) {
+	public void setType(EntryType type) {
 		this.type = type;
 	}
 
-	public void setScope(SymbolTable scope) {
+	public void setScope(STable scope) {
 		this.scope = scope;
 	}
 	
@@ -102,7 +88,7 @@ public abstract class SymbolTableEntry {
 		String off = "";
 		try {
 			off = "[Size:" + getSize() + " Add:" + (add?0:offset) + "]";
-		} catch (CompilerError e) {
+		} catch (SemanticException e) {
 			e.printStackTrace();
 		}
 		return v+off;
@@ -110,12 +96,11 @@ public abstract class SymbolTableEntry {
 	
 	@Override
 	public boolean equals(Object other){
-		if(other instanceof SymbolTableEntry){
-			SymbolTableEntry e = (SymbolTableEntry) other;
+		if(other instanceof STEntry){
+			STEntry e = (STEntry) other;
 			return ((e.getKind() == null  && getKind()  == null) || e.getKind().equals(getKind()))
 				&& ((e.getType() == null  && getType()  == null) || e.getType().equals(getType()))
-				&& ((e.getName() == null  && getName()  == null) || e.getName().equals(getName()))
-				/*&& ((e.getScope() == null && getScope() == null) || e.getScope().equals(getScope()))*/;
+				&& ((e.getName() == null  && getName()  == null) || e.getName().equals(getName()));
 		}else{
 			return false;
 		}

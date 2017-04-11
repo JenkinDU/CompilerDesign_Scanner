@@ -1,8 +1,8 @@
 package comp6421.semantic.expression;
 
 import comp6421.semantic.entry.PrimitiveType;
-import comp6421.semantic.entry.SymbolTableEntryType;
-import comp6421.semantic.value.StaticIntValue;
+import comp6421.semantic.entry.EntryType;
+import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.Value;
 
 public class IntLiteralExpressionElement extends TypedExpressionElement {
@@ -15,11 +15,11 @@ public class IntLiteralExpressionElement extends TypedExpressionElement {
 	
 	@Override
 	public Value getValue() {
-		return new StaticIntValue(i);
+		return new NumberValue(i);
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return new PrimitiveType("int");
 	}
 

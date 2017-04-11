@@ -1,6 +1,6 @@
 package comp6421.semantic.expression;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.GetInstruction;
 import comp6421.semantic.code.Register;
@@ -15,7 +15,7 @@ public class GetStatement extends ExpressionElement implements Statement {
 	StoredValue destination;
 	
 	@Override
-	public void generateCode(CodeGenerationContext c) throws CompilerError {
+	public void generateCode(CodeGenerationContext c) throws SemanticException {
 		Register r = c.getTemporaryRegister();
 		
 		ConcreteAddressValue addr = destination.getConcreteAddress(c);
@@ -29,12 +29,12 @@ public class GetStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public void pushIdentifier(String id) throws CompilerError {
+	public void pushIdentifier(String id) throws SemanticException {
 		context.pushChild(new VariableExpressionFragment(id));
 	}
 	
 	@Override
-	public void acceptSubElement(ExpressionElement e) throws CompilerError {
+	public void acceptSubElement(ExpressionElement e) throws SemanticException {
 		if(e instanceof VariableExpressionFragment){
 			destination = (StoredValue)e.getValue();
 			context.finishTopElement();
@@ -49,7 +49,7 @@ public class GetStatement extends ExpressionElement implements Statement {
 	}
 
 	@Override
-	public Value getValue() throws CompilerError {
+	public Value getValue() throws SemanticException {
 		return VoidValue.get();
 	}
 

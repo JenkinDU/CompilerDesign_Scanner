@@ -3,7 +3,7 @@ package comp6421.semantic.expression;
 import java.util.Iterator;
 import java.util.Stack;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.InternalCompilerError;
 
@@ -25,7 +25,7 @@ public class ExpressionContext {
 	}
 	
 	// TODO better name
-	public void finishTopElement() throws CompilerError {
+	public void finishTopElement() throws SemanticException {
 		ExpressionElement child;
 		
 		if(expressionStack.isEmpty()){

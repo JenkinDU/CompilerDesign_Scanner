@@ -1,30 +1,30 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.SymbolTable;
-import comp6421.semantic.code.SpecialValues;
+import comp6421.semantic.STable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.code.Register;
 import comp6421.semantic.entry.MemberFunctionEntry;
 import comp6421.semantic.entry.ParameterEntry;
 
-public class StartMemberFunctionAction extends SymbolAction {
+public class StartMemberFunctionAction extends TableStrategy {
 	
 	@Override
-	public void execute(Token token) throws CompilerError {
-		if(context.currentSymbolTable.exists(context.storedId)){
-			context.storedFunction = null;
-			context.skipNextCloseScope = true;
+	public void execute(Token token) throws SemanticException {
+		if(context.current.exists(context.id)){
+			context.function = null;
+			context.skip = true;
 			
-			throw new CompilerError("Multiply function declaration: " + context.storedId);
+			throw new SemanticException("Multiply function declaration: " + context.id);
 		}else{
-			SymbolTable table = new SymbolTable(context.currentSymbolTable);
+			STable table = new STable(context.current);
 			
-			ParameterEntry thisParam = new ParameterEntry(SpecialValues.THIS_POINTER_NAME, context.currentSymbolTable.getEnclosingEntry().getType());
+			ParameterEntry thisParam = new ParameterEntry(Register.THIS_POINTER_NAME, context.current.getEnclosingEntry().getType());
 						
-			context.storedFunction = new MemberFunctionEntry(context.storedId, context.storedType, table);
-			context.storedFunction.addParameter(thisParam);
+			context.function = new MemberFunctionEntry(context.id, context.type, table);
+			context.function.addParameter(thisParam);
 			
-			table.setEnclosingEntry(context.storedFunction);
+			table.setEnclosingEntry(context.function);
 			
 		}
 	}

@@ -3,7 +3,7 @@ package comp6421.semantic.code;
 import java.util.HashMap;
 import java.util.Map;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 
 public enum MathOperation {
 
@@ -48,42 +48,42 @@ public enum MathOperation {
 	EQUALS("==", "ceq", "ceqi", true){
 		@Override
 		public int operate(int a, int b) {
-			return a == b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a == b ? Register.TRUE : Register.FALSE;
 		}
 	},
 	
 	NOT_EQUALS("<>", "cne", "cnei", true){
 		@Override
 		public int operate(int a, int b) {
-			return a != b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a != b ? Register.TRUE : Register.FALSE;
 		}
 	},
 	
 	LESS_THAN("<", "clt", "clti", false){
 		@Override
 		public int operate(int a, int b) {
-			return a < b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a < b ? Register.TRUE : Register.FALSE;
 		}
 	},
 	
 	LESS_THAN_EQUALS("<=", "cle", "clei", false){
 		@Override
 		public int operate(int a, int b) {
-			return a <= b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a <= b ? Register.TRUE : Register.FALSE;
 		}
 	},
 	
 	GREATER_THAN(">", "cgt", "cgti", false){
 		@Override
 		public int operate(int a, int b) {
-			return a > b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a > b ? Register.TRUE : Register.FALSE;
 		}
 	},
 
 	GREATER_THAN_EQUALS(">=", "cge", "cgei", false){
 		@Override
 		public int operate(int a, int b) {
-			return a >= b ? SpecialValues.TRUE : SpecialValues.FALSE;
+			return a >= b ? Register.TRUE : Register.FALSE;
 		}
 	},
 	
@@ -114,12 +114,12 @@ public enum MathOperation {
 		}
 	}
 	
-	public static MathOperation fromToken(String token) throws CompilerError{
+	public static MathOperation fromToken(String token) throws SemanticException{
 		MathOperation op = operators.get(token);
 		if(op != null){
 			return op;
 		}else{
-			throw new CompilerError("Unknown addition operator '" + token + "'");
+			throw new SemanticException("Unknown addition operator '" + token + "'");
 		}
 	}
 	

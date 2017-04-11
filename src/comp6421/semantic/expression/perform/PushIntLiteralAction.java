@@ -1,17 +1,17 @@
 package comp6421.semantic.expression.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.expression.ExpressionAction;
 
 public class PushIntLiteralAction extends ExpressionAction {
 
 	@Override
-	public void execute(Token precedingToken) throws CompilerError {
+	public void execute(Token precedingToken) throws SemanticException {
 		try{
 			context.getCurrent().pushIntLiteral(Integer.valueOf(precedingToken.lexeme));
 		}catch(NumberFormatException e){
-			throw new CompilerError("Invalid int literal: " + e.getMessage());
+			throw new SemanticException("Invalid int literal: " + e.getMessage());
 		}
 	}
 

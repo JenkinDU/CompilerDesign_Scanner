@@ -1,7 +1,7 @@
 package comp6421.semantic.expression;
 
 import comp6421.semantic.entry.PrimitiveType;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.value.StaticFloatValue;
 import comp6421.semantic.value.Value;
 
@@ -19,7 +19,7 @@ public class FloatLiteralExpressionElement extends TypedExpressionElement {
 	}
 
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return new PrimitiveType("float");
 	}
 

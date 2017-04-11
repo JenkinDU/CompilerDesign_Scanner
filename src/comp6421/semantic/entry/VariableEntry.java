@@ -1,15 +1,15 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 
-public class VariableEntry extends SymbolTableEntry {
+public class VariableEntry extends STEntry {
 
-	public VariableEntry(String name, SymbolTableEntryType type) {
+	public VariableEntry(String name, EntryType type) {
 		super(name, Kind.Variable, type, null);
 	}
 
 	@Override
-	protected int calculateSize() throws CompilerError {
+	protected int calculateSize() throws SemanticException {
 		try{
 			return getType().getSize();
 		}catch(Throwable e){

@@ -1,7 +1,7 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
 import comp6421.semantic.InternalCompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.AddWordInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
@@ -37,22 +37,22 @@ public class StoredValue extends DynamicValue {
 	}
 
 	@Override
-	public Value getUseableValue(CodeGenerationContext c) throws CompilerError {
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		return getConcreteAddress(c).getUseableValue(c);
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return getConcreteAddress(c).getRegisterValue(c);
 	}
 	
-	public ConcreteAddressValue	getConcreteAddress(CodeGenerationContext c) throws CompilerError{
+	public ConcreteAddressValue	getConcreteAddress(CodeGenerationContext c) throws SemanticException{
 		Value useableOffset = offset.getUseableValue(c);
 		RegisterValue baseAddrReg = baseAddress.getRegisterValue(c);
 
-		if(useableOffset instanceof StaticValue){
+		if(useableOffset instanceof NumberValue){
 			
-			return new ConcreteAddressValue(baseAddrReg, (StaticValue) useableOffset);
+			return new ConcreteAddressValue(baseAddrReg, (NumberValue) useableOffset);
 			
 		}else
 		if(useableOffset instanceof RegisterValue){
@@ -66,7 +66,7 @@ public class StoredValue extends DynamicValue {
 				c.freeTemporaryRegister(useableOffsetRegister);				
 			}
 			
-			return new ConcreteAddressValue(tempReg, new StaticIntValue(0));
+			return new ConcreteAddressValue(tempReg, new NumberValue(0));
 						
 		}else{
 			throw new InternalCompilerError("getUseableValue for offset returned an instance of " + useableOffset.getClass().getName());

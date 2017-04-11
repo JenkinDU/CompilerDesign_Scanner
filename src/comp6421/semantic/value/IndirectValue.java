@@ -1,6 +1,6 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 
 public class IndirectValue extends DynamicValue {
@@ -12,12 +12,12 @@ public class IndirectValue extends DynamicValue {
 	}
 
 	@Override
-	public Value getUseableValue(CodeGenerationContext c) throws CompilerError {
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		return v.getUseableValue(c);
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return v.getRegisterValue(c);
 	}
 

@@ -1,8 +1,8 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.InternalCompilerError;
-import comp6421.semantic.SymbolContext;
+import comp6421.semantic.TableContext;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.ImmediateMathOperationInstruction;
 import comp6421.semantic.code.MathOperation;
@@ -20,13 +20,13 @@ public class MathValue extends DynamicValue {
 		this.operator = operator;
 		this.a = a;
 		this.b = b;
-		if(SymbolContext.getInstance().showMigration) {
+		if(TableContext.getInstance().showMigration) {
 			System.out.println(this.toString());
 		}
 	}
 
 	@Override
-	public Value getUseableValue(CodeGenerationContext c) throws CompilerError {
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		Value uA = a.getUseableValue(c);
 		Value uB = b.getUseableValue(c);
 		
@@ -34,28 +34,28 @@ public class MathValue extends DynamicValue {
 			return _getUseableValue((RegisterValue)uA, (RegisterValue)uB, c);
 		}
 		
-		if(uA instanceof StaticValue && uB instanceof RegisterValue){
-			return _getUseableValue((StaticValue)uA, (RegisterValue)uB, c);
+		if(uA instanceof NumberValue && uB instanceof RegisterValue){
+			return _getUseableValue((NumberValue)uA, (RegisterValue)uB, c);
 		}
 
-		if(uA instanceof RegisterValue && uB instanceof StaticValue){
-			return _getUseableValue((RegisterValue)uA, (StaticValue)uB, c);
+		if(uA instanceof RegisterValue && uB instanceof NumberValue){
+			return _getUseableValue((RegisterValue)uA, (NumberValue)uB, c);
 		}
 
-		if(uA instanceof StaticValue && uB instanceof StaticValue){
-			return _getUseableValue((StaticValue)uA, (StaticValue)uB, c);
+		if(uA instanceof NumberValue && uB instanceof NumberValue){
+			return _getUseableValue((NumberValue)uA, (NumberValue)uB, c);
 		}
 		
 		
 		throw new InternalCompilerError("Unexpected combination of types for a and b: " + uA.getClass() + ", " + uB.getClass());
 	}
 
-	private Value _getUseableValue(StaticValue uA, StaticValue uB, CodeGenerationContext c) {
+	private Value _getUseableValue(NumberValue uA, NumberValue uB, CodeGenerationContext c) {
 		// If both values are static, then we do the operation at compile time! We're so smart!
-		return new StaticIntValue(operator.operate(uA.intValue(), uB.intValue()));
+		return new NumberValue(operator.operate(uA.intValue(), uB.intValue()));
 	}
 
-	private Value _getUseableValue(RegisterValue uA, StaticValue uB, CodeGenerationContext c) throws CompilerError {
+	private Value _getUseableValue(RegisterValue uA, NumberValue uB, CodeGenerationContext c) throws SemanticException {
 		Register aReg = uA.getRegister();
 		Register temp = c.getTemporaryRegister(aReg);
 		
@@ -64,7 +64,7 @@ public class MathValue extends DynamicValue {
 		return new RegisterValue(temp);
 	}
 
-	private Value _getUseableValue(StaticValue uA, RegisterValue uB, CodeGenerationContext c) throws CompilerError {
+	private Value _getUseableValue(NumberValue uA, RegisterValue uB, CodeGenerationContext c) throws SemanticException {
 		if(operator.commutative){
 			return _getUseableValue(uB, uA, c);
 		}else{
@@ -72,7 +72,7 @@ public class MathValue extends DynamicValue {
 		}
 	}
 
-	private Value _getUseableValue(RegisterValue uA, RegisterValue uB, CodeGenerationContext c) throws CompilerError {
+	private Value _getUseableValue(RegisterValue uA, RegisterValue uB, CodeGenerationContext c) throws SemanticException {
 		Register aReg = uA.getRegister();
 		Register bReg = uB.getRegister();
 		Register temp;
@@ -96,7 +96,7 @@ public class MathValue extends DynamicValue {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return getUseableValue(c).getRegisterValue(c);
 	}
 	

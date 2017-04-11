@@ -1,6 +1,6 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.InternalCompilerError;
 import comp6421.semantic.code.CodeGenerationContext;
 
@@ -26,7 +26,7 @@ public class VoidValue implements Value {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		throw new InternalCompilerError("Cannot get register value of a Void Expression");
 	}
 }

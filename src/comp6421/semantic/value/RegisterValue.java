@@ -1,10 +1,10 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 
-public class RegisterValue extends DynamicValue {
+public class RegisterValue implements Value {// extends DynamicValue {
 
 	private final Register register;
 	
@@ -32,8 +32,13 @@ public class RegisterValue extends DynamicValue {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return this;
+	}
+
+	@Override
+	public boolean isStatic() {
+		return true;
 	}
 	
 	

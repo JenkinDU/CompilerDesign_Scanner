@@ -3,15 +3,15 @@ package comp6421.semantic.entry;
 import java.util.Collections;
 import java.util.List;
 
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.STable;
 
-public class ArrayType implements SymbolTableEntryType {
+public class ArrayType implements EntryType {
 
-	private final SymbolTableEntryType type;
+	private final EntryType type;
 	private final List<Integer> dimensions;
 	
-	public ArrayType(SymbolTableEntryType type, List<Integer> dimensions){
+	public ArrayType(EntryType type, List<Integer> dimensions){
 		this.type       = type;
 		this.dimensions = dimensions;
 	}
@@ -21,7 +21,7 @@ public class ArrayType implements SymbolTableEntryType {
 	 * 
 	 * @return
 	 */
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return type;
 	}
 
@@ -69,7 +69,7 @@ public class ArrayType implements SymbolTableEntryType {
 	}
 
 	@Override
-	public int getSize() throws CompilerError {
+	public int getSize() throws SemanticException {
 		// The size to store an array is equal to the size of the base type, times
 		// the product of all of the dimensions!
 		int size = getType().getSize();
@@ -84,7 +84,7 @@ public class ArrayType implements SymbolTableEntryType {
 	}
 
 	@Override
-	public SymbolTable getScope() {
+	public STable getScope() {
 		return null;
 	}
 	

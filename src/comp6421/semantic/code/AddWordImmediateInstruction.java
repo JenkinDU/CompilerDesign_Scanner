@@ -1,6 +1,6 @@
 package comp6421.semantic.code;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 
 public class AddWordImmediateInstruction extends Instruction {
 
@@ -8,13 +8,13 @@ public class AddWordImmediateInstruction extends Instruction {
 	private final Register regVal;
 	private final String      iVal;
 	
-	public AddWordImmediateInstruction(Register dest, Register regVal, int iVal) throws CompilerError{
+	public AddWordImmediateInstruction(Register dest, Register regVal, int iVal) throws SemanticException{
 		this.dest   = dest;
 		this.regVal = regVal;
 		this.iVal   = Integer.toString(iVal);
 		
 		if(iVal >= (1<<16)){
-			throw new CompilerError("Immediate values greater than " + ((1<<16)-1) + " are not supported");
+			throw new SemanticException("Immediate values greater than " + ((1<<16)-1) + " are not supported");
 		}
 	}
 

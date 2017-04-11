@@ -1,11 +1,11 @@
 package comp6421.semantic.expression;
 
 import comp6421.semantic.code.MathOperation;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.EntryType;
 
 public abstract class TypedExpressionElement extends ExpressionElement {
 
-	public abstract SymbolTableEntryType getType();
+	public abstract EntryType getType();
 	public TypedExpressionElement getFirst(){return null;};
 	public TypedExpressionElement getSecond(){return null;};
 	public MathOperation getOperation(){return null;};

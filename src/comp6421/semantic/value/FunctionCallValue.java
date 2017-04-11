@@ -3,7 +3,7 @@ package comp6421.semantic.value;
 import java.util.ArrayList;
 import java.util.List;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
 import comp6421.semantic.code.AddWordImmediateInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
@@ -11,7 +11,7 @@ import comp6421.semantic.code.JumpAndLinkInstruction;
 import comp6421.semantic.code.Register;
 import comp6421.semantic.code.StoreWordInstruction;
 import comp6421.semantic.entry.FunctionType;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.expression.TypedExpressionElement;
 
 public class FunctionCallValue extends DynamicValue implements Value {
@@ -21,23 +21,23 @@ public class FunctionCallValue extends DynamicValue implements Value {
 	
 	private String callingLabel;
 	
-	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> expressions) throws CompilerError {
+	public FunctionCallValue(FunctionEntry entry, List<TypedExpressionElement> expressions) throws SemanticException {
 		int nArgs = expressions.size();
-		List<SymbolTableEntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
+		List<EntryType> argTypes = ((FunctionType)entry.getType()).getArgumentTypes();
 		
 		if(nArgs != argTypes.size()){
-			throw new CompilerError("call function " + entry.getName() +" ("+(argTypes.size()-1)+" params) "+ "error, params size:" + (nArgs-1));
+			throw new SemanticException("call function " + entry.getName() +" ("+(argTypes.size()-1)+" params) "+ "error, params size:" + (nArgs-1));
 		}
 		
 		arguments = new ArrayList<Value>(expressions.size());
 		
 		for(int i = 0; i < expressions.size(); ++i){
 			TypedExpressionElement exp    = expressions.get(i);
-			SymbolTableEntryType expectedType = argTypes.get(i);
-			SymbolTableEntryType type = exp.getType();
+			EntryType expectedType = argTypes.get(i);
+			EntryType type = exp.getType();
 			
 			if(! type.equals( expectedType )){
-				throw new CompilerError("call function " + entry.getName() +" error:" + "param "+(i) +" should be " + expectedType + " but " + type);
+				throw new SemanticException("call function " + entry.getName() +" error:" + "param "+(i) +" should be " + expectedType + " but " + type);
 			}
 			
 			Value arg = exp.getValue();
@@ -50,7 +50,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 	}
 
 	@Override
-	public Value getUseableValue(CodeGenerationContext c) throws CompilerError {
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException {
 		// TODO Auto-generated method stub
 		
 		// Pass the parameters
@@ -70,7 +70,7 @@ public class FunctionCallValue extends DynamicValue implements Value {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		return getUseableValue(c).getRegisterValue(c);
 	}
 

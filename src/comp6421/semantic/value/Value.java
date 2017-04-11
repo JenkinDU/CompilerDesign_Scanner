@@ -1,11 +1,11 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.CodeGenerationContext;
 
 public interface Value {
 
-	public Value getUseableValue(CodeGenerationContext c) throws CompilerError;
+	public Value getUseableValue(CodeGenerationContext c) throws SemanticException;
 
 	public boolean isStatic();
 
@@ -19,8 +19,8 @@ public interface Value {
 	 * @param c The current code generation context
 	 * 
 	 * @return A dynamic version of this value
-	 * @throws CompilerError 
+	 * @throws SemanticException 
 	 */
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError;
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException;
 	
 }

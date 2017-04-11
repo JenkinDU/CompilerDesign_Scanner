@@ -6,24 +6,24 @@ import java.util.List;
 
 import comp6421.semantic.entry.FunctionType;
 import comp6421.semantic.entry.ParameterEntry;
-import comp6421.semantic.entry.SymbolTableEntry;
-import comp6421.semantic.entry.SymbolTableEntryType;
+import comp6421.semantic.entry.STEntry;
+import comp6421.semantic.entry.EntryType;
 import comp6421.semantic.entry.VariableEntry;
 import comp6421.semantic.expression.Statement;
 
-public class FunctionEntry extends SymbolTableEntry {
+public class FunctionEntry extends STEntry {
 	
 	private List<Statement> statements; 
 	
 	private final String label;
 	
-	public FunctionEntry(String name, SymbolTableEntryType returnType, SymbolTable table) {
-		super(name, Kind.Function, new FunctionType(returnType, new ArrayList<SymbolTableEntryType>()), table);
+	public FunctionEntry(String name, EntryType returnType, STable table) {
+		super(name, Kind.Function, new FunctionType(returnType, new ArrayList<EntryType>()), table);
 		statements = new ArrayList<Statement>();
 		this.label = name + Integer.toString(hashCode());
 	}
 
-	public void addParameter(ParameterEntry param) throws CompilerError {
+	public void addParameter(ParameterEntry param) throws SemanticException {
 		FunctionType type = (FunctionType)getType();
 		type.pushParameter(param.getType());
 		
@@ -31,9 +31,9 @@ public class FunctionEntry extends SymbolTableEntry {
 	}
 
 	@Override
-	protected int calculateSize() throws CompilerError {
+	protected int calculateSize() throws SemanticException {
 		int size = 0;
-		for(SymbolTableEntry e : getScope().getEntries()){
+		for(STEntry e : getScope().getEntries()){
 			if(e instanceof ParameterEntry || e instanceof VariableEntry){
 				size += e.getSize();
 			}

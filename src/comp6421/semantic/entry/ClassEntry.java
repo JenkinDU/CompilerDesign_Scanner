@@ -1,18 +1,18 @@
 package comp6421.semantic.entry;
 
-import comp6421.semantic.CompilerError;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.SemanticException;
+import comp6421.semantic.STable;
 
-public class ClassEntry extends SymbolTableEntry {
+public class ClassEntry extends STEntry {
 
-	public ClassEntry(String name, SymbolTable scope) {
+	public ClassEntry(String name, STable scope) {
 		super(name, Kind.Class, null, scope);
 	}
 
 	@Override
-	protected int calculateSize() throws CompilerError {
+	protected int calculateSize() throws SemanticException {
 		int size = 0;
-		for(SymbolTableEntry e : getScope().getEntries()){
+		for(STEntry e : getScope().getEntries()){
 			if(e instanceof VariableEntry){
 				size += e.getSize();
 			}
@@ -22,7 +22,7 @@ public class ClassEntry extends SymbolTableEntry {
 
 	
 	@Override
-	public SymbolTableEntryType getType() {
+	public EntryType getType() {
 		return new ClassType(this);
 	}
 }

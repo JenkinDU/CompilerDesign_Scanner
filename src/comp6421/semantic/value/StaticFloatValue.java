@@ -1,11 +1,11 @@
 package comp6421.semantic.value;
 
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.code.AddWordImmediateInstruction;
 import comp6421.semantic.code.CodeGenerationContext;
 import comp6421.semantic.code.Register;
 
-public class StaticFloatValue extends StaticValue implements Value {
+public class StaticFloatValue extends NumberValue implements Value {
 
 	private final float v;
 	
@@ -13,7 +13,6 @@ public class StaticFloatValue extends StaticValue implements Value {
 		this.v = v;
 	}
 	
-	@Override
 	public float floatValue() {
 		return (float) v;
 	}
@@ -29,7 +28,7 @@ public class StaticFloatValue extends StaticValue implements Value {
 	}
 
 	@Override
-	public RegisterValue getRegisterValue(CodeGenerationContext c) throws CompilerError {
+	public RegisterValue getRegisterValue(CodeGenerationContext c) throws SemanticException {
 		RegisterValue reg = new RegisterValue(c.getTemporaryRegister());
 		
 		c.appendInstruction(new AddWordImmediateInstruction(reg.getRegister(), Register.ZERO, intValue()));

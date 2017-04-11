@@ -1,7 +1,7 @@
 package comp6421.semantic.code;
 
+import comp6421.semantic.value.NumberValue;
 import comp6421.semantic.value.RegisterValue;
-import comp6421.semantic.value.StaticValue;
 
 public class LoadWordInstruction extends Instruction {
 
@@ -9,7 +9,7 @@ public class LoadWordInstruction extends Instruction {
 	private final Register sourceReg;
 	private final int 	   offset;
 	
-	public LoadWordInstruction(RegisterValue destination, RegisterValue baseAddress, StaticValue offsetValue) {
+	public LoadWordInstruction(RegisterValue destination, RegisterValue baseAddress, NumberValue offsetValue) {
 		destReg   = destination.getRegister();
 		sourceReg = baseAddress.getRegister();
 		offset   = offsetValue.intValue();

@@ -1,23 +1,23 @@
 package comp6421.semantic.perform;
 
 import comp6421.scanner.Token;
-import comp6421.semantic.CompilerError;
+import comp6421.semantic.SemanticException;
 import comp6421.semantic.FunctionEntry;
-import comp6421.semantic.SymbolTable;
+import comp6421.semantic.STable;
 
-public class StartFunctionAction extends SymbolAction {
+public class StartFunctionAction extends TableStrategy {
 	
 	@Override
-	public void execute(Token token) throws CompilerError {
-		if(context.currentSymbolTable.exists(context.storedId)){
-			context.storedFunction = null;
-			context.skipNextCloseScope = true;
+	public void execute(Token token) throws SemanticException {
+		if(context.current.exists(context.id)){
+			context.function = null;
+			context.skip = true;
 			
-			throw new CompilerError("Multiply function declaration: " + context.storedId);
+			throw new SemanticException("Multiply function declaration: " + context.id);
 		}else{
-			SymbolTable table = new SymbolTable(context.currentSymbolTable);
+			STable table = new STable(context.current);
 			
-			context.storedFunction         = new FunctionEntry(context.storedId, context.storedType, table);
+			context.function         = new FunctionEntry(context.id, context.type, table);
 			
 		}
 	}
