@@ -81,6 +81,9 @@
 
 * jump back to the instruction following the function call.
 
+# Reference
+[Reference](https://github.com/grodtron/COMP442)
+
 ***
 # Assignment 3 - Semantic Analysis (refactor from the Assignment 2)
 
@@ -122,6 +125,8 @@ This raises the need to migrate this information across the parse tree, a proces
  ...
 ```
 
+# Reference
+[Reference](https://github.com/grodtron/COMP442)
 
 ***
 # Assignment 2 - Parser (refactor from the Assignment 1)
@@ -207,4 +212,6 @@ The first one is save the valid token, the second is save the error elements.
 
 Thank you!
 
-[GITHUB]: https://github.com/JenkinDU/CompilerDesign_Scanner
+
+***
+* Thanks to [Grodtron](https://github.com/grodtron), he did a really good example of Jave-based compiler.
